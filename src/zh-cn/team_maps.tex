@@ -1,62 +1,62 @@
 
 
-\section{Maps}
-Maps were designed in a top-down view. The one limitation was that walls were perpendicular to floors and both floors and ceilings were horizontal so maps were drawn in 2D. A designer worked with five types of element: \cw{VERTEX}\footnote{Vertex coordinates were expressed with signed short integers [-32768, 32767]. 32 units translate to roughly one meter (or 3.28 feet for poor souls who must use the imperial system.)}, \cw{LINE}, \cw{SIDEDEF}, \cw{SECTOR}, and \cw{THING}.\\
+\section{地图}
+地图以俯视视角设计。其限制是墙壁与地面垂直，地面与天花板水平，因此地图是以 2D 绘制的。设计师使用五类元素：\cw{VERTEX}\footnote{顶点坐标用有符号短整数表示 [-32768, 32767]。32 单位大约等于 1 米（或对必须使用英制的人来说是 3.28 英尺）。}、\cw{LINE}、\cw{SIDEDEF}、\cw{SECTOR} 和 \cw{THING}。\\
 \par
-\drawing{doom_map_basics}{\doom{} map and the resulting data authored via DoomED}
+\drawing{doom_map_basics}{\doom{} 地图以及通过 DoomED 制作的数据}
 
 \par
-A \cw{SECTOR} is a closed area surrounded by \cw{LINE}s with a specified floor height, floor texture, ceiling height, ceiling texture, and light level. A sector can be concave, but lines cannot cross each other.\\
+\cw{SECTOR} 是一个被 \cw{LINE} 包围的封闭区域，具有指定的地面高度、地面贴图、天花板高度、天花板贴图以及光照等级。扇区可以是凹形，但线段不能相互交叉。\\
 \par
-A \cw{LINE} can either be a solid wall or a portal between two \cw{SECTOR}s. The difference is in the number of \cw{SIDEDEF}s associated with it. A wall has only one \cw{SIDEDEF} on its right side and is fully opaque. A portal has two \cw{SIDEDEF}s and can usually be partially seen though.\\
+\cw{LINE} 可以是实墙，也可以是连接两个 \cw{SECTOR} 的传送门。区别在于关联的 \cw{SIDEDEF} 数量。墙只有右侧一个 \cw{SIDEDEF}，完全不透明。传送门有两个 \cw{SIDEDEF}，通常可以部分透视。\\
 \par
-A \cw{SIDEDEF} describes one side of a \cw{LINE}. To accommodate texturing of both the walls and portals, it can have up to three textures. The middle texture is used by walls for the full area they cover. A \cw{SIDEDEF} can also have a lower and an upper texture for portals connecting \cw{SECTOR}s with different ceiling/floor heights. If the portal leads to a sector with higher floor, the lower texture is used to render the "step". If the \cw{SECTOR} connects to a \cw{SECTOR} with a lower ceiling, the upper texture is used to render the "down step". To help alignment of doors and buttons, \cw{SIDEDEF} textures can have a vertical/horizontal offset. \\
+\cw{SIDEDEF} 描述 \cw{LINE} 的一侧。为同时贴墙体与传送门，它最多可有三张贴图。中间贴图用于墙体覆盖的完整区域。\cw{SIDEDEF} 还可以为连接不同天花板/地面高度的 \cw{SECTOR} 的传送门设置上贴图与下贴图。如果传送门通向更高的地面，就使用下贴图绘制“台阶”。如果 \cw{SECTOR} 连接到更低的天花板，则使用上贴图绘制“下台阶”。为对齐门和按钮，\cw{SIDEDEF} 贴图可有垂直/水平偏移。\\
 \par
-A \cw{THING} is much simpler in comparison. It only features a 2D-coordinate \cw{X,Y}, an angle, and an identifier controlling its type. At the bare minimum a map must have one player-spawning location \cw{THING}.\\
+相比之下 \cw{THING} 更简单，只包含一个 2D 坐标 \cw{X,Y}、一个角度，以及控制类型的标识符。地图至少必须包含一个玩家出生点 \cw{THING}。\\
 
-\cfullimage{doom_map.png}{Rendering of map shown in figure \ref{doom_map_basics}.}
+\cfullimage{doom_map.png}{图 \ref{doom_map_basics} 所示地图的渲染效果。}
 \par
 
-The resulting scene in figure \ref{doom_map.png} is ugly but the mismatched colors hopefully help to discern the different elements. All \cw{LINE}s are walls except for \cw{E-B} which has two \cw{SIDEDEF}s and is therefore a portal. All walls use the \cw{BRIK} middle texture except for the portal which uses \cw{GRAY} for both top and bottom.\\
+图 \ref{doom_map.png} 的场景很丑，但配色不一致希望能帮助区分不同元素。除 \cw{E-B} 以外的所有 \cw{LINE} 都是墙；\cw{E-B} 有两个 \cw{SIDEDEF}，因此是传送门。所有墙使用 \cw{BRIK} 中间贴图，传送门上下均使用 \cw{GRAY}。\\
 \par
-\cw{SECTOR} \#0 uses a \cw{RED} floor texture and a \cw{WOOD} ceiling texture. The height of the floor is 20 and its ceiling is at 40. \cw{SECTOR} \#1 uses a \cw{BLUE} floor texture and a \cw{GREEN} ceiling texture. Its floor is at 0 and ceiling at 60. Both sectors have the same light level (10).\\
+\cw{SECTOR} \#0 使用 \cw{RED} 地面贴图与 \cw{WOOD} 天花板贴图。地面高度为 20，天花板高度为 40。\cw{SECTOR} \#1 使用 \cw{BLUE} 地面贴图与 \cw{GREEN} 天花板贴图。其地面高度为 0，天花板高度为 60。两个扇区的光照等级相同（10）。\\
 \par
-   Notice the portal \cw{E-B} which does not have a mid-texture but an upper and a lower texture. These were used to draw the up-step and down-step towards sector \#0.\\
+注意 \cw{E-B} 传送门，它没有中间贴图，而是上贴图与下贴图，用于绘制通向 \#0 扇区的上台阶与下台阶。\\
 \par
-Also notice wall \cw{D-E} on which the mid-texture vertical offset is not correctly set, resulting in a vertical tear when connecting with wall \cw{E-F}. Wall \cw{B-C}'s vertical offset is properly set and has no visual artifact. None of the walls use a horizontal offset, but the corresponding field is labeled \cw{XOFF} on figure \ref{doom_map_basics} to show its location.\\ 
+还要注意 \cw{D-E} 墙体，其中间贴图的垂直偏移设置不正确，导致与 \cw{E-F} 墙衔接处出现垂直撕裂。\cw{B-C} 墙的垂直偏移设置正确，因此没有视觉瑕疵。所有墙体都未使用水平偏移，但图 \ref{doom_map_basics} 用 \cw{XOFF} 标注了其位置。\\ 
 \pagebreak
 
 
 
-\subsection{Map Editor (DoomED)}
-To harness the complexity of the map format, a new tool was created to replace TED5\footnote{id Software map editor up to that point.}. The Doom map editor was to be called \textbf{DoomED}. This is where the \NeXT solution gave the most impact. The high resolution of the display allowed a lot of real estate showing small details and many widgets. The stability of NeXTSTEP allowed one to never lose work while writing DoomED or creating a map.
-The very design of Objective-C also had a tremendous influence. The language's message-dispatching system gracefully handled \cw{nullptr}\footnote{"Understanding the Objective-C Runtime" by Colin Wheeler.} dereferences, resulting in a fault-forgiving environment where a faulty feature would not work but did not crash either.\\
+\subsection{地图编辑器（DoomED）}
+为了驾驭复杂的地图格式，他们制作了一款新工具替代 TED5\footnote{id Software 此前的地图编辑器。}。这款 Doom 地图编辑器名为 \textbf{DoomED}。这也是 \NeXT 解决方案影响最大之处。高分辨率显示器提供了充足的空间来呈现细节和众多控件。NeXTSTEP 的稳定性确保在编写 DoomED 或制作地图时不会丢失工作成果。
+Objective-C 的设计也产生了巨大影响。该语言的消息分发系统优雅地处理了 \cw{nullptr}\footnote{Colin Wheeler 的 “Understanding the Objective-C Runtime”。} 解引用，使得在出现故障时功能失效但不会崩溃。\\
 \par   
-The killer feature was Interface Builder which not only came with a full library of widgets but also allowed creating new ones and connecting them to the business logic instantly.\\
+杀手级特性是 Interface Builder，它不仅提供完整的控件库，还允许快速创建新控件并立即与业务逻辑相连。\\
 \par
 \fullimage{doomed/DoomEd.png}
 \par
 
-The release of the source code in April 2015 allowed programmers to peek inside. There is half as much code as in the game engine (doom:32kloc, DoomED:20kloc). Without the power of \NeXTns, the editor would have taken at least twice that amount of time to make.
+2015 年 4 月源代码公开后，程序员得以窥探内部。编辑器代码量约为引擎的一半（doom：32kloc，DoomED：20kloc）。如果没有 \NeXTns 的强大支持，编辑器的开发时间至少要翻倍。
 
 
 
 \tcode{cloc_doomed.txt}
 \par
-DoomED was designed to be the "Adobe Illustrator for World Maps" where the designer simply drew lines, selected sectors, and picked textures.\\
+DoomED 被设计为“世界地图的 Adobe Illustrator”，设计师只需画线、选扇区、挑贴图。\\
 \par
 \vspace{10pt}
-\trivia{DoomED's icon resembles a Baron of Hell. Upon startup an Imp growling sound is played.}\\
+\trivia{DoomED 的图标像地狱男爵。启动时会播放小恶魔的咆哮声。}\\
 \par
 \fullimage{doomed/all_widgets.png}
 
-DoomED did not output data usable by the game engine directly. Instead it generated a text format output called \cw{DWD}. A header served as a magic number which was followed by a list of lines (including sidedefs) and a list of things. Sectors were inferred from a line's ceiling/floor textures, ceiling/floor height, and light properties.\\
+DoomED 输出的数据不能直接给游戏引擎使用。它生成一种名为 \cw{DWD} 的文本格式。文件头为魔数，后面是线（含 sidedef）的列表和 thing 的列表。扇区从线的天花板/地面贴图、高度与光照属性推断得到。\\
 \par
 \tcode{map.txt}
 \par
-DWD was not designed with space efficiency in mind but rather to be easy to parse since it was post-processed by the node builder tool, \cw{doombsp}.\\
+DWD 的设计并不追求空间效率，而是便于解析，因为它随后会由节点构建器 \cw{doombsp} 进行后处理。\\
 \par
-\cfullimage{props/tom.png}{Tom Hall, seemingly delighted, working on what would later be called E2M7. The sticker on his monitor reads, "quality".}
+\cfullimage{props/tom.png}{Tom Hall 正在愉快地制作后来被称为 E2M7 的地图。显示器上的贴纸写着 “quality”。}
 \par
 
 \pagebreak
@@ -65,18 +65,18 @@ DWD was not designed with space efficiency in mind but rather to be easy to pars
 
 
 
-\section{Map Preprocessor (Node Builder)}
-Map pre-processing was not something new at id. Since 1991 with Wolfenstein 3D, maps were already pre-processed to allow fast sound propagation. With \doom, it was taken to a whole new level both in terms of complexity and processing time.\\
+\section{地图预处理器（Node Builder）}
+地图预处理并非 id 的新事物。自 1991 年《德军总部 3D》起，地图就会预处理以加速声音传播。到了 \doom，这项工作在复杂度与处理时间上都被提升到了新高度。\\
 \par
-The main issue at hand was to maintain the same rendering speed despite relaxing the orthogonal grid constraints of Wolfenstein and losing the ability to use the DDA algorithm \footnote{Digital Differential Analyzer was used extensively for VSD (Visual Surface Determination), collision detection, and line-of-sight calculations. This was all gone with \doom.}. The solution chosen was to generate a multitude of accelerating data structures for each map, each dedicated to solving a particular problem.\\
+核心问题是，在放宽 Wolfenstein 的正交网格约束、失去 DDA 算法\footnote{数字微分分析器广泛用于 VSD（可视表面判定）、碰撞检测与视线计算；在 \doom 中这一切都消失了。} 的情况下，仍要保持同样的渲染速度。解决方案是为每张地图生成多种加速数据结构，各自针对不同问题。\\
 \par
- The tool to do that was called \cw{doombsp}. It took as input a \cw{.DWD} map and outputted a \cw{.WAD}. Not only was the map expressed in a space-efficient format (e.g. expressing vertices only once and referencing them via index), but three data structures were generated alongside it. A binary space-partitioned version of the map expressed a node tree to speed up rendering. A blockmap accelerated collision detection. Finally, a reject table accelerated A.I. processing.\\
+ 执行该任务的工具叫 \cw{doombsp}。它输入 \cw{.DWD} 地图，输出 \cw{.WAD}。地图不仅以更高效的形式表达（例如顶点只存一次并用索引引用），还会同时生成三种数据结构：二叉空间划分后的节点树以加速渲染；blockmap 加速碰撞检测；reject 表加速 AI 处理。\\
  \par
-\trivia{Map preprocessing took a significant amount of time. With a NextStation TurboColor, running \cw{doombsp} on \cw{E1M1} took 10s. On E1M2, it took 30s. On E2M7, it took a full minute. The first nine maps of the shareware took 3m26s to process. The full twenty seven maps of the registered version required 11 minutes.}\\% This was a problem for designers...yet it was little compared to what Quake's \cw{qbsp} would be three years later.}\\
+\trivia{地图预处理耗时显著。用 NextStation TurboColor 运行 \cw{doombsp} 处理 \cw{E1M1} 需 10 秒，E1M2 需 30 秒，E2M7 需要整整一分钟。共享版前九张地图需要 3 分 26 秒。注册版的 27 张地图需要 11 分钟。}\\% This was a problem for designers...yet it was little compared to what Quake's \cw{qbsp} would be three years later.}\\
 \par
 \tcode{cloc_doombsp.txt}
 \par
- \trivia{\cw{DoomED.app}, \cw{doom} and \cw{doombsp} were tightly coupled. One button in the editor was enough to save the map, invoke the node builder and start the game with the WIP map.}
+ \trivia{\cw{DoomED.app}、\cw{doom} 与 \cw{doombsp} 紧密耦合。编辑器里一个按钮就能保存地图、调用节点构建器并启动游戏加载正在制作的地图。}
 
 
 %
@@ -86,14 +86,14 @@ The main issue at hand was to maintain the same rendering speed despite relaxing
 \includegraphics[width=\textwidth]{drawings/E1M1_lines.pdf}
 \end{figure}
 \par
-The map as it is generated via DoomED. Portals are red. Walls are black.\\
+通过 DoomED 生成的地图。传送门为红色，墙体为黑色。\\
 \par
 \begin{figure}[H]
 \vspace*{2mm}
 \centering
 \includegraphics[width=\textwidth]{drawings/E1M1_fab.pdf}
 \end{figure}
-The BSP node tree where sectors are split into convex sub-spaces called sub-sectors.
+BSP 节点树，扇区被分割成凸子空间（sub-sector）。
 
 
 
@@ -102,23 +102,23 @@ The BSP node tree where sectors are split into convex sub-spaces called sub-sect
 \includegraphics[width=\textwidth]{drawings/E1M1_blockmap.pdf}
 \end{figure}
 \par
-Blockmap slicing where each block is 128x128 to accelerate collision detection.\\
+Blockmap 切分，每个块为 128x128，用于加速碰撞检测。\\
 \par
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{drawings/E1M1_sides_with_player.pdf}
 \end{figure}
 \par
-The REJECT data structure to speed up enemies' and monsters' lines of sight calculations.
+REJECT 数据结构用于加速敌人和怪物的视线计算。
 \pagebreak
 
 
-The source code of the node builder was released shortly after the game in May 1994. It was the NeXTSTEP version but it was quickly converted to DOS and released under the name IDBSP to the delight of a hoard of modders.\\
+\doom{} 发布不久后的 1994 年 5 月，节点构建器的源代码公开。它最初是 NeXTSTEP 版本，但很快被移植到 DOS 并以 IDBSP 之名发布，让大批模组作者欣喜不已。\\
 \par
-\cfullimage{doombsp_compiling.png}{Building doombsp on NeXTSTEP.}
+\cfullimage{doombsp_compiling.png}{在 NeXTSTEP 上编译 doombsp。}
 \par
 % \vspace{-10pt}
-For each \cw{.dwd}, \cw{doombsp} outputs a set of lumps and stores them in a \cw{.wad} file (see p\pageref{wad_explained}).\\
+对每个 \cw{.dwd}，\cw{doombsp} 输出一组 lumps 并存入 \cw{.wad} 文件（见第 \pageref{wad_explained} 页）。\\
 
 \par
  \begin{figure}[H]
@@ -126,31 +126,31 @@ For each \cw{.dwd}, \cw{doombsp} outputs a set of lumps and stores them in a \cw
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.15} L{0.75} }
   \toprule
-  \textbf{Lump Name} &  \textbf{Explanation} \\
+  \textbf{Lump 名称} &  \textbf{说明} \\
   \toprule 
    
-   \cw{EXMY} & Map start marker where X is the episode and Y the map number. All subsequent lumps are part of this map "block".\\
-   \cw{MAPXY} & Same as EXMY but used in Doom II.\\
-   \cw{VERTEXES} & An array of \cw{signed short} X, Y pairs. All coordinates in this map block are indexes into this array.\\
-   \cw{LINEDEFS} & An array of lines referencing two vertices. This is a direct translation of the lines used in DoomED. Also points to one or two \cw{SIDEDEFS} depending on if this line is a wall or a portal. \\
-   \cw{SIDEDEFS} & Defines upper, lower, and middle textures. Also defines texture horizontal and vertical offsets.\\
-   \cw{SECTORS} & Area surrounded by lines, with set ceiling and floor textures/heights with light level.\\
-   \cw{THINGS} & Position and angle for all monster, powerup and spawn location.\\
+   \cw{EXMY} & 地图起始标记，其中 X 为章节、Y 为地图序号。其后所有 lumps 属于该地图“块”。\\
+   \cw{MAPXY} & 与 EXMY 相同，但用于 Doom II。\\
+   \cw{VERTEXES} & \cw{signed short} 的 X、Y 对数组。地图块中的所有坐标均为此数组索引。\\
+   \cw{LINEDEFS} & 引用两个顶点的线段数组。直接对应 DoomED 中的线，同时指向一或两个 \cw{SIDEDEFS}（取决于是墙还是传送门）。 \\
+   \cw{SIDEDEFS} & 定义上、下、中贴图，并包含水平/垂直偏移。\\
+   \cw{SECTORS} & 由线围成的区域，包含天花板与地面贴图/高度及光照等级。\\
+   \cw{THINGS} & 所有怪物、道具与出生点的位置与角度。\\
    \toprule
-   \cw{NODES} & BSP with segs, nodes and sub-sector leaves.\\
-   \cw{SEGS} & Portions of lines cut due to Binary Space Partitioning (see page \pageref{Binary Space Partitioning: Theory}).\\
-   \cw{SSECTORS} & Set of \cw{SEGS} representing a convex subspace.\\
+   \cw{NODES} & BSP，包含 segs、nodes 与 sub-sector 叶子。\\
+   \cw{SEGS} & 由于 BSP 切分产生的线段片段（见第 \pageref{Binary Space Partitioning: Theory} 页）。\\
+   \cw{SSECTORS} & 由 \cw{SEGS} 构成的凸空间集合。\\
    \toprule
-   \cw{REJECT} & Sector-to-sector visibility matrix to speed-up line of sight calculations.\\
+   \cw{REJECT} & 扇区之间的可见性矩阵，用于加速视线计算。\\
    \toprule
-   \cw{BLOCKMAP} & 128x128 grid partition of the map \cw{LINEDEFS} to accelerate collision detection.\\
+   \cw{BLOCKMAP} & 以 128x128 网格分割地图 \cw{LINEDEFS}，加速碰撞检测。\\
    \toprule
 \end{tabularx}
-\caption{Map Data lumps as documented in "The Unofficial Doom Specs" v1.666.}
+\caption{“The Unofficial Doom Specs” v1.666 中记录的地图数据 lumps。}
 \end{figure}
 \pagebreak
 
-Slicing the map via binary partitioning is non-trivial. \cw{doombsp}'s heuristic attempts to minimize the number of segments generated while creating a balanced tree and picking axis-aligned splitting lines. A debug flag \cw{-draw} allowed monitoring what was happening. BSP trees and binary partitioning are explained in detail on page \pageref{Binary Space Partitioning: Theory}. \\
+通过二分切割地图并不容易。\cw{doombsp} 的启发式算法尝试在生成尽可能少的段数的同时，创建平衡的树并选择轴对齐的切割线。调试标志 \cw{-draw} 可监控流程。BSP 树与二分切割详见第 \pageref{Binary Space Partitioning: Theory} 页。 \\
 \par
-\cfullimage{doombsp_run.png}{Running doombsp in debug mode shows splitter selection.}
+\cfullimage{doombsp_run.png}{以调试模式运行 doombsp 展示了切割线的选择过程。}
 \par
