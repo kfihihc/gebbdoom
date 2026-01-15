@@ -1,69 +1,50 @@
-In 1994, for the publication of "Doom Survivor's Strategies \& Secrets" by Jonathan Mendoza, three members of id Software wrote essays about their area of expertise. John Carmack wrote about the engine, Sandy Petersen about the map design, and Kevin Cloud wrote about the art. These are reproduced here with authorization from Jonathan Mendoza.\\
+1994 年，Jonathan Mendoza 出版《Doom Survivor's Strategies \& Secrets》时，id Software 的三名成员撰写了各自领域的文章：John Carmack 写引擎，Sandy Petersen 写关卡设计，Kevin Cloud 写美术。经 Jonathan Mendoza 授权，这些内容在此重现。\\
 \par
 \section{John Carmack}
-\subsection{GOALS}
-\b{High Speed} Doom is an interactive game, so it should be played at a rate of ten frames per second or faster. Our target audience is people with 386/33 and faster machines. With the selectable detail and screen size, slower computers can trade visual fidelity for more usable speed. At the high end, a fast Pentium machine can run Doom at 35 fps, its maximum speed, under most circumstances.\\
+\subsection{目标}
+\b{高速} Doom 是交互式游戏，因此应以每秒 10 帧或更快的速度运行。我们的目标用户是 386/33 及更快的机器。通过可选的细节与屏幕大小，较慢的电脑可以用画面精度换取速度。在高端，一台快速的 Pentium 在大多数情况下可以以 35 fps（最高速度）运行 Doom。\\
 \par
 
-\b{Freeform World Geometry} All of our previous games had been "tile-based," which means the world was divided up into fixed-sized blocks that are chosen from a palette of pre-created data. The advantage of tile-based worlds is that you can create them quickly and easily, by repeating simple tiles many times. But making levels with many unique areas or with angled corridors can require thousands of small tiles of geometry. We wanted the ability to design levels without being constrained to a block-based world.\\
+\b{自由形态的世界几何} 我们以前的游戏都是“基于格子”的，也就是说，世界由固定大小的方块组成，从预先创建的数据调色板中选择。基于格子的世界好处是可以快速、轻松地创建，简单方块重复使用即可。但如果关卡包含大量独特区域或斜角走廊，就需要成千上万的小几何格子。我们希望能在不受块状世界限制的情况下设计关卡。\\
 \par 
-\b{Infinite View Distance} Most 3-D games
-follow the principle that only the objects within a certain distance are considered for drawing.
-This simplifies the rendering algorithms, but it forces the viewing horizon to either fade out rapidly (Ultima Underworld/Shadowcaster) or suffer the disconcerting effect of having objects pop into view (most flight simulators and driving games) rather than appear as a distant speck and grow larger.
+\b{无限视距} 多数 3D 游戏遵循原则：只绘制一定距离内的对象。这简化了渲染算法，但迫使视距要么迅速淡出（Ultima Underworld/Shadowcaster），要么出现物体突然弹出的突兀效果（大多数飞行模拟和驾驶游戏），而不是先以远处小点出现再逐渐变大。
 \par
-\subsection{IMPLEMENTATION}
-The work of programming Doom can be divided into four roughly
-equal parts:
+\subsection{实现}
+Doom 的编程工作可以大致分为四个同等部分：
 \begin{itemize}
-\item Developing the rendering engine
-to draw pictures
-of the world
-environment.
-\item Developing the utilities used to create data for the game.
-\item Developing the world model that governs
-the interaction of
-things in the game world.
-\item Tuning and modifying
-the code as new circumstances arise.
+\item 开发渲染引擎以绘制世界环境画面。
+\item 开发用于为游戏创建数据的工具。
+\item 开发世界模型，用于管理游戏世界中各事物的交互。
+\item 根据新情况不断调优和修改代码。
 \end{itemize}
 
-The main game code consists of
-just under 30,000
-lines of C code. The
-DOS version has three functions in assembly language: horizontal texture map, vertical stretch, and read
-joystick. The sound code was developed by an outside contractor. A fundamental aspect of our development
-strategy is that we use NEXTSTEP systems
-for almost all programming
-work. The powerful, stable development environment has enabled us to
-do much richer work than if we had restricted ourselves to working under DOS.\\
+主游戏代码不到 30,000 行 C 代码。DOS 版有三个汇编函数：水平纹理映射、垂直拉伸、读取摇杆。声音代码由外部承包商开发。我们开发策略的一个关键点是：几乎所有编程工作都在 NEXTSTEP 系统上完成。强大稳定的开发环境让我们能做出比受限于 DOS 时更丰富的工作。\\
 \par
-The game is structured so that it can be run in a window under NEXTSTEP, where it can be easily debugged, or recompiled to run full-screen under DOS. The rendering engine was actually developed mostly on a black-and-white NeXTStation at my home. It was structured so that the graphics could be drawn in grayscale, eight-bit color, or twelve-bicolor (native to color NeXTstations). The refresh can also be used at any resolution, not limited to the PC screen size. Imposing the discipline of developing portable code has led me to some insights about better game architecture.\\
+游戏结构允许它在 NEXTSTEP 下以窗口运行便于调试，或重新编译为 DOS 下全屏运行。渲染引擎实际上主要是在我家的一台黑白 NeXTStation 上开发的。它被设计为可在灰度、8 位颜色或 12 位双色（彩色 NeXTstation 原生）下绘制图形。刷新也可在任意分辨率下使用，不限于 PC 的屏幕尺寸。对可移植代码的纪律性要求，让我对更好的游戏架构有了一些洞见。\\
 \par
 
-I usually categorize game rendering engines on three axes: speed, capabilities, and image fidelity. Speed is the relation of view window size to frame rate. Capabilities covers limitations to the world model, like 90 degree walls only, sloping floors, variable lighting, view height variability, etc. Fidelity includes the accuracy of texture mapping, any fudging done to improve speed, and things like anti-aliasing.\\
+我通常用三个轴来分类游戏渲染引擎：速度、能力和图像保真度。速度是视窗大小与帧率的关系。能力涵盖世界模型的限制，如是否只能 90 度墙、是否支持斜坡、可变光照、可变视高等。保真度包括纹理映射的准确性、为了速度所做的取巧，以及诸如抗锯齿之类的因素。\\
 \par
 
-Our game design starts by selecting a speed for the game on our target platform, then trying to get as many capabilities and as high fidelity as possible. Doom's world geometry is limited to a two-dimensional arrangement of lines representing walls, and flat floors and ceiling of variable heights. Doom cannot draw sloping floors, overlapping walkways, or tilted walls. The viewpoint has four axes of freedom: forward/backwards, left/right, up/down, and clockwise/counterclockwise. These are significant limitations for, say, an architectural walk-through program, but they provided us with a great deal of freedom for our game design. We are still finding new ways to exploit these capabilities as work progresses on Doom II. I am proud of the fidelity of the Doom engine. The texture mapping is subpixel-accurate, and there are no compromises with distance.\\
+我们的游戏设计从为目标平台选择速度开始，然后尽可能获得更强能力和更高保真度。Doom 的世界几何仅限于二维线段的墙体与可变高度的平坦地板和天花板。Doom 不能绘制斜坡地面、重叠的走道或倾斜的墙。视角有四个自由度：前/后、左/右、上/下、顺时针/逆时针。这对建筑漫游程序来说是明显限制，但对游戏设计而言给了我们大量自由。在 Doom II 的开发中，我们仍在发现利用这些能力的新方式。我为 Doom 引擎的保真度感到自豪。纹理映射是亚像素级精度，距离上没有妥协。\\
 \par
 
-Because of the geometric limitations imposed on Doom, the hidden-surface removal problem can be reduced to a two-dimensional problem dealing only with the walls. The floors and ceilings are filled in to the remaining spaces after the walls have been properly drawn. This is a lot quicker than an arbitrary three-dimensional rendering scheme. The central algorithm Doom uses for the hidden-surface removal is a two-dimensional binary space-partition tree traversal. After a map has been drawn, it is passed to a separate utility which groups lines into sectors and recursively partitions the entire map into convex areas. This is a time-consuming task, but doing the work ahead of time lets the game perform less work at run time. The downside of this is that the lines that make up the world cannot have their endpoints adjusted during play. Thats why there are no swinging doors in Doom.\\
+由于 Doom 的几何限制，隐藏面消除问题可以被简化为仅处理墙体的二维问题。地板与天花板在墙体绘制完成后填充剩余空间。这比任意三维渲染方案快得多。Doom 用于隐藏面消除的核心算法是二维二叉空间分割树遍历。地图绘制完成后，会交给一个独立工具，把线段分组成扇区，并递归地将整个地图划分为凸区域。这项任务耗时，但提前完成它能让游戏运行时做更少工作。代价是构成世界的线段端点在游戏过程中无法调整。这就是为什么 Doom 没有摇摆门。\\
 \par
 
-Our map editor was used day-in, day-out for almost a year by our game designers, so the effort expended on making it productive to use was well spent. DoomEd is the NEXTSTEP application we created to build and modify worlds. It allows us to design the geometry of the world from a top-down perspective, and select the graphics to map onto the walls, floors, and ceilings.\\
+我们的地图编辑器被设计师几乎连续使用了一整年，因此投入时间让它高效易用是非常值得的。DoomEd 是我们在 NEXTSTEP 上创建的应用，用于构建和修改世界。它让我们以俯视角设计世界几何，并选择贴图应用到墙、地板和天花板。\\
 \par
 
-The game world model was developed to support networking from the start. Each object in the world is processed through the same routines, regardless of whether it is a bonus item, a monster, or a networked player. Some of the world utility routines, like the bullet target and trace call, were actually more involved than the 3-D rendering routines.\\
+游戏世界模型从一开始就为联网而设计。世界中的每个对象都会经过相同的例程处理，不论它是奖励物品、怪物还是联网玩家。一些世界工具例程，比如子弹目标与追踪调用，实际上比 3D 渲染例程更复杂。\\
 \par
 
-The tuning of the entire project is the most important phase for making an enjoyable game. Subtle elements like the timing of an animation, the pitch of a sound effect, or the motion of an exploding body all impact the impression a user gets from the game. Proper tuning takes a long time, and a lot of testing, but the details really count. We experienced an interesting synergy in Doom, where several of the game elements regarding movement, combat, and the environment managed to complement each other so well that the game turned out better than our original vision of it. The normal process of game design starts with a glorious vision that is slowly torn down to reality as the project progresses. While our original plan was greatly changed, and some features were lost, the final product exceeded our early expectations.\\
+整个项目的调优是打造可玩游戏最重要的阶段。动画的时机、音效的音高、爆炸尸体的运动等细微元素都会影响玩家的印象。正确的调优需要大量时间与测试，但细节至关重要。在 Doom 中，我们经历了一次有趣的协同效应：多个与移动、战斗和环境相关的元素互相补强，使最终游戏比我们最初设想更好。通常的游戏设计过程是从一个辉煌愿景开始，然后随着项目推进逐渐被现实削减。虽然我们原计划被大幅改动，也丢失了一些功能，但最终产品超出了我们早期的期待。\\
 
-\subsubsection{AFTERTHOUGHTS}
-Doom is the first project I have worked on that I have still been proud of at its completion. I was not happy with Wolfenstein by the time it was released, and I was disappointed with my implementation of the Shadowcaster engine. I see a few warts, but I am still pleased with my work on Doom. There are a few remaining bugs in the refresh code that are unlikely to get fixed. Sometimes you will see a one-pixel-wide column stretching from the top to the bottom of the screen. This is a result of drawing a line that has its two endpoints transformed to almost exactly the same polar angle. The fixed-point arithmetic that calculates the scale for the column sometimes overflows, and the column goes to the maximum possible scale of 64 times normal height. Cuts on the floor or ceiling that are nearly vertical will also sometimes show an error.\\
+\subsubsection{后记}
+Doom 是我第一个在完成时仍为之自豪的项目。Wolfenstein 发布时我已经不满意了，而我对 Shadowcaster 引擎的实现也很失望。我看到了一些瑕疵，但对 Doom 的工作仍感满意。刷新代码里还有几个不太可能修复的 bug。有时你会看到一列一像素宽的柱子从屏幕顶端拉到顶端。原因是绘制了一条线，其两个端点被变换到几乎相同的极角。用于计算该柱缩放的定点运算会偶尔溢出，使柱子被拉到最大可能的 64 倍高度。地板或天花板上几乎垂直的切口有时也会出现错误。\\
 \par
 
-There is a roundoff error in the map partitioner that can pixel-wide segment of a line to be drawn in the wrong order in a narrow the strip of the floor and ceiling texture being drawn pas.
-line that should have stopped it. Some of the artwork was drawn wider than the real width of the game object, so it is possible to have a piece of a sprite be seen past a wall under certain circumstances. I could have made Doom about 15 percent faster by paying more attention to the low-level Intel architecture. We all learned a lot during the development of Doom, and there are many new things for us to bring on in the next project. Watch out!
-
+地图分区器还有一个舍入误差，可能导致一条线的像素宽线段在地板/天花板纹理的狭窄条带中被错误顺序绘制，从而越过本应阻止它的线。有些美术资源绘制得比游戏物体的实际宽度更宽，因此在某些情况下，精灵的部分可能会在墙后被看到。如果我更关注 Intel 底层架构，我本可以让 Doom 快 15\%。我们在 Doom 开发中学到了很多，还有许多新东西可以带到下个项目。敬请期待！
 
 
 
@@ -71,69 +52,68 @@ line that should have stopped it. Some of the artwork was drawn wider than the r
 \section{Sandy Petersen}
 
 
-Doom's levels were not designed by one single person. John Romero created all the levels in episode 1, Knee Deep in the Dead, from scratch, except for level 1.8. All the remaining levels were done by me, either alone or sometimes by converting someone else's earlier work into a more polished form. The following paragraphs give full credit for the remaining levels.\\
+Doom 的关卡并非由单一设计者完成。John Romero 从零开始创建了第一章《Knee Deep in the Dead》的全部关卡，除了第 1.8 关。其余所有关卡都由我完成，有时独立完成，有时把别人的早期作品打磨成更完善的版本。以下段落将给出其余关卡的完整归属说明。\\
 \par
- Though a great deal of changes were made to Tom Hall and Shawn Green's levels (one a former id Software contributor, the other still with id Software), including placing monsters, repairing wall textures, and altering number-less small details, the basic architecture remains unchanged.\\
+尽管对 Tom Hall 和 Shawn Green 的关卡做了大量修改（前者曾在 id Software 工作，后者仍在 id Software），包括放置怪物、修复墙面纹理以及无数细节调整，但基本架构保持不变。\\
 \par
-It is my belief that a perceptive player of Doom will sense a definite personality difference between the levels created by each of the designers. This effect may be slightly dimmed in the case of Tom Hall and Shawn Green, since their original distinctive style has been somewhat merged with my own through the heavy editing their levels underwent.\\
+我认为，敏锐的 Doom 玩家会感受到每位设计师关卡之间明显的个性差异。对于 Tom Hall 和 Shawn Green，这种效果可能会稍弱，因为他们原本鲜明的风格在大量修改中与我的风格有所融合。\\
 \par
- John Romero's particular lunacy appears to lie in flooding the player with seemingly unstoppable hordes of monsters, interspersed with long periods of tense quietude, as the player ponders what horrors are to be unleashed next. He often places monsters on distant vantage points, whence they can snipe at the player in relative safety. John's levels are riddled with special vantage points, cunning secret areas, and multilevel action.\\
- \par
-  John almost always starts out a level with a nightmarish bloodbath to get the player's adrenaline flowing. Only after you have survived this onslaught can you take a break and decide where to go next. Another tendency of John's is to make the level linear. if you don't count the many secret passages, you pretty much have to go through John's levels in the order he prescribes.\\
-  \par
-   On my own levels, I tend to present the player with a constant trickle of monsters, unlike John's episodic bursts of terror. Also, instead of John's diabolic secret tunnels and platforms, I tend to assault the player with booby traps and snares. The classic example is the false exit on E2M6. It looks like an exit, it smells like an exit, but it's not really an exit.\\
-   \par
-    My levels start out kind of quiet, with the player left on his or her own. There's usually a monster or two right around the comer, but not the slavering horde you may have learned to expect from John. Some of my levels are quite linear (E3M1 or E3M4, for instance), but others, such as E3M2, E2M5 and E3M6, leave the area wide open for players to explore almost anywhere they want. I've found that some players really like this type of free-form experience, while others feel lost and confused until they manage to figure out the right way to go (which generally varies from player to player).\\
-    \par
-     Three things must be kept in mind at all times while designing levels for the players:
+John Romero 的特别疯狂之处在于：用看似不可阻挡的怪物潮淹没玩家，并穿插长时间紧张的寂静，让玩家思考下一波恐怖会从何而来。他常把怪物放在远处的制高点，使其能在相对安全的位置狙击玩家。John 的关卡遍布特殊制高点、狡猾的秘密区域，以及多层次的动作设计。\\
+\par
+John 几乎总以一场噩梦般的血战开场，让玩家肾上腺素飙升。只有撑过这一波攻势，你才能喘息并决定下一步方向。John 的另一个倾向是线性化关卡。如果不算那些秘密通道，你几乎必须按他规定的顺序推进。\\
+\par
+我的关卡则倾向于持续不断的小规模怪物压力，而非 John 那种阶段性的恐怖爆发。此外，与 John 的恶魔式秘密隧道和平台不同，我更喜欢用陷阱和机关袭击玩家。典型例子是 E2M6 的假出口：看起来像出口，闻起来像出口，但它并不是真正的出口。\\
+\par
+我的关卡开局往往相对安静，玩家只能靠自己。通常拐角处就有一两个怪物，但不是你从 John 那里习惯的嗜血大群。有些关卡非常线性（如 E3M1 或 E3M4），但另一些，如 E3M2、E2M5 和 E3M6，则几乎完全开放，玩家可以随意探索。我发现一些玩家很喜欢这种自由形态体验，而另一些会感到迷失和困惑，直到找到正确方向（这通常因人而异）。\\
+\par
+设计关卡时必须始终记住三件事：
 \begin{enumerate}
-\item How does it look?
-\item Is it fun?
-\item Did you remember to clean up?
+\item 看起来如何？
+\item 好玩吗？
+\item 记得清理了吗？
 \end{enumerate}
 \par
 
-\subsection{How Does It Look?}
+\subsection{看起来如何？}
 
-This was the hardest part of level design to learn, at least for me. It seemed to come naturally to Romero, while I had to work and work. The basic problem is that in order to design a good-looking room for Doom, you must think architecturally. That is, you must see the room in terms of spaces rather than as a set of lines on a map. The exact wall textures used to give animation and color to a room often are secondary to the room's actual structural components. Some rooms end up looking very good indeed, while others are not as impressive, despite colors and structures. For instance, we've never been really happy with the large entry hall on E1M4. It does the job and is fun to play in, but it just doesn't seem it have that zip. An open hole in the roof and numerous alterations in the Chamber's decor didn't wholly fix it. In the end, we decided that it played just fine, so we'd leave it and move on to other things.\\
+这是我最难学会的关卡设计部分。对 Romero 来说似乎很自然，而我必须不断努力。根本问题是：要为 Doom 设计好看的房间，你必须以建筑视角思考——把房间视为空间，而不是地图上的一堆线。赋予房间动画与色彩的具体墙面纹理往往是次要的，真正重要的是房间的结构组件。有些房间确实看起来非常棒，而另一些即便有色彩和结构也没那么出色。例如，我们对 E1M4 的大入口大厅从未完全满意。它功能上没问题，也很好玩，但就是缺少“劲”。屋顶开洞和对大厅装饰的多次修改也没彻底修复。最终我们决定：它玩起来没问题，就留下它，继续做别的。\\
 \par
- In the early design of Doom, there was a tendency to have lots of twisty little mazes. As playtest began, we discovered that these usually weren't too much fun, and most of them have been discarded (with a few exceptions, mostly in Tom Hall's old levels). Even the ones that remain have been altered and simplified in most cases, or serve a purpose by being claustrophobic and frightening (for instance, check out the excellent final maze in E1M4, the upstairs maze in E3M3, or the lava maze in E3M7).
+在 Doom 的早期设计中，我们倾向于做很多曲折的小迷宫。开始试玩后我们发现这通常不太好玩，所以大多被丢弃了（少数例外，主要在 Tom Hall 的旧关卡里）。即便留下的那些，大多数也被改造简化，或者以幽闭恐怖的目的存在（例如 E1M4 的优秀最终迷宫、E3M3 的二层迷宫、或 E3M7 的熔岩迷宫）。
 
-\subsection{Is It Fun?}
+\subsection{好玩吗？}
 
-
-This is, of course, even more important than making the game look good -- if it doesn't PLAY well, it just doesn't matter how good it looks. Making a level fun, for me, was a combination of an initial overall plan and continual playtest.\\
+这当然比“看起来好看”更重要——如果不好玩，那画面再好也没意义。对我来说，做出好玩的关卡需要一个初始总体规划和持续的试玩。\\
 \par
- When I began a level, I thought long and hard about the overall theme of that level -- what the player was supposed to get from it. For example, on E3M5, I wanted to give the player an illusion of a vast fane or temple, with a symmetric and understandable architecture. At first, players on this level are puzzled, with the teleporters, released monsters, and so forth, but soon they understand the level's overall structure and are racing round it with ease. Once players comprehend the layout, they are able to approach E3M5 scientifically and rationally, which gives them an interesting contrast (I believe) between the emotionally laden nature of that level (a huge cathedral) and their own behavior.\\
- \par
-  On the other hand, on E3M1, the goal was simply to overawe the player with the wonders that await them in Hell. The level teems with ominous and frightening images from the start, where you find yourself outside under a glowering red sky, chased by Imps. When you open the promising door to escape, it releases a Cacodemon. The bridge leading to the shotgun collapses, etc. You are kept running around, seeing ever more ominous and weird sights and terrors that quickly teach you the different nature of Hell, as compared with the more rationally constructed levels of episodes 1 and 2.\\
-  \par
-   Once I've got my theme worked out, I'll generally complete one small area of a level, then quickly playtest it. If it seems to work and looks fine I'll complete the next area, and test both completed areas out together, continuing to do this until the entire level is finished.\\
-   \par
-    \subsection{Did You Remember to Clean Up?} 
+当我开始一个关卡时，会长时间思考它的总体主题——玩家应从中获得什么体验。例如，在 E3M5 中，我希望给玩家一种宏大殿堂或神庙的幻觉，拥有对称且易于理解的建筑结构。开始时玩家会因传送门、放出的怪物等感到困惑，但很快就能理解关卡整体结构，并轻松绕场奔跑。一旦玩家理解布局，他们就能以科学、理性的方式攻略 E3M5，这会与该关卡情感上的沉重（巨大大教堂）形成有趣对比。\\
+\par
+另一方面，在 E3M1 中，目标只是用地狱中等待他们的奇观震撼玩家。关卡从一开始就充满不祥恐怖的画面：你在红色阴沉天空下的室外，被小恶魔追逐。当你打开看似能逃离的门，会放出一只 Cacodemon。通往霰弹枪的桥会坍塌，等等。你被迫不断奔跑，目睹越来越多的诡异与恐怖，很快就会意识到地狱与第一、二章的理性结构关卡截然不同。\\
+\par
+一旦主题确定，我通常先完成关卡中的一个小区域，然后快速试玩。如果效果好且看起来没问题，就完成下一个区域，再把已完成的区域一起测试，如此循环直至整个关卡完成。\\
+\par
+\subsection{记得清理了吗？} 
 
-    Just because a level looks good and plays well, doesn't mean it's done. Now I've got to make sure I've thought of everything. Is there enough ammunition and weapons for the players? How about bonus items? Players expect them, and they're easy to leave out. Did you remember to mark secret areas? And are there enough traps and tricks to keep the players amused?\\
-    \par
-     After trying to cover these pathetic tiny details, I have to probe deeper. Is there some way that a clever player can bypass all the action of the whole level? If so, is that okay? (Sometimes it is -- if you are smart you can skip almost the whole of E3M6, and I dont mind a bit; but you'll miss out on a lot of weapons and interesting combat.) How does the level mesh with the one preceding? The one following? If the start room of level B includes a single lonely Cacodemon coming at you down a long hall, but you were given the opportunity to pick up a rocket launcher in the exit room of level A, you aren't presented with much of a problem. On the other hand, if that rocket launcher is at the very start of level A, so that you only have it available in level B if you carefully held onto your rockets, this might be okay -- you should be rewarded for your stinginess.\\
-     \par
-      When the final level is done, I play it a few more times, looking for flaws and mistakes (I find plenty of these), then I turn it over to those rotten excuses for human beings, the other id-iots at id Software. They quickly find all sorts of terrible things wrong with my poor baby level, and I fix these as rapidly as possible to avoid the rancorous comments and snide laughter that results when they expose flaws I've built into an area. If I sound like a bitter man, there are reasons.
+仅仅因为关卡看起来不错、玩起来也好，并不代表完工。现在还必须确认所有细节：弹药和武器是否足够？奖励物品呢？玩家期待它们，而且很容易遗漏。记得标记秘密区域了吗？陷阱和机关够不够让玩家保持兴趣？\\
+\par
+在覆盖完这些可怜的小细节后，我还要更深入地检查：是否存在聪明的玩家可以绕过整个关卡的大部分内容？如果有，这可以接受吗？（有时可以——如果你很聪明，几乎可以跳过 E3M6 的大部分内容，我并不介意，但你会错过很多武器和有趣的战斗。）该关卡与前一关、后一关的衔接如何？如果 B 关的起始房间只有一只孤零零的 Cacodemon 从长廊向你冲来，而你在 A 关出口房里刚捡到火箭筒，那基本没什么难度。相反，如果火箭筒在 A 关一开始就给你，那么只有你仔细保留火箭弹，到了 B 关才有它可用——这可能是好的，你应当因节俭而得到奖励。\\
+\par
+当最终关卡完成后，我会再玩几遍，寻找错误和瑕疵（我总能找到不少），然后把它交给那些臭名昭著的“人类失败样本”——id Software 里的其他 id-iots。他们很快会找出我可怜关卡里各种糟糕的问题，我会尽快修复，以免被他们揭露我在某处埋下的瑕疵后遭受尖刻评论和嘲笑。如果我听起来像个怨气十足的人，事出有因。
 
 
 
 \section{Kevin Cloud}
 
-In games, good computer art is commonly referred to as "beautifully rendered or detailed" because most good game art looks meticulously hand drawn. Unfortunately, beautifully rendered worlds often begin to look staged. For Doom, we wanted to create a realistic and dark world that looked more dirty than pretty. There was nothing beautiful about Doom and we wanted its world to convey that concept -- scary and dark.\\
+在游戏中，优秀的电脑美术常被称为“渲染精美或细节丰富”，因为大多数好看的游戏美术都像精心手绘。然而，精美的渲染世界往往显得布景化。对于 Doom，我们想要一个现实、阴暗、比起漂亮更“脏”的世界。Doom 没有什么“美”，我们希望它的世界传达这一概念——可怕、阴暗。\\
 \par
 
- To achieve the intended effect we used a combination of scanned and hand-rendered images. John Carmack created the program, Fuzzy Pumper Palette Shop, that would capture live video images and convert them into a PC graphic format. We then loaded the images directly into our PC art applications where we could edit, resize, colorize, and combine them -- whatever it took to create an interesting graphic. The overall effect is somewhat distorted, but that's Doom.\\ 
+为达到预期效果，我们使用了扫描与手工渲染图像的组合。John Carmack 编写了 Fuzzy Pumper Palette Shop 程序，用于捕捉实时视频图像并转换为 PC 图形格式。然后我们把图像直接导入 PC 美术应用中，进行编辑、缩放、上色、合成——不管需要什么来制作有趣的图形。整体效果略有失真，但这就是 Doom。\\ 
 \par
- The characters in Doom were created using a variety of methods -- hand drawn, scanned clay models, and finally, latex and metal models. After working on Wolfenstein, we knew the frustration of creating the rotated views of every animation of a creature. Most characters are easy to draw from the front, but rotate them 45 degrees and things become a little more complex. Using small wooden mannequins and a couple of pounds of clay, we set out to make our own models. This technique wasn't perfect, but it enabled us to pose the creatures in stances we would normally not draw.\\
+Doom 中的角色通过多种方法制作：手绘、扫描黏土模型，以及最终的乳胶和金属模型。做 Wolfenstein 时，我们就知道为每个角色动画制作旋转视角有多沮丧。大多数角色正面好画，但旋转 45 度就会复杂得多。我们用小木偶和几磅黏土来制作自己的模型。这种技术不完美，但它让我们能把怪物摆出平常不会画的姿态。\\
 \par
-As the project neared its end, we wanted to create a monster that wasn't a biped. We came up with the idea of a large brainy creature with a chaingun embedded into its face, and its body attached by several large metal hooks to a four-legged metal machine. We couldn't create this guy using clay, and thats when we contacted Gregor Punchatz.\\
+项目接近尾声时，我们想做一个非双足怪物。我们想象了一只巨大的“脑子怪”，脸上嵌着链锯枪，身体被几根大金属钩子挂在一个四足金属机器上。我们无法用黏土制作这个家伙，于是联系了 Gregor Punchatz。\\
 \par
- Gregor has an extensive background in creating models. Working on the sets of such movie classics as Nightmare on Elm Street and Robocop, Greg had the tools and the talent necessary for creating models. Within a few weeks, Gregor had turned our sketches into a fully moveable monster. The process worked well. And although this version of Doom only features one of his creations, the retail version of Doom will fully utilize Gregor's talents.
+Gregor 在模型制作方面经验丰富。他参与过《猛鬼街》《机械战警》等经典电影的制作，具备制作模型所需的工具和才能。几周内，Gregor 就把我们的草图变成了一个可完全活动的怪物。流程很顺利。虽然这个版本的 Doom 只用了他的一件作品，但零售版 Doom 将会充分利用 Gregor 的才能。
 
 \subsection{HAPPY DOOMING}
 
-There is obviously a lot more to Doom than what you see on the screen, and there is much more the Doom creators could have shared with us. I hope the above discussions have at least given you an insight into the minds of the Doom creators and an appreciation for the art and science of Doom. For more technical information about playing and enjoying Doom, look for your specific topics in the appendices.\\
+显然，Doom 远不止屏幕上所见，而 Doom 的创作者本可以分享更多。我希望以上讨论至少能让你了解 Doom 创作者的思维，并对 Doom 的艺术与科学有所欣赏。想要了解更多关于如何游玩与享受 Doom 的技术信息，请在附录中查找你关心的主题。\\
 \par

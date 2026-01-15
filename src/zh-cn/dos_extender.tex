@@ -1,64 +1,59 @@
 \section{RAM}
-With the price of RAM dropping, game developers now could count on 4 MiB. This increase should have been good news, resulting in video games with richer worlds, better assets, more characters and bigger maps. Due to the infamous way memory had to be managed it instead meant more complexity to handle and more headache.\\
+随着 RAM 价格下降，游戏开发者终于可以指望 4 MiB 内存。这本该是好消息，意味着更丰富的世界、更好的资源、更多角色和更大的地图。但由于臭名昭著的内存管理方式，它反而带来了更多复杂性与头痛。\\
 \par
-The fault fell a little bit on Intel and a lot on Microsoft. In 1981, IBM released its first PC, the 5150, which was built around the Intel 8088. The CPU was limited to 16-bit registers, but Intel wanted it to be able to access a 20-bit address space. To reconcile both elements, Intel's designers came up with an abomination called segmented addressing where two 16-bit registers were combined to form a 20-bit address.\\
+责任一部分在 Intel，更多在 Microsoft。1981 年，IBM 发布首台 PC：5150，采用 Intel 8088。该 CPU 只有 16 位寄存器，但 Intel 希望它能够访问 20 位地址空间。为兼顾两者，Intel 设计师想出了一个怪招：分段寻址，把两个 16 位寄存器组合成一个 20 位地址。\\
 \par
 
 \drawing{register_combination_20_bits_address}{}
 \vspace{-10pt}
 \par
-Pointer manipulation was error prone since different segment/offset combinations could point to the same RAM location. There were also issues related to pointer arithmetic where once the offset wrapped around, the segment was not automatically updated.\\
+指针操作很容易出错，因为不同的段/偏移组合可能指向同一 RAM 位置。指针运算也有问题：一旦偏移回绕，段不会自动更新。\\
 \par
-The RAM system became a mess with the Intel 286 and the 386SX which addressed 24 bits and worsened with the 386DX and the 486 which both had a 32-bit address bus. The address space was too much for what the 20-bit segmentation trick was capable of. The solution was to resort to memory managers such as \cw{EMM386.EXE} and \cw{HIMEM.SYS}\footnote{16-bit programming and memory managers were covered in \textit{Game Engine Black Book: Wolfenstein 3D}.}, which both provided the means to work with non-addressable RAM located beyond the 1 MiB barrier.\\
+到了 Intel 286 和 386SX（24 位寻址），再到 386DX 与 486（32 位地址总线），内存系统变得更加混乱。地址空间已经超出 20 位分段技巧的能力。解决方案只能借助内存管理器，如 \cw{EMM386.EXE} 和 \cw{HIMEM.SYS}\footnote{16 位编程和内存管理器详见 \textit{Game Engine Black Book: Wolfenstein 3D}。}，它们提供了访问 1 MiB 屏障之外不可寻址 RAM 的手段。\\
 
-There would have been a simpler solution. Intel allowed its CPUs to function in two modes: the backward-compatible real mode which made the CPU behave like a very fast 8088, and protected mode which unleashed the full power of the CPU. In protected mode, 32-bit registers were large enough to address all RAM on board (this is known as flat addressing).\\
+其实还有更简单的方案。Intel 允许 CPU 以两种模式工作：向后兼容的实模式（让 CPU 像一颗非常快的 8088）和释放 CPU 全部能力的保护模式。在保护模式下，32 位寄存器足以寻址板上所有 RAM（称为平坦寻址）。\\
 \par
-It would have worked out if the operating system had been able to run in protected mode. However, in the name of backward compatibility, Microsoft's DOS could only handle real mode which effectively locked developers into 16-bit programming.\\ 
-\par
-
-
-
-
-\par
-With the growing pain and frustration of DOS, some people saw an opportunity.\newpage 
-
-While there were many products which could address this, two companies in particular stood out with a winning combination. Watcom International Corporation's C compiler and Rational Systems' DOS/4GW "DOS extender" together allowed programs to run in protected mode while still having access to 16-bit DOS functions.\\
+如果操作系统能在保护模式下运行，一切会更顺利。然而出于兼容性，Microsoft 的 DOS 只能处理实模式，从而把开发者锁死在 16 位编程中。\\ 
 \par
 
 
-\subsection{DOS/4GW Extender}
-Under DOS the normal way to perform a "system call" is to use a software interrupt instruction with parameter \cw{21h}. In C programming, this was abstracted away by the header \cw{DOS.H} which performed all the lower level work behind the scenes.\\
+
+
+\par
+在 DOS 的阵痛与挫败中，有人看到了机会。\newpage 
+
+虽然有很多产品可以解决问题，但其中两家公司凭借组合脱颖而出：Watcom International Corporation 的 C 编译器与 Rational Systems 的 DOS/4GW “DOS 扩展器”。它们让程序能在保护模式下运行，同时仍可访问 16 位 DOS 功能。\\
+\par
+
+
+\subsection{DOS/4GW 扩展器}
+在 DOS 下执行“系统调用”的常规方式是使用软件中断指令，参数为 \cw{21h}。在 C 编程中，这由头文件 \cw{DOS.H} 抽象处理，它在幕后完成所有底层工作。\\
 \par
 \drawing{realmode_app_limk}{}
-To allow the app to run in one mode and the OS to run in another, the two worlds had to be bridged. A middle layer called the "DOS extender" -- able to run in both modes -- inserted itself between the program and the operating system.\\
+为了让应用在一个模式运行、OS 在另一个模式运行，两者需要桥接。于是出现了“DOS 扩展器”这一中间层——它可在两种模式下运行，插在程序和操作系统之间。\\
 
 \par
 \rawdrawing{realmode_app_limk_extender}
-Upon startup, the DOS extender would place hooks into the OS's Interrupt Vector Table and place its own routines there. From an application's standing point everything was transparent, the developer had no code to change. To perform a system call not hooked by the extender (e.g. \cw{int 33h} to read mouse inputs), the extender offered a special interface called DPMI on interrupt \cw{31h} which took care of translating 32-bit register requests to 16-bit so IVT routines would understand them.\\
+扩展器启动时会在 OS 的中断向量表中插入钩子，把自己的例程放进去。对应用而言一切透明，开发者无需修改代码。若需要执行扩展器未钩住的系统调用（例如用 \cw{int 33h} 读取鼠标输入），扩展器提供了一个特殊接口 DPMI，通过 \cw{31h} 中断，把 32 位寄存器请求转换为 16 位，使 IVT 例程能够理解。\\
 \par
-\trivia{DPMI (DOS Protected Mode Interface) was originally created to allow Windows 3.0 to run 32-bit applications and to be compatible with a joint operating system project with IBM called OS/2.}\\
+\trivia{DPMI（DOS Protected Mode Interface）最初是为了让 Windows 3.0 运行 32 位应用，并兼容与 IBM 的联合操作系统项目 OS/2。}\\
 \par
-When the extender intercepted an operating system call, it had a lot of work to do:
+当扩展器拦截操作系统调用时，需要完成大量工作：
 \begin{enumerate}
-\item Perform all translation needed (e.g. a 32-bit address had to be expressed as a 16-bit offset with a 16-bit segment).
-\item Switch the CPU to real mode.
-\item Forward the call to DOS.
-\item Retrieve the results and convert 16-bit register values back to 32-bit.
-\item Switch the CPU back to protected mode.
+\item 完成所需的所有转换（例如将 32 位地址表达为 16 位偏移加 16 位段）。
+\item 将 CPU 切换到实模式。
+\item 将调用转发给 DOS。
+\item 取回结果并把 16 位寄存器值转换回 32 位。
+\item 将 CPU 切回保护模式。
 \end{enumerate} 
 
-The performance-sensitive operations were in switching between real mode and protected mode. Originally this was a problem on 286 CPUs since Intel never imagined a program might want to switch back to real mode from protected mode. Various tricks had to be used\footnote{These are detailed in \textit{Game Engine Black Book: Wolfenstein 3D}.}, among them faking a keyboard Ctrl-Alt-Del reboot to reset the CPU without actually rebooting.\\
+性能敏感之处在于实模式与保护模式之间的切换。286 上这曾是大问题，因为 Intel 从未设想程序需要从保护模式切回实模式。必须采用各种技巧\footnote{详见 \textit{Game Engine Black Book: Wolfenstein 3D}。}，其中之一是伪造键盘 Ctrl-Alt-Del 重启，以在不真正重启的情况下重置 CPU。\\
 \par
-On the other hand, switching from real mode to protected mode is simple. Setting the Control Register from bit 0 to 1 takes six instructions.\\
+另一方面，从实模式切到保护模式很简单。控制寄存器从第 0 位设为 1 只需六条指令。\\
 \par
 \acode{switch_to_protected_mode.asm}
 \par
 
-\doom{} used the DOS/4GW extender by Rational Systems. Its presence could briefly be seen on startup. Executing \cw{DOOM.EXE} triggered DOS to load the tiny extender. Once loaded, DOS/4GW switched the CPU into protected mode, loaded \doom's code into memory and branched to the \cw{main} function.\\
+\doom{} 使用了 Rational Systems 的 DOS/4GW 扩展器。它的存在会在启动时短暂显示。执行 \cw{DOOM.EXE} 后，DOS 会先加载这个小扩展器。加载完成后，DOS/4GW 将 CPU 切换到保护模式，加载 \doom{} 的代码到内存并跳转到 \cw{main} 函数。\\
 \par
 \fakedosoutput{dos4gw.txt}
-
-
-
-
-

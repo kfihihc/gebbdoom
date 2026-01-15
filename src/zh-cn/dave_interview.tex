@@ -1,83 +1,82 @@
-Dave Taylor was kind enough to allow an interview in June of 2017.\\
+Dave Taylor 很慷慨地同意在 2017 年 6 月接受一次采访。\\
 
 
-\section{Q \& A }
+\section{问答}
 
-\qaq{How old were you in 1993 when you started working at id?}
-\qaa{I started studying the Sega Genesis tech docs in order to do a Sega Wolf3D port at the beginning of summer 1993, but by the end of summer when I started, I was assigned to Doom instead.  I was 24 when I started.}
-
-
+\qaq{你在 1993 年开始在 id 工作时几岁？}
+\qaa{我在 1993 年初夏开始研究 Sega Genesis 的技术文档，打算做一个 Sega Wolf3D 移植，但到了夏末我正式入职时，被分配去做 Doom。我入职时 24 岁。}
 
 
 
-\qaq{How did you get a job at id Software? It wasn't yet the powerhouse it became but they were already successful with Dave and Wolf3D games so I assume there must have been competition for the position?}
-\qaa{I was studying electrical engineering at UT Austin and working as a journalist for an early electronic game magazine that came on floppies called Game Bytes.  Wolf3D had come out, and I had interviewed the whole id team on a speakerphone call.  There was a really friendly voice who would turn out to be Jay and a really knowledgeable voice with all the answers to my technical questions, who would turn out to be John Carmack.  The summer before I took my senior lab, I emailed John to see if I could come up and interview.\\
+
+
+\qaq{id Software 还没成为后来那样的巨头，但凭借 Dave 和 Wolf3D 已经很成功了，所以我想这个职位竞争很激烈？你是怎么进入 id 的？}
+\qaa{我在德州大学奥斯汀分校学习电气工程，并为一本以软盘发行的早期电子游戏杂志 Game Bytes 当记者。Wolf3D 发布后，我通过免提电话采访了整个 id 团队。有一个很友好的声音，后来发现是 Jay；还有一个对我的技术问题都能对答如流的声音，后来发现是 John Carmack。在我做毕业设计的前一个夏天，我给 John 发邮件，问能不能过去做采访。\\
 \par
-I had been organizing very ambitious programming contests for the IEEE called the IEEE CS National Programming Contest, where we would develop a 3-on-3 multiplayer game in secret for Unix workstations, and then teams of 3 programmers would show up from 16 fancy schools (Stanford, MIT, Berkeley, Caltech, etc), we would reveal the game, and they'd have about 16 hours to write AI to play the game on their behalf.\\
+我组织过非常雄心勃勃的编程竞赛，叫 IEEE CS 全国编程大赛：我们会为 Unix 工作站秘密开发一个 3 对 3 的多人游戏，然后来自 16 所名校（斯坦福、MIT、伯克利、Caltech 等）的三人程序员队伍会到现场，我们揭晓游戏，他们有大约 16 小时写 AI 代表他们参赛。\\
 \par
-At the end, we would do an exhibition game where all 16 teams of 3 players (48 players total) would do a deathmatch.\\
+最后我们会办一场表演赛，让所有 16 支三人队（共 48 名玩家）进行死亡竞赛。\\
 \par
-I had more Unix and network code experience than the rest of the id team, but I was a real noob at game development.  Doom was my first commercial game.}
+我比 id 团队其他人有更多 Unix 和网络代码经验，但在游戏开发上是个新手。Doom 是我做的第一款商业游戏。}
 
 
 
 
-\qaq{How advanced was Doom development when you joined?}
-\qaa{The core 3D gameplay window was there, most of the art was in, the single-player gameplay was almost all there.  I integrated the sound code/effects, the automap, status bar, screen wipes, level transitions, and cheat codes.}
+\qaq{你加入时 Doom 的开发进度如何？}
+\qaa{核心 3D 游戏窗口已经有了，大部分美术也进来了，单人玩法基本都有了。我整合了声音代码/效果、自动地图、状态栏、屏幕擦除、关卡切换，以及作弊码。}
 
-\qaq{Who did you report to, how did you know what to work on?}
-\qaa{I reported to John Carmack, but I wasn't easy to manage and would often do my own thing.}
+\qaq{你向谁汇报？怎么知道要做什么？}
+\qaa{我向 John Carmack 汇报，但我不太好管，经常会做自己的事。}
 
 
-\qaq{I can see\footnote{in "A Visit to id Software" 1994 video released by John Romero} you had a NeXT workstation on your desk. What did you use it for?}
-\qaa{We used them to make the whole game, and that's what the level editor ran on.  DOS 3.3 was our target OS, and DOS wasn't really a complete operating system (no sound or video drivers, for example, and no debugger to speak of), so it was pretty painful to debug on.  NeXTStep was much faster and easier to iterate on.}
+\qaq{我看到\footnote{在 John Romero 发布的 1994 年视频《A Visit to id Software》里}你桌上有一台 NeXT 工作站。你用它做什么？}
+\qaa{我们用它来制作整款游戏，关卡编辑器也在上面运行。我们的目标操作系统是 DOS 3.3，而 DOS 并不是一个真正完整的操作系统（比如没有声音或视频驱动，也没有像样的调试器），所以调试起来很痛苦。NeXTStep 快得多，也更容易迭代。}
 
 
 % \qaq{I read on your wikipedia page that you took care of the VESA 2.0 code for Quake. I am very interested in this topic. My book describes first the hardware and I am going to details 486 DX-2, Gravis UltraSound, NeXT workstation. VESA documentation is hard to come around but I would still want to describe it since there were 486 VBL at the time. Can you elaborate on what you did for Quake to run well with VESA 2.0 ?}
 % \qaa{Man, it's been a while.  I think I just took care of the page-swapping for memory access and the page-flipping on update.  It wasn't much code.}
 
 
-\qaq{You wrote ports for IRIX, AIX, Solaris and Linux. Was that for both Doom and Quake ?}
-\qaa{For Doom, ya.  For Quake, Linux for sure, but the others, I can't remember.}
+\qaq{你给 IRIX、AIX、Solaris 和 Linux 写过移植。是 Doom 和 Quake 都有吗？}
+\qaa{Doom 有。Quake 的话，肯定有 Linux，其他几个我记不清了。}
 
-\qaq{What editor did you use, how did you compile?}
-\qaa{I used vi for editing code.  I made a Makefile and just typed make, as you'd think.}
+\qaq{你用什么编辑器、怎么编译？}
+\qaa{我用 vi 写代码。我写了个 Makefile，直接敲 make 就行了。}
 
 
-\qaq{Could you detail how it was to work with IRIX, AIX and Solaris ?}
-\qaa{Once I got the basic code down for Linux (I had a system at home), it was pretty similar for the other Unix platforms.
-AIX, Irix, and Solaris were all kinda foreign to me but of course all still Unix variants, and I realized that by offering ports to Doom, I could get free workstations, so... :)\\}
+\qaq{能详细讲讲在 IRIX、AIX 和 Solaris 上工作的体验吗？}
+\qaa{我先在 Linux 上把基本代码搞定（我家里有一台机器），其他 Unix 平台就差不多了。
+AIX、Irix 和 Solaris 对我来说都有点陌生，但它们毕竟都是 Unix 变种。我意识到，提供 Doom 的移植就能拿到免费的工作站，所以…… :)\\}
 
-\qaq{Did you get the sound to work on all of them?}
+\qaq{你把声音在这些平台上都做出来了吗？}
 
-\qaa{I separated the sound code into its own server.  It would load the files itself, and then the game would just tell it over a socket to fire off sounds and update volume/pitch/etc.  The Linux code would eventually get really optimized, as Linus hooked me up with the XFree86 guys, who added an extension to give me direct access to the framebuffer, and then on Quake, Linus gave me a much faster way to get directly to the sound card DMA buffer and to get the current DMA transfer location down to a somewhat chunky granularity.\\
+\qaa{我把声音代码拆成了一个独立的服务器。它自己加载文件，然后游戏通过 socket 告诉它触发声音、更新音量/音高等。Linux 代码后来变得非常优化，因为 Linus 把我介绍给 XFree86 的人，他们加了一个扩展让我可以直接访问 framebuffer；到 Quake 时，Linus 又给了我一种更快的方式，直接访问声卡 DMA 缓冲区，并能以相对粗粒度拿到当前 DMA 传输位置。\\
 
 \par
-I know I got sound working on Irix and that Irix support was why Doom made the rounds with so many CG/VFX type people in the film industry.  I can't remember whether I got it working on AIX and Solaris.  Sound wasn't a priority for Sun/IBM at the time.}
+我知道我让 Irix 上的声音跑了起来，而且正因为 Irix 支持，Doom 才会在电影行业那么多 CG/VFX 人群里流行起来。我记不清 AIX 和 Solaris 上是否搞定了声音。当时 Sun/IBM 并不把声音当成优先事项。}
 
 
 
-\qaq{You reportedly fell asleep on the floor and your coworkers taped the outline of your body on the ground. Did that happen a lot?}
-\qaa{I fell asleep on the floors a lot, which is why they got the sofa and had me test-drive it for comfort, but I only remember them taping my outline once.  I believe it stuck around for a while though.}
+\qaq{据说你经常睡在地板上，同事还在地上用胶带贴出了你的轮廓。真有这事吗？}
+\qaa{我确实经常睡在地板上，所以他们才弄了沙发让我“试驾”舒服度，但我只记得他们贴过一次轮廓。我相信它在那儿留了好一阵子。}
 
-\qaq{When did you leave id Software?}
-\qaa{I believe I left in early 1996, just after qtest1 shipped.}
+\qaq{你什么时候离开 id Software？}
+\qaa{我记得是 1996 年初，刚好在 qtest1 发货之后。}
 
 
-\qaq{Leaving was a courageous decision. Among many things you could have made more money. I assume you dreamed of making your own game. Do you regret leaving so "early"?}
-\qaa{Actually, not brave.  I asked when I hired on to get some ownership in id, and after the 6mo trial period, they decided against giving out more ownership, they said because it hadn't worked out with a couple of previous folks, and they had an expensive buy/sell agreement for anyone who left.  When they said ownership wasn't going to happen, I asked if I could invest in my own game company on the side, and they said yes, as long as it wasn't 3D and I wasn't coding on it.  So I invested in Crack dot Com, and produced Abuse.  After it shipped, I was starting to get royalty checks that were bigger than what I got from id in bonus checks (and they were very generous).  I was becoming more interested in producing for Crack and less interested in coding on Quake, which was starting to feel like a brown Doom with fewer monsters and a less relatable theme, so I was really slowing down.  Carmack noticed and said we should prolly part ways after Quake shipped, and I countered that I'd prefer to leave after qtest1 shipped.\\
+\qaq{离开是个勇敢的决定。在那里你本可以赚更多钱。我想你是梦想做自己的游戏。你后悔那么“早”离开吗？}
+\qaa{其实不是勇敢。我入职时就问能不能在 id 持有股份，试用期 6 个月结束后，他们决定不再给股份，说是之前给过几个人但没搞好，而且对任何离职者都有一个很贵的买卖协议。当他们说不会给股份时，我问能否一边在外面投自己的游戏公司，他们说可以，但前提是不做 3D、也不能亲自写代码。于是我投资了 Crack dot Com，并制作了 Abuse。它发货后，我开始拿到的分成支票比我在 id 的奖金还多（他们奖金很慷慨）。我对在 Crack 的制作越来越感兴趣，对在 Quake 上写代码越来越没兴趣；Quake 让我觉得像一款棕色的 Doom，怪物更少、主题也更难共鸣，所以我进度慢了很多。Carmack 注意到了，说 Quake 发货后我们最好分开，我则提出希望在 qtest1 发货后离开。\\
 \par
-I don't know if I could have made more money.  I wasn't very fulfilled when I left, and it was affecting my work.  I've also never been much of a fan of money.  It tends not to correlate all that well to what I value.}
+我不知道我是否能赚更多钱。我离开时并不太满足，这也影响了我的工作。我也从来不太看重钱。钱和我看重的东西并不怎么相关。}
 
-\qaq{How do you feel looking back on this period of your life?}
-\qaa{I don't look back much.  My mind is usually dwelling on the far-enough future that I'm regarded as weird in the present.  Back then was no different.  I was trying to turn them onto networked games like netrek, which had persistent accounts, and I remember that being met with indifference.  I started using the .plan files, sort of a blogging precursor, and would spend a lot more time on irc than the others.  My fascination with the Unix ports was considered largely to be a waste of time, but they were very tolerant of me.}
+\qaq{回头看这段人生你有什么感受？}
+\qaa{我不太回顾过去。我的脑子通常在想足够遥远的未来，以至于在当下大家觉得我挺怪。当时也是这样。我试图让他们对像 netrek 这种有持久账号的联网游戏感兴趣，但我记得他们反应很冷淡。我开始用 .plan 文件（有点像博客的前身），花在 irc 上的时间也比别人多。我对 Unix 移植的痴迷被认为基本是在浪费时间，但他们对我很包容。}
 
 
 
-\qaq{Are you still in touch with anybody from the team of '93?}
-\qaa{Not much.  I exchange emails with John Carmack every once in a while.}
+\qaq{你现在还和 93 年那批团队里的人保持联系吗？}
+\qaa{不太多。我偶尔会和 John Carmack 互发邮件。}
 
-\b{Dave gave an interview to "blankmaninc.com" in 2013. His answer to "Why did you end up leaving id Software?" was so funny that I had to include it here.}\\
+\b{Dave 在 2013 年接受了 “blankmaninc.com” 的采访。他对“你为什么最终离开 id Software？”的回答太好笑了，我不得不把它收进来。}\\
 \par
-\rawfq{Cocktail of reasons. It wasn't common knowledge that John Carmack was one of the best coders in the game industry.  I just thought I had a very, very small penis.  I had an electrical engineering degree, and I was one of the more capable coders in my class.  So it was really demoralizing that no matter how hard I worked, I could never pull off anything a fraction as impressive as John, and of course he only seemed to be accelerating from his already stunning clip.  This led to a pattern of me pushing really hard, burning out, and then limping along for a while until I made my next futile attempt to approach a fraction of his awesomeness.  There was this pattern of him saying, "Hey, check this out," and I'd follow him to his office, and he'd be levitating in his chair while demonstrating his elegant solution to an intractable problem of computer science, and my version of "Hey, check this out" was usually motivated by needing his help to track down an issue.}
-
+\rawfq{原因鸡尾酒。大家并不知道 John Carmack 是游戏行业最顶尖的程序员之一。我只觉得我有一个非常非常小的鸡鸡。我有电气工程学位，也是班上比较能写代码的人之一。所以无论我怎么努力，都做不到 John 能做到的哪怕十分之一，这真的很打击我。更何况他似乎还在以更惊人的速度加速前进。这导致我形成一种模式：拼命冲一阵、筋疲力尽、然后拖着疲惫的身体混一阵，直到我下一次徒劳地尝试去接近他厉害程度的一个小小分数。于是就出现一种模式：他会说“嘿，看看这个”，我就跟着他去办公室，然后他会一边在椅子上飘着一边展示他对一个棘手计算机科学问题的优雅解法；而我版本的“嘿，看看这个”通常只是因为需要他帮我找一个问题。}

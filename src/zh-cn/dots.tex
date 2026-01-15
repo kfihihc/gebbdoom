@@ -1,55 +1,55 @@
-\section{Waiting for the Dots}
+\section{等待小点}
 \label{dots_explained}
-For anybody who played \doom{} on a PC in 1994, the most frustrating part was waiting for the game to load. One step in particular, the mysterious \cw{R\_Init}, seemed to take forever\footnote{In fact, it took anywhere from 15 to 30 seconds depending on the HDD speed.}. An improvised progress bar made of dots informed the player that the game was loading and to just wait and be patient. Millions of hours were spent watching these tidy dots progress to the right. Probably a few more were spent trying to guess what \cw{R\_Init} actually did in the background.\\
+对 1994 年在 PC 上玩过 \doom{} 的人来说，最令人抓狂的部分就是等待加载。尤其是那个神秘的 \cw{R\_Init}，似乎永远也跑不完\footnote{事实上取决于硬盘速度，耗时约 15 到 30 秒。}。临时做的进度条由一串小点组成，告诉玩家游戏在加载，请耐心等待。无数小时都花在看这些规整的小点往右推进。大概还有更多小时被用来猜测 \cw{R\_Init} 在后台到底做了什么。\\
 \par
 \fakedosoutput{dots.txt}\\
 \par
-With access to the source code it is possible to modify the engine to output a "label" matching the current phase performed instead of dots. It turns out there are eleven "phases".\\
+通过访问源码，可以修改引擎，让它在当前阶段输出“标签”而不是小点。结果表明它共有 11 个“阶段”。\\
 \par
 \fakedosoutput{dots_explained.txt}\\
 \par
 
-Phase \cw{OOOOO} corresponds to \cw{R\_InitTextures}. Something that was not mentioned in the 3D renderer section of the book (for the sake of simplicity) is that textures are made of patches. In order to save space, textures reference all patches via an identifier. This is particularly powerful in the case of textures made of a repeating pattern. This phase is where all textures attributes such as dimension and patches definition are loaded to RAM (however the texels remain in the \cw{.WAD}). Because of the volume of data and the amount of \cw{Z\_Malloc} memory allocation, it is the most expensive phase.\\
+阶段 \cw{OOOOO} 对应 \cw{R\_InitTextures}。书中的 3D 渲染器章节（为简化起见）没有提到的一点是：纹理由补丁（patch）组成。为了节省空间，纹理通过标识符引用补丁。对于由重复图案组成的纹理，这一点尤其有用。该阶段会把纹理的所有属性（如尺寸与补丁定义）加载到 RAM（但 texel 仍在 \cw{.WAD} 中）。由于数据量大且涉及大量 \cw{Z\_Malloc} 内存分配，这是最耗时的阶段。\\
 \par
-The first step of this phase is to open a lump named \cw{PNAMES} that contains all the patch names. From the order they appear, a mapping of patch name to ID is established.\\
-The second step (which accounts for the bulk of the processing time) is to open lumps \cw{TEXTURE1} and \cw{TEXTURE2}. These contain all the texture entries. Each entry features a name and list of patch IDs, along with patch coordinate and offsets.\\
+该阶段第一步是打开名为 \cw{PNAMES} 的 lump，其中包含所有补丁名称。根据出现顺序建立补丁名到 ID 的映射。\\
+第二步（占大部分处理时间）是打开 \cw{TEXTURE1} 与 \cw{TEXTURE2}。其中包含所有纹理条目。每个条目包含名称与补丁 ID 列表，以及补丁坐标与偏移。\\
 \par
-Phase \cw{1} is just a marker showing when \cw{R\_InitTextures} returns.\\
-\par
-
-Phase \cw{2} corresponds to \cw{R\_InitFlats}. It looks for lumps \cw{F\_START} and \cw{F\_END} which are the markers surrounding flat textures. Only the number of flats is retrieved so a proper \cw{malloc} of the flat array can be performed.\\
+阶段 \cw{1} 只是一个标记，表示 \cw{R\_InitTextures} 已返回。\\
 \par
 
-Phase \cw{333333333333} is similar to phase \cw{0} but this time it involves sprite lumps. Function \cw{R\_InitSpriteLumps} looks up lumps \cw{S\_START} and \cw{S\_END} to find the width and horizontal offset of all sprites in the WAD and saves that data to a sprite array. In the process it prints a dot every 64 sprites. This was the second slowest phase in \cw{R\_Init} (after \cw{R\_InitTextures}) since it had to perform a lot of I/O.\\
+阶段 \cw{2} 对应 \cw{R\_InitFlats}。它会查找 \cw{F\_START} 与 \cw{F\_END} 这两个环绕平面纹理（flat）的标记。此处只获取 flat 的数量，以便对 flat 数组进行正确的 \cw{malloc}。\\
 \par
 
-Phase five (\cw{4}) is a simple marker to show the end of \cw{R\_InitSpriteLumps}.\\
+阶段 \cw{333333333333} 与阶段 \cw{0} 类似，但这次处理的是 sprite lump。函数 \cw{R\_InitSpriteLumps} 查找 \cw{S\_START} 与 \cw{S\_END}，获取 WAD 中所有 sprite 的宽度与水平偏移，并保存到 sprite 数组。处理过程中每 64 个 sprite 会打印一个点。由于需要大量 I/O，这是 \cw{R\_Init} 中第二慢的阶段（仅次于 \cw{R\_InitTextures}）。\\
 \par
 
-Phase six (\cw{5}) is also a marker to show the end of \cw{R\_InitData} which encompasses phases \cw{OOOOO}, \cw{1}, \cw{2}, \cw{333333333333}, and \cw{4}.\\
+第五阶段（\cw{4}）只是一个标记，表示 \cw{R\_InitSpriteLumps} 的结束。\\
 \par
 
-Phase \cw{6} matches function \cw{R\_InitPointToAngle} -- when used -- to build the tangent lookup table. This is now an empty function since it is pre-calculated and stored in \cw{tables.c}\\
+第六阶段（\cw{5}）也是一个标记，表示 \cw{R\_InitData} 的结束，后者包括 \cw{OOOOO}、\cw{1}、\cw{2}、\cw{333333333333} 与 \cw{4} 这些阶段。\\
 \par
 
-Phase \cw{7} matches function \cw{R\_InitTables} which used to build lookup tables \cw{finetangent} and \cw{finesine}. Like the tangent lookup table, these are now pre-calculated in \cw{tables.c} and baked into the executable.\\
+阶段 \cw{6} 对应 \cw{R\_InitPointToAngle}，用于（当启用时）构建正切查找表。现在它已成为空函数，因为该表已预计算并存放在 \cw{tables.c} 中。\\
 \par
 
-Phase \cw{8} matches function \cw{R\_InitPlanes} and does nothing. What a waste of a dot.\\
+阶段 \cw{7} 对应 \cw{R\_InitTables}，原本用于构建 \cw{finetangent} 与 \cw{finesine} 查找表。与正切查找表一样，这些也已预计算并烘入 \cw{tables.c} 与可执行文件。\\
 \par
 
-Phase \cw{9} matches function \cw{R\_InitLightTables} and initializes the zlight table used to implement the lightmaps.\\
+阶段 \cw{8} 对应 \cw{R\_InitPlanes}，什么也不做。真是浪费了一个点。\\
 \par
 
-Phase \cw{A} matches function \cw{R\_InitSkyMap} which initializes the static \cw{skyflatnum}.\\
+阶段 \cw{9} 对应 \cw{R\_InitLightTables}，它初始化用于光照贴图的 zlight 表。\\
+\par
+
+阶段 \cw{A} 对应 \cw{R\_InitSkyMap}，它初始化静态的 \cw{skyflatnum}。\\
 % \par
 % As you will have guessed, the "dot thermometer" was not very accurate. It started fast with next to instant \cw{OOOOO12}, slowed down to a crawl for \cw{333333333333} which accessed a lot of data, and then sped up again at the end with \cw{456789A} when calling mostly empty functions.\\
 \par
-\section{Reload Hack}
-While developing the game, the long startup time was a problem. Even if a designer made no change to the geometry of the map (and therefore did not need to run \cw{doombsp}) it still took 30 seconds before he could see the result. To avoid breaking the creative flow, the engine was gifted with a "reload hack".\\
+\section{重新加载 Hack}
+在游戏开发期间，启动时间过长是个问题。即便设计师没有改动地图几何（因此无需运行 \cw{doombsp}），仍要等 30 秒才能看到结果。为避免打断创作流程，引擎被加入了一个“重新加载 hack”。\\
 \par
-By prefixing the path to a WAD with a tilde (\textasciitilde), the engine was set up to reload the WAD on every level start.\\
+只要在 WAD 路径前加上波浪号（\textasciitilde），引擎就会在每次关卡开始时重新加载 WAD。\\
 \par
 \fakedosoutput{reload_hack.txt}
 \par
-This allowed artists and designers to see the results of their work almost instantly.
+这让美术与设计人员几乎可以即时看到自己的成果。
