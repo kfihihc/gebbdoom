@@ -1,57 +1,57 @@
-\section{Artificial Intelligence}
-As mentioned earlier, there is no scripting language in \doom. The A.I. is based on a set of state machines for each enemy type baked into the engine binary. Designers did not have to learn C since they could entirely configure an opponent via the text file \cw{multigen.txt}. This text file is parsed by a tool (cunningly named \cw{multigen}) and compiled into C source code (\cw{info.h} and \cw{info.c}).\\
+\section{人工智能}
+如前所述，\doom{} 没有脚本语言。A.I. 基于每种敌人类型的一组状态机，这些状态机直接编译进引擎二进制文件。设计师不需要学习 C，因为他们可以通过文本文件 \cw{multigen.txt} 完全配置敌人。该文本文件由一个工具（狡猾地命名为 \cw{multigen}）解析，并编译为 C 源代码（\cw{info.h} 与 \cw{info.c}）。\\
 \par
 \rawdrawing{multigen}
 \par
 % The script has two sections per entity. First the general info and then a serie of state machines. To illustrate here if the imp script.\\
-Let's dive into the hand-written state machine descriptor text file right away and take a look at the section of \cw{multigen.txt} that controls the imp (known as \cw{TROOP} internally).\\
+让我们直接进入手写的状态机描述文本，看看 \cw{multigen.txt} 中控制小恶魔（内部称为 \cw{TROOP}）的部分。\\
 \par
 \tcode{enemy_info.txt}
 
 \tcode{imp_state.txt}
 
-There are four sections. Properties include the DoomED \cw{id}, \cw{speed}, \cw{height}, \cw{radius}, state names for state machine targets, sound strings, and finally the huge Action definition.
+共有四个部分。属性包括 DoomED 的 \cw{id}、\cw{speed}、\cw{height}、\cw{radius}、状态机目标的状态名、声音字符串，以及巨大的 Action 定义。
 
 
 
 
 
 
-Property lists and sound names are self-explanatory, and there is no need to spend too much time on them. What is more difficult to understand is how the state machine is defined.\\
+属性列表和声音名称不言自明，不必花太多时间。更难理解的是状态机的定义方式。\\
 \par
-A thing's state machine is partly statically defined inside the engine (when a monster is attacked it goes directly to \cw{seestate}; when it receives lethal damage, it goes directly to \cw{diestate}) and partly defined in \cw{multigen.txt}. Each line in the state definition follows a syntax:
+一个物体的状态机部分在引擎中静态定义（例如怪物被攻击时直接进入 \cw{seestate}；受到致命伤害时直接进入 \cw{diestate}），部分在 \cw{multigen.txt} 中定义。状态定义中的每一行都遵循以下语法：
 \begin{enumerate}
-\item State name.
-\item Frame family.
-\item Frame ID (sprite to render).
-\item Duration in tics (engine runs 35 tics/second).
-\item Function to call when in this state.
-\item Next state.
+\item 状态名。
+\item 帧族（frame family）。
+\item 帧 ID（要渲染的精灵）。
+\item 持续时间（以 tic 为单位，引擎以每秒 35 个 tic 运行）。
+\item 处于该状态时调用的函数。
+\item 下一个状态。
 \end{enumerate}
 \par
 \vspace{5pt}
-Let's take the example of an imp that has just spawned in a level and therefore is in state \cw{spawnstate}, which is \cw{S\_TROO\_STND}. Upon entering a state, the engine calls its associated function. In this case, the imp will cycle between the states \cw{S\_TROO\_STND} and \cw{S\_TROO\_STND2}. This means, \cw{A\_Look} is called every 10 tics (roughly 11Hz). If the player is found, \cw{A\_Look} places the imp into the \cw{seestate} (a.k.a S\_TROO\_RUN1).\\
+以刚刚生成进入关卡的小恶魔为例，它处于 \cw{spawnstate}，即 \cw{S\_TROO\_STND}。进入状态时，引擎会调用相应函数。在这里，小恶魔会在 \cw{S\_TROO\_STND} 与 \cw{S\_TROO\_STND2} 之间循环。这意味着 \cw{A\_Look} 每 10 个 tic（约 11Hz）会被调用一次。如果发现玩家，\cw{A\_Look} 会把小恶魔置于 \cw{seestate}（也就是 S\_TROO\_RUN1）。\\
 \par
 
-Suppose this imp was unlucky, the player was fast and managed to hit it with a shotgun at point blank. In this case the engine places the imp into the \cw{deathstate} (\cw{S\_TROO\_DIE1}).\\
+假设这个小恶魔运气不好，玩家速度很快，用霰弹枪近距离击中它。此时引擎会把小恶魔置于 \cw{deathstate}（\cw{S\_TROO\_DIE1}）。\\
 \par
 \tcode{enemy_state_die.txt}\\
 \par
-Notice how values \cw{I}, \cw{J}, \cw{K}, \cw{L}, and \cw{M} translate to sprite names.\\
+注意值 \cw{I}、\cw{J}、\cw{K}、\cw{L}、\cw{M} 对应的精灵名称。\\
 \par
 \fullimage{imp_die}
 \vspace{-10pt}
-Let's follow the chain of state from here, where an imp dies in five steps:
+让我们从这里跟踪状态链：小恶魔在五个步骤中死亡：
 
 \begin{enumerate}
-\item Show first death frame (I) for 8/35ths of a second.
-\item Show second death frame (J) for 8/35ths of a second. Scream using \cw{deathsound}.
-\item Show third death frame (K) for 6/35ths of a second.
-\item Show fourth death frame (L) for 6/35ths of a second. Mark itself as non-obstacle (\cw{A\_FALL}).
-\item Show fifth death frame (M) forever (\cw{-1}).
+\item 显示第一死亡帧（I）持续 8/35 秒。
+\item 显示第二死亡帧（J）持续 8/35 秒，播放 \cw{deathsound} 尖叫。
+\item 显示第三死亡帧（K）持续 6/35 秒。
+\item 显示第四死亡帧（L）持续 6/35 秒，并标记为非障碍物（\cw{A\_FALL}）。
+\item 永久显示第五死亡帧（M）（\cw{-1}）。
 \end{enumerate}
 \par
-The total dying sequence lasts $8+8+6+6=24/35 = 0.68$ seconds. Note that this imp could have been even less lucky and been hit by a rocket. Enough damage would have caused it to gib, moved it to the \cw{xdeathstate} (\cw{S\_TROO\_XDIE1}) state and made it die in $1$ second.\\
+整个死亡序列持续 $8+8+6+6=24/35 = 0.68$ 秒。注意如果小恶魔更不走运，被火箭击中，足够的伤害会使其爆裂，进入 \cw{xdeathstate}（\cw{S\_TROO\_XDIE1}）并在 $1$ 秒内死亡。\\
 \par
 \tcode{enemy_state_xdie.txt}\\
 \par
@@ -65,9 +65,9 @@ The total dying sequence lasts $8+8+6+6=24/35 = 0.68$ seconds. Note that this im
 \centering
 \includegraphics[width=.25\textwidth]{drawings/sprite_quantization.pdf}
 \end{wrapfigure}
-The engine uses a convention to find which sprite to use when rendering them. Because an enemy will not always be facing the player, it uses quantization where all orientations relative to the player's position fall into eight ranges (see diagram where 1 is facing the player, 5 facing away, and so on).\\
+引擎使用一套约定来决定渲染时使用哪个精灵。因为敌人不总是正对玩家，所以采用量化方式：相对于玩家的位置，所有朝向被划分为 8 个区间（见图，1 为面向玩家，5 为背向，依此类推）。\\
 \par
-When in the \cw{S\_TROO\_XDIE1} state, according to \cw{multigen.txt}, the engine must use the sprite family \cw{TROO} and frame \cw{N}. Based on the orientation (lets say the imp has its back to the player), the engine should use \cw{TROON5}. However, there is no such sprite in \cw{DOOM.WAD} (exploding enemies always face the player) so the engine falls back to \cw{TROON0} (0 being the "always facing" sprite).\\
+当处于 \cw{S\_TROO\_XDIE1} 状态时，根据 \cw{multigen.txt}，引擎必须使用精灵族 \cw{TROO} 与帧 \cw{N}。根据朝向（比如小恶魔背对玩家），引擎应使用 \cw{TROON5}。然而 \cw{DOOM.WAD} 中没有这样的精灵（爆裂的敌人总是面向玩家），于是引擎退回使用 \cw{TROON0}（0 表示“始终朝向”的精灵）。\\
 \par
 
 
@@ -76,8 +76,10 @@ When in the \cw{S\_TROO\_XDIE1} state, according to \cw{multigen.txt}, the engin
 
 
 
-\cfullimage{cyber_sprite}{Cyberdemon poses in one of its two "walk" positions.}
+
+\cfullimage{cyber_sprite}{Cyberdemon 在两种“行走”姿势之一的造型。}
 \par
+
 Taking a look at one of the frames for the Cyberdemon in figure \ref{cyber_sprite} gives a good idea of the colossal work required from artists. Twelve monsters times eight states times an average of five frames per animation would have required close to 480 drawings (for the monsters only). The power of the NeXTdimension made a tremendous difference in this department.\\
 \par
 The Cyberdemon however is an extreme case since it is not symmetrical. For the imp, storage is optimized to take advantage of its symmetry. If the engine needs \cw{TROOA6} but doesn't find it in the \cw{WAD}, it uses its opposite (\cw{TROOA4}) and draws it mirrored.\\ 

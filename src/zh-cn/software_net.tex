@@ -1,28 +1,28 @@
-\section{Networking}
+\section{网络}
 
 
 
-While \doom's 3D rendering was breathtaking, it was the networking capability and its famous deathmatches that really took it to another level. The ability to connect two PCs and interact with human players was something most gamers had never seen before. Early during development it was apparent this aspect of the game was going to be amazing.\\
+尽管 \doom 的 3D 渲染令人惊艳，但真正把它推向另一层次的是网络能力以及著名的死亡竞赛。能够连接两台 PC 并与真人玩家互动，是大多数玩家从未见过的事情。开发早期就显而易见，这个方面会非常惊人。\\
 \par
-\fq{I still remember the day that multiplayer started just barely working in Doom. I had two DOS boxes set up in my office in addition to my NeXT workstation to test multiplayer. The IPX networking was forwarding user input between the systems, but there was no error recovery, so it was very fragile. Still, I could spawn two marines in a test level, and they could look at each other.\\
+\fq{我仍然记得 Doom 的多人模式刚刚勉强能跑起来的那天。我在办公室里除了我的 NeXT 工作站，还摆了两台 DOS 机来测试多人联机。IPX 网络在系统之间转发用户输入，但没有错误恢复，所以非常脆弱。尽管如此，我可以在测试关卡里生成两个海军陆战队员，他们能互相看着对方。\\
 \par
-I was strafing back and forth on one system and looking over my shoulder at the other computer, watching the marine sprite slide side to side in front of the other player's pistol. I let it coast down, centered on the screen, and turned to the other computer. "Bang!" "Urgh!" Twitch. Shuffle. Big smile. :-) "Bang!" "Bang!" "Bang!" "Bang!" There was a consistency failure before the first frag was truly logged, but it was blindingly obvious that this was going to be awesome.}{John Carmack, kotaku.com "Memories Of Doom"}\\
+我在一台机器上左右平移，同时转头看另一台电脑，看到那个海军陆战队员精灵在另一名玩家的手枪前左右滑动。我让它滑到屏幕中央，然后转向另一台电脑。“砰！”“呃！”抽搐。挪动。大大的笑容。:-) “砰！”“砰！”“砰！”“砰！”在真正记录下第一击杀之前就发生了同步失败，但已经显而易见这将非常棒。}{John Carmack, kotaku.com “Memories Of Doom”}\\
 \par
 
 
 \vspace{-20pt}
-\subsection{Architecture}
+\subsection{架构}
 
-Most modern FPS games are designed around client/server networking where there are several clients and one source of truth, the server. Clients can join a game any time, send their commands to the server, receive world updates, and perform predictions to minimize communications latency.\\
+现代 FPS 大多采用客户端/服务器网络架构，有多个客户端和一个作为事实来源的服务器。客户端可以随时加入游戏、把命令发送给服务器、接收世界更新，并通过预测来最小化通信延迟。\\
 \par
 \begin{wrapfigure}[12]{r}{0.4\textwidth}
 \centering
 \includegraphics[width=.4\textwidth]{drawings/p2psvg.pdf}
 \end{wrapfigure}
-There is no central server in \doom. All peers run their own copy of the game logic and remain in sync by performing no prediction and only running a game tic when all other peers' actions are known.\\
+\doom 没有中央服务器。所有对等节点都运行各自的游戏逻辑副本，并通过不做预测、且只有在获知所有其他节点动作后才运行一个游戏 tic 的方式保持同步。\\
 \par
- This means all peers must transmit their command to all other peers, resulting in significant communication overhead. 
-All peers must be present when a game starts. A player can leave (and their avatar will remain in the game without performing any action) but new players cannot join.
+ 这意味着所有节点必须把命令发送给所有其他节点，带来显著的通信开销。
+所有节点必须在游戏开始时就齐备。玩家可以离开（他们的化身会留在游戏中但不执行任何动作），但新玩家无法加入。
 \pagebreak
  % Each node must send the command generated locally to all other nodes. This means that a machine can simulate the next tic only when ALL nodes involved in the game have send their commands. As a result, the slowest machine dictates the framerate of every players involved. This also meant that all nodes had to run the exact same state machine and run the same version of \doom.\\
 % \par
@@ -31,17 +31,17 @@ All peers must be present when a game starts. A player can leave (and their avat
 
 
 
-On \NeXT, the implementation used a simple UDP system with Berkeley sockets\footnote{The Internet Assigned Numbers Authority (IANA) publishes a list, the Service Name and Transport Protocol Port Number Registry where UDP port 666 is reserved for \doom!}. On the PC side, things were more complicated. Until v1.1 the game engine shipped with built-in support for LAN over IPX. To minimize communications, Dave Taylor suggested using IPX packet node number \cw{FF:FF:FF:FF:FF:FF} to broadcast updates and reduce the amount of communications. Things did not work exactly as expected.\\
+在 \NeXT 上，实现使用了带 Berkeley sockets 的简单 UDP 系统\footnote{Internet Assigned Numbers Authority (IANA) 发布“服务名与传输协议端口号”注册表，其中 UDP 端口 666 为 \doom! 预留。}。在 PC 端情况更复杂。直到 v1.1，引擎都内置了基于 IPX 的局域网支持。为减少通信，Dave Taylor 建议使用 IPX 包节点号 \cw{FF:FF:FF:FF:FF:FF} 进行广播以减少通信量。但事情并未如预期运作。\\
 \par
-\fq{Doom used IPX broadcast packets to communicate between the players. This seemed like a good efficiency to me a four player game just involved four broadcast packets each frame. My knowledge of networking was limited to the couple of books I had read, and my naive understanding was that big networks were broken up into little segments connected by routers, and broadcast packets were contained to the little segments. I figured I would eventually extend things to allow playing across routers, but I could ignore the issue for the time being.\\
+\fq{Doom 使用 IPX 广播包在玩家之间通信。我觉得这在效率上很好，因为四人游戏每帧只需要四个广播包。我对网络的了解仅限于读过的几本书，我天真的理解是：大型网络由路由器连接的小段组成，广播包会被限制在这些小段里。我想我以后会扩展它以允许跨路由器游戏，但暂时可以忽略这个问题。\\
 \par
-What I didn't realize was that there were some entire campuses that were built up out of bridged IPX networks, and a broadcast packet could be forwarded across many bridges until it had been seen by every single computer on the campus. At those sites, every person playing LAN Doom had an impact on every computer on the network, as each broadcast packet had to be examined to see if the local computer wanted it. A few dozen Doom players could cripple a network with a few thousand endpoints.\\
+我没意识到有些校园网是由桥接的 IPX 网络构成的，广播包可能经过许多桥接，直到被校园内每台电脑看到。在这些地方，每个玩 LAN Doom 的人都会影响网络上的每台电脑，因为每个广播包都必须被检查，以判断本机是否需要它。几十个 Doom 玩家就能让拥有几千台终端的网络瘫痪。\\
 \par
-The day after release, I was awoken by a phone call. I blearily answered it and got chewed out by a network administrator who had found my phone number just to yell at me for my game breaking his entire network. I quickly changed the network protocol to only use broadcast packets for game discovery, and send all-to-all directed packets for gameplay (resulting in 3x the total number of packets for a four player game), but a lot of admins still had to add Doom-specific rules to their bridges (as well as stern warnings that nobody should play the game) to deal with the problems of the original release.}{John Carmack, kotaku.com "Memories Of Doom"}\\ 
+发布后的第二天，我被一通电话吵醒。我迷迷糊糊接起电话，被一名网络管理员痛骂——他找到了我的电话号码，只是为了骂我让他的整个网络崩溃。我迅速修改网络协议，只在游戏发现时使用广播包，游戏过程中改为全互联的定向包（结果四人游戏的包数量增加了 3 倍），但许多管理员仍不得不在桥接设备上增加 Doom 专用规则（以及严厉的警告，要求没人玩这游戏）来处理最初版本造成的问题。}{John Carmack, kotaku.com “Memories Of Doom”}\\ 
 \par
-With the proliferation of networking, the embedded IPX support started to show its limits.\\
+随着网络普及，嵌入式 IPX 支持开始显露局限。\\
 \par
- Instead of baking support for more types of network into the engine, the IPX code was removed and networking was refactored around the notion of network drivers.
+ 与其把更多网络类型的支持“烘焙”进引擎，不如移除 IPX 代码，把网络重构为“网络驱动”的概念。
 \pagebreak
 
 
@@ -58,52 +58,52 @@ With the proliferation of networking, the embedded IPX support started to show i
 % \end{verbatim}
 
 
-\subsection{PC Network drivers}
-In this model, the game engine deals with a data structure named \cw{doomcom\_t} (detailed on page \pageref{doomcom_t.c}) located in shared memory. Receiving or transmitting packets is done via interrupts. How this all worked together is a magnificent hack only possible on a system without proper memory protection.\\
+\subsection{PC 网络驱动}
+在该模型中，引擎处理一个名为 \cw{doomcom\_t} 的数据结构（详见第 \pageref{doomcom_t.c} 页），它位于共享内存中。收发包通过中断完成。这一切协同的方式是一个只能在缺乏正确内存保护的系统上实现的绝妙黑客技巧。\\
 \par
-A "loader" starts first and installs itself as an interrupt handler. It then starts \cw{DOOM.EXE} with a special parameter \cw{-net X} where X is the RAM address of the loader's \cw{doomcom\_t} variable. The engine literally casts the parameter to an address (\cw{(doomcom\_t*)(atoi(param))}) to access the structure's fields. From then on the interrupt handler acts as a network driver.\\
+一个“加载器”先启动，并把自己安装为中断处理器。然后它用特殊参数 \cw{-net X} 启动 \cw{DOOM.EXE}，其中 X 是加载器变量 \cw{doomcom\_t} 的 RAM 地址。引擎直接把该参数转换为地址（\cw{(doomcom\_t*)(atoi(param))}）来访问结构体字段。从那时起，中断处理器就充当网络驱动。\\
 \par
 
 \fakedosoutput{doomnet.c}
 \par
- At this point, the engine has everything it needs to communicate in a generic way. It reads or writes to the \cw{doomcom\_t} and invokes the handler via the interrupt number (also provided in \cw{doomcom\_t}).\\
+ 到这一步，引擎已具备通用方式进行通信所需的一切。它读写 \cw{doomcom\_t} 并通过中断号（也在 \cw{doomcom\_t} 中提供）调用处理器。\\
 \par
 \drawing{net_drivers}{}
 \par
 \vspace{-10pt}
- Figure \ref{net_drivers} summarizes the steps. \cw{IPXSETUP.EXE} is started up first \circled{1}. The loader registers itself in the software Interrupt Vector Table. Once registered, \cw{IPXSETUP.EXE} starts \cw{DOOM.EXE} and passes the address of its \cw{doomcom\_t} variable as an integer \circled{2}. Later, during gameplay \circled{3}, \cw{DOOM.EXE} reads/writes to the \cw{doomcom\_t} \cw{payload} field and triggers transfers via the interrupt found in the \cw{intnum} field. This triggers \circled{4} the \doom{} network driver to communicate with the network card driver. The actual hardware interaction between the network card driver and the physical network card happens in step \circled{5}.
+ 图 \ref{net_drivers} 总结了步骤。\cw{IPXSETUP.EXE} 先启动 \circled{1}。加载器在软件中断向量表中注册自己。注册后，\cw{IPXSETUP.EXE} 启动 \cw{DOOM.EXE} 并把 \cw{doomcom\_t} 变量地址作为整数传入 \circled{2}。之后在游戏过程中 \circled{3}，\cw{DOOM.EXE} 读写 \cw{doomcom\_t} 的 \cw{payload} 字段，并通过 \cw{intnum} 字段中的中断触发传输。这会触发 \circled{4} 的 \doom{} 网络驱动与网卡驱动通信。网卡驱动与物理网卡之间的实际硬件交互发生在 \circled{5}。
 
 
 
 
-Two network drivers shipped with the game: \cw{IPXSETUP.EXE} allowed up to four nodes over IPX, and \cw{SERSETUP.EXE} allowed two players over serial cable or modem. A company called DWANGO provided their own driver (\cw{DWANGO.EXE}) to enable 2+ nodes over modem.
+两个网络驱动随游戏发布：\cw{IPXSETUP.EXE} 支持 IPX 上最多四个节点，\cw{SERSETUP.EXE} 支持通过串口线或调制解调器连接两名玩家。DWANGO 公司提供了自己的驱动（\cw{DWANGO.EXE}），允许通过调制解调器连接 2 个以上节点。
 
 
 
 
 
 \vspace{-5pt}
-\subsection{Implementation}
-To perform network I/O, the core only deals with three elements provided by the network subsystem.\\
+\subsection{实现}
+为了进行网络 I/O，核心只与网络子系统提供的三个元素打交道。\\
 \par
  \begin{figure}[H]
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.6}  L{1.4}}
   \toprule
-  \textbf{Element} &  \textbf{Usage}\\
+  \textbf{元素} &  \textbf{用途}\\
 
   \toprule 
-   I\_InitNetwork & Initialize the network subsystem.\\
-   doomcom\_t doomcom & Shared structure containing both in and out data.\\
-   I\_NetCmd & Signal network to send/receive data based on doomcom.\\
+   I\_InitNetwork & 初始化网络子系统。\\
+   doomcom\_t doomcom & 包含输入与输出数据的共享结构。\\
+   I\_NetCmd & 根据信息 \doomcom 发送/接收数据。\\
    \toprule
 \end{tabularx}
-\caption{\doom{} network subsystem interface}
+\caption{\doom{} 网络子系统接口}
 \end{figure}
 
 
 \vspace{-10pt}
-On the PC, in the case of a multi-player session, the network initialization simply retrieves the address of the interrupt handler. Notice how the \cw{atoi} return value is cast to a pointer in the last line, an oddly cavalier move nowadays.\\
+在 PC 上进行多人联机时，网络初始化只需获取中断处理器的地址。注意最后一行将 \cw{atoi} 的返回值转换为指针——以今天的眼光看相当随意。\\
 \par
 
 \ccode{I_InitNetwork.c}
@@ -116,43 +116,42 @@ On the PC, in the case of a multi-player session, the network initialization sim
 
 
 
-
-With access to the \cw{doomcom} variable comes access to the field \cw{intnum} which contains the software interrupt number that the \doom{} network driver registered itself with. When called (via the \cw{int} instruction), it interrupts \doom{} to let the card's network driver copy network data in or out of \cw{doomcom}.\\
-
+有了对 \cw{doomcom} 变量的访问，就可以访问 \cw{intnum} 字段，其中保存了 \doom{} 网络驱动注册的软中断号。当调用（通过 \cw{int} 指令）时，它会中断 \doom{}，让网卡的网络驱动把网络数据复制进/出 \cw{doomcom}。\\
 
 
-\ccode{doomcom_t.c} \label{doomcom_t.c} \\
+
+\ccode{doomcom_t.c} \label{doomcom_t.c} \\ 
 \par
 \vspace{-10pt}
-The fields are self-explanatory but notice \cw{command} which tells the driver if data should be sent or received. The \cw{id} field allows \doom{} to verify the address alleged to be a valid network driver. The \cw{ticcmd\_t} payload was described on page \pageref{cmd_t_type}.
+这些字段不言自明，但请注意 \cw{command}，它告诉驱动要发送还是接收数据。\cw{id} 字段允许 \doom{} 验证该地址确实是有效的网络驱动。\cw{ticcmd\_t} 的 \cw{payload} 在第 \pageref{cmd_t_type} 页已介绍。
 
 
 
-At a high level, \doom{}'s core uses a central function called \cw{NetUpdate} to do all I/O. Notice how it is called in a loop until ticcmds for all peers are received, allowing only menus to keep on working. Except for running menus, nothing else will run.\\
+在高层上，\doom{} 的核心使用名为 \cw{NetUpdate} 的中心函数来进行所有 I/O。注意它会在循环中被调用，直到收齐所有节点的 ticcmd，只有菜单还能继续响应。除了菜单，其他一切都会暂停。\\
 \par
 \ccode{net_loop_wait.c}\\
 \par
-The impossibility for the engine to extrapolate and carry on with gameplay was an issue since all machines ended up running at the lowest common framerate. To mitigate this issue, the engine performs an exotic form of "thread multiplexing" where \cw{NetUpdate} is called several times during a frame. It is typically called no less than eight times.\\
+引擎无法推断并继续推进游戏，这成为问题，因为所有机器最终都以最低公共帧率运行。为缓解此问题，引擎采用了一种奇特的“线程复用”方式，在一帧内多次调用 \cw{NetUpdate}。通常不少于 8 次。\\
 \par
 \ccode{R_RenderPlayerView_withupdates.c}
 
 
 
-Since there is no expectation the medium will guarantee packet delivery, the engine features negative acknowledgments, where the packet sequence number is tracked on a per-peer (a.k.a. node) basis. If a packet is received but its sequence number indicates a previous packet was lost, the node requests the missing commands be sent again. This means each node cannot discard commands once they are sent on the wire.\\
+既然无法期望网络介质保证包投递，引擎实现了否定确认机制（negative acknowledgment）：每个对等节点（也叫 node）都会跟踪包序号。如果收到一个包，但其序号表明丢失了此前的包，则该节点请求重发缺失的命令。这意味着每个节点在发送后不能丢弃命令。\\
 \par
-This resend mechanism was a last resort to be avoided at all costs. To this effect, packets feature not only the current command but also the last command (if field \cw{extratics} is set).\\
+这种重发机制是最后的手段，应该尽可能避免。因此数据包不仅包含当前命令，还包含上一次命令（如果设置了 \cw{extratics} 字段）。\\
 
 
 
 
 \vspace{-15pt}
 \subsection{DeathManager}
-Given the complexity of the command-line parameters to set up a network game, several tools were provided. Originally players could use \cw{SETUP.EXE}. In December 1994, id Software introduced \cw{DM.EXE} (DeathManager) which was easier to use.\\
+鉴于配置网络游戏的命令行参数相当复杂，因此提供了多个工具。最初玩家可使用 \cw{SETUP.EXE}。1994 年 12 月，id Software 推出更易用的 \cw{DM.EXE}（DeathManager）。\\
 \par
-\cfullimage{DeathManagerv1-2.png}{Death Manager 1.2 interface.}
+\cfullimage{DeathManagerv1-2.png}{Death Manager 1.2 界面。}
 \par
 \vspace{-10pt}
-In "Old DeathMatch" mode, weapons did not disappear when picked up and ammunition \& power-ups never respawned. In July '94, "Deathmatch 2.0" introduced rules changes where all items disappears when picked up and respawns after $\overline{50}$ seconds.\\
+在“旧版死亡竞赛”模式中，武器被拾取后不会消失，弹药和强化道具也不会刷新。1994 年 7 月，“Deathmatch 2.0” 引入了规则变化：所有物品拾取后会消失，并在 $\overline{50}$ 秒后重生。\\
 \par
 
 
@@ -163,14 +162,10 @@ In "Old DeathMatch" mode, weapons did not disappear when picked up and ammunitio
 
 
 
-
-
-\trivia{\doom{} was such a trailblazer that its UDP number (666) is still reserved on most routers and on Windows (file \cw{C:\textbackslash Windows\textbackslash System32\textbackslash drivers\textbackslash etc}). The "official" IPX socket number (0x869C) is also part of Novell's "well-known static IPX sockets" tables.}
+\trivia{\doom{} 的开拓性如此之强，以至于它的 UDP 端口号（666）至今仍在多数路由器和 Windows 上被保留（文件 \cw{C:\textbackslash Windows\textbackslash System32\textbackslash drivers\textbackslash etc}）。官方 IPX socket 号（0x869C）也仍在 Novell 的“知名静态 IPX sockets”表中。}
 
 \fullimage{coop.png}\\
 \par
-Co-op play was fun (above) but so were incredibly bloody deathmatches (below).\\
+合作模式很有趣（上图），但更加血腥的死亡竞赛（下图）同样精彩。\\
 \par
 \fullimage{deathmatch.png}
-
-

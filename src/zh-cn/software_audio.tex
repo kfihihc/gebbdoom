@@ -1,110 +1,110 @@
-\section{Audio System}
+\section{音频系统}
 \label{dmx_section}
-Like every other I/O system in the engine, the audio is abstracted behind an interface. To fulfill \doom's core expectations, such a system has to implement at least twenty functions covering sound effects, music, and also the timer. Here are a few.\\
+和引擎里的其他 I/O 系统一样，音频也被抽象在接口之后。为了满足 \doom 的核心需求，这个系统至少要实现二十个函数，涵盖音效、音乐以及计时器。以下是其中一些。\\
 \par
  \begin{figure}[H]
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.57}  L{1.43}}
   \toprule
-  \textbf{Method} &  \textbf{Usage}\\
+  \textbf{方法} &  \textbf{用途}\\
 
   \toprule 
-  I\_StartupSound & Initialize audio system, detect audio hardware\\
-  I\_SetChannels & Set number of channels and sample rate\\
+  I\_StartupSound & 初始化音频系统，检测音频硬件\\
+  I\_SetChannels & 设置通道数与采样率\\
   \toprule 
    
-I\_RegisterSong & Upload a music lump and get back an ID.\\
-I\_SetMusicVolume & Self explanatory.\\
-I\_PlaySong & Play Song\\
-I\_PauseSong & ...hm, Pause Song\\
-I\_ResumeSong & Mysterious function with unknown effects.\\
-I\_StopSong & Maybe this table was not a good idea after all.\\
-I\_UnRegisterSong & Free music using ID obtained in \cw{I\_RegisterSong}.\\
+I\_RegisterSong & 上传音乐 lump 并返回 ID。\\
+I\_SetMusicVolume & 顾名思义。\\
+I\_PlaySong & 播放音乐\\
+I\_PauseSong & ……嗯，暂停音乐\\
+I\_ResumeSong & 效果不明的神秘函数。\\
+I\_StopSong & 也许这个表格根本不是个好主意。\\
+I\_UnRegisterSong & 使用 \cw{I\_RegisterSong} 获取的 ID 释放音乐。\\
 
 
 
 
   \toprule 
-I\_GetSfxLumpNum & Upload audio sample from WAD and return an ID.\\
-I\_SetSfxVolume & If you read this, you are a real human being and a real hero.\\
-I\_StartSound & Start playing SFX sample.\\
-I\_StopSound & Stop playing SFX sample and free it.\\
-I\_SoundIsPlaying & Test if SFX is playing.\\
-I\_UpdateSoundParams & Set pitch, left/right position and volume.\\
+I\_GetSfxLumpNum & 从 WAD 上传音频样本并返回 ID。\\
+I\_SetSfxVolume & 如果你读到这里，你是真人英雄。\\
+I\_StartSound & 开始播放 SFX 样本。\\
+I\_StopSound & 停止播放 SFX 样本并释放。\\
+I\_SoundIsPlaying & 测试 SFX 是否正在播放。\\
+I\_UpdateSoundParams & 设置音高、左右位置与音量。\\
 
   \toprule 
   
-I\_StartupTimer & On DOS, triggers audio system to hook into the Intel 8259 PIC. No-op on other platforms.\\
-I\_ShutdownTimer & On DOS, remove the hook.  No effect on other platforms.\\
+I\_StartupTimer & 在 DOS 上，触发音频系统挂接 Intel 8259 PIC。其他平台为无操作。\\
+I\_ShutdownTimer & 在 DOS 上移除挂接。其他平台无影响。\\
 
    \toprule
 \end{tabularx}
-\caption{\doom{}'s audio system interface}
+\caption{\doom{} 的音频系统接口}
 \end{figure}
 
 
 
-On NeXTSTEP this system was never a problem since only the timer function had to be implemented. On the PC side however, the game engine had to have sound effects and music. One difficulty was the fragmentation of the sound card market which had increased exponentially since Wolfenstein 3D. The previous title required tremendous effort just to support four types of sound card. Two years later there were more than fifteen available, all with different bugs, quirks and technologies.\\
+在 NeXTSTEP 上，这个系统从未成为问题，因为只需要实现计时器功能。但在 PC 上，引擎必须有音效与音乐。一个困难是声卡市场的碎片化，相较于 Wolfenstein 3D 已指数级增长。前作只支持四种声卡就需要巨大努力，而两年后可用声卡超过十五种，且各有 bug、怪癖与技术差异。\\
 \par
-To make things worse, the departure of Jason Blochowiak had left id Software with both a shortage of expertise and enthusiasm toward audio. They solved the problem by throwing money at it and licensed the DMX library. For the price of its license, the library authored by Paul J. Radek offered an all-in-one audio solution. With support for all major sound cards, a convenient means to detect them, support for many sound and music formats, and an easy way to integrate with any game engine, DMX was a perfect fit which undoubtedly saved id several months of development.
+更糟的是，Jason Blochowiak 的离开让 id Software 既缺乏专业知识也缺乏热情。他们用钱解决问题，授权了 DMX 库。由 Paul J. Radek 编写的库以其授权价格提供一体化音频解决方案：支持所有主要声卡、提供便捷检测方式、支持多种声音与音乐格式，并可轻松集成到任何游戏引擎。DMX 非常合适，无疑为 id 节省了数月开发时间。
 
 
 
 
 
-The abstraction layer provided by DMX was a colossal task. The comment before the function in charge of detecting the hardware leaves no ambiguity as to how much of a burden it was to tackle this problem.\\
+DMX 提供的抽象层工作量巨大。检测硬件的函数前的注释清楚说明了这项工作有多沉重。\\
 \par
 \ccode{whypcssucks.c}\\
 \par
-With DMX backing the sound system, ten audio chipsets were supported.\\
+有了 DMX 支撑，系统支持了十种音频芯片组。\\
 \par
 \ccode{cardenum_t.c}\\
 \par
-Running on an operating system supporting neither threads nor processes, there was seemingly no way to generate both the video and audio output simultaneously. Attentive readers will have noticed the hardware section mentioned two chipsets: the i8259 (Programmable Interrupt Controller: PIC) and i8254 (Programmable Interval Timer: PIT). Together they can be set up to interrupt the engine's execution and call into DMX's routines\footnote{The way the PIC and PIT interact is extensively detailed in "Game Engine Black Book: Wolfenstein 3D".}.\\
+在一个既不支持线程也不支持进程的操作系统上，似乎没有办法同时生成视频与音频输出。细心的读者会注意到硬件章节提到两个芯片组：i8259（可编程中断控制器：PIC）和 i8254（可编程间隔定时器：PIT）。它们可以协同配置，以中断引擎执行并调用 DMX 例程\footnote{PIC 与 PIT 的交互在《Game Engine Black Book: Wolfenstein 3D》中有详细描述。}。\\
 \par
-Upon initialization, DMX installs itself as an interrupt handler to be called by the PIC and PIT at 140Hz. Upon awakening, DMX's interrupt handler takes care of feeding the audio device with music and sound effect data provided by the engine.\\
+初始化时，DMX 把自己安装为中断处理器，由 PIC 与 PIT 以 140Hz 调用。唤醒后，DMX 的中断处理器负责将引擎提供的音乐与音效数据喂给音频设备。\\
 \par
-Since it was tied to a timer, DMX was also in charge of the game engine's heartbeat via a variable called \cw{ticcount}. Everything in \doom{} uses that variable to pace itself.
+由于绑定在计时器上，DMX 也通过名为 \cw{ticcount} 的变量承担了引擎的“心跳”。\doom{} 中的一切都用该变量来节奏控制。
 \par
 
 
-\scaleddrawing{0.95}{sound_manager_architecture}{DMX architecture}
+\scaleddrawing{0.95}{sound_manager_architecture}{DMX 架构}
 
-With such an architecture there are two systems executing pseudo-concurrently but the audio has more constraints than the video. When an interrupt is triggered, DMX has only a few milliseconds to refill the sound card's buffers and go back to sleep. If DMX is too slow, it can delay video rendering or mask other interrupts.\\
+这种架构下有两个系统“伪并发”执行，但音频约束比视频更严格。中断触发时，DMX 只有几毫秒来填充声卡缓冲并回到休眠。如果 DMX 太慢，会延迟视频渲染或屏蔽其他中断。\\
 \par
- This explains why allocation of audio assets gets special treatment in the zone allocator. The audio system has no time to recover from a memory miss (nor could it, since it has no access to the WAD or memory allocator). Audio data must be ready immediately whenever it is needed.
+ 这解释了为何音频资源分配在 zone 分配器中享有特殊待遇。音频系统无法承受内存未命中（也无法从中恢复，因为它无法访问 WAD 或内存分配器）。音频数据必须在需要时立刻可用。
 
-\subsection{Audio Data: Formats and Lumps}
-The WAD archive contains hundreds of lumps of five types to feed to DMX. \cw{DP*} lumps are for PC speaker sound effects, \cw{DS*} lumps are for PCM sound effects, \cw{D\_*} lumps are for music tracks. There is also a \cw{GENMIDI} lump, and one \cw{DMXGUS} lump detailed later.\\
+\subsection{音频数据：格式与 Lumps}
+WAD 档案包含数百个五种类型的 lump 供 DMX 使用。\cw{DP*} lump 用于 PC speaker 音效，\cw{DS*} lump 用于 PCM 音效，\cw{D\_*} lump 用于音乐曲目。还有一个 \cw{GENMIDI} lump，以及后面详述的 \cw{DMXGUS} lump。\\
 \par
-PC speaker audio was meant for PCs without a sound card. The PC speaker was capable of square waves and meant to emit boot-up diagnostic noises. \doom{} found ways to make it generate something less irritating by changing the square wave frequency every 1/140th of a second\footnote{The PC Speaker is detailed in "Game Engine Black Book: Wolfenstein 3D".}. The data rate is one byte per 1/140th of a second, describing the square-wave frequency to set.\\
+PC speaker 音频面向没有声卡的 PC。PC speaker 只能产生方波，原本用于发出开机诊断噪声。\doom{} 通过每 1/140 秒改变方波频率，让它生成不那么刺耳的声音\footnote{PC Speaker 的细节见《Game Engine Black Book: Wolfenstein 3D》。}。数据率为每 1/140 秒 1 字节，描述要设置的方波频率。\\
 \par
-The digitized audio samples used in \doom{} are 8-bit, 11025 Hz, mono PCM streams. PCM is a simple audio format that requires little explanation. Each byte in the stream is a moment in time that describes the amplitude of a waveform and indicates where the speaker cone should be positioned. The sound card simply translates the byte into a voltage to the magnet driving the cone position, which happens at a rate of 11025 times per second.\\
+\doom{} 使用的数字化音频样本是 8-bit、11025 Hz、单声道 PCM 流。PCM 是一种很直观的音频格式：流中的每个字节代表一个时间点的波形幅度，指示扬声器振膜应处于的位置。声卡把字节转换为驱动振膜位置的电压，以每秒 11025 次的频率执行。\\
 \par
-Music data is stored in \cw{MUS}, a format similar to standard MIDI but slightly more compact. The format allows eight channels for instruments and a ninth for the drums. The MUS format describes a series of precisely timed events for each channel which specify which instrument should play a note and at what pitch. Note that MUS only describes what to do and when, not how to do it. Each channel refers to the note of an instrument; the instrument itself is described elsewhere in a data structure known as the "instrument bank".\\
+音乐数据存储为 \cw{MUS} 格式，这与标准 MIDI 类似但更紧凑。该格式支持 8 个乐器通道和第 9 个鼓通道。MUS 描述每个通道的一系列精确时序事件，指定哪个乐器以什么音高演奏音符。注意 MUS 只描述“做什么”和“何时做”，而不描述“如何做”。每个通道引用某个乐器的音符；乐器本身由一个名为“乐器库（instrument bank）”的数据结构描述。\\
 \par
-The instrument bank is stored in the \cw{GENMIDI} lump. It is aimed at SoundBlaster-compatible sound cards based on the OPL2 chip which synthesize music using Frequency Modulation. The lump describes how to play the note of each instrument in the MIDI instrument set. There are 175 entries in \cw{GENMIDI}, one for each of the 128 standard General MIDI instruments and 47 percussion effects. Each entry describes how to set up a channel in order to emulate an instrument. A channel is made of two cells, where one cell is used as carrier and the other as modulator. For each cell, attack, decay, sustain, release, harmonic type, and waveforms can be selected by the musician. Instrument banks were 90s musicians' "secret sauce" and \doom's General MIDI emulated FM patch set were known for being particularly good\footnote{Source: "The dark and forgotten art of GENMIDI" in Freedoom's documentation.}.\\
+乐器库存储在 \cw{GENMIDI} lump 中，面向基于 OPL2 芯片、通过频率调制合成音乐的 SoundBlaster 兼容声卡。该 lump 描述如何在 MIDI 乐器集中播放每个乐器的音符。\cw{GENMIDI} 中共有 175 项：128 个标准通用 MIDI 乐器与 47 个打击乐效果。每一项描述如何设置一个通道以模拟某个乐器。一个通道由两个单元组成，其中一个作为载波，另一个作为调制器。对每个单元，音乐家可以选择起音、衰减、保持、释放、谐波类型与波形。乐器库是 90 年代音乐人的“秘方”，\doom{} 的通用 MIDI FM 补丁集以效果好而闻名\footnote{来源：Freedoom 文档中的《The dark and forgotten art of GENMIDI》。}。\\
 \par
-The \cw{DMXGUS} lump played the same role as \cw{GENMIDI} but for the Gravis Ultrasound card. It enabled the GUS to play MUS music notes, not with an FM synthesizer but with the PCM samples provided with GUS drivers. It is a simple lump mapping MIDI instruments to GUS instruments with special rules for RAM allocation depending on the amount of RAM installed on the board (256KiB, 512KiB, 768KiB, and 1024KiB).\pagebreak
+\cw{DMXGUS} lump 与 \cw{GENMIDI} 类似，但用于 Gravis Ultrasound 声卡。它让 GUS 播放 MUS 音符时不用 FM 合成器，而使用 GUS 驱动提供的 PCM 样本。它是一个简单的 lump，把 MIDI 乐器映射到 GUS 乐器，并根据板卡上的 RAM 大小（256KiB、512KiB、768KiB、1024KiB）制定特殊的内存分配规则。\pagebreak
 
 
 
-Dealing with so much complexity proved difficult for DMX. Some of the craziness Paul Radek had to deal with surfaced in one of his post on \cw{usenet}\footnote{Forum thread: "Gravis Ultrasound - Hardware Mixing Game List".}.\\
+处理如此复杂的情况对 DMX 来说并不容易。Paul Radek 在 \cw{usenet} 上的一篇帖子\footnote{论坛帖：“Gravis Ultrasound - Hardware Mixing Game List”。}透露了他不得不面对的一些疯狂问题。\\
 
 
 
 
 
-\fq{All of the sound effects are now mixed in software, rather than on the GUS hardware. Why, you ask? Because of several reasons. First, is that the GF1 chip has a minimal ramp time that is much to long for very sharp effects. Second, because loading of the MUSIC patches uses all of the GUS memory, I had to DMA all eight sound effects to the card when played. This intern exposed a bug in the GF1 chip that Gravis did not find until my code started to beat on it. The bug would cause the bus to freeze and any program with it. The workaround is to keep DMA activities to a minimum by mixing in software and transferring only 1 channel to the GUS. But since the GF1 can't support auto-initialize DMA, and because the only way to play interleaved data on the card is to set two voices pointing into a single patch and setting the frequency so the every other sample is skipped, you don't get the benefit of sample smoothing from the GF1.\\
+\fq{所有音效现在都在软件中混音，而不是在 GUS 硬件上。为什么？有几个原因。首先，GF1 芯片的最小斜坡时间对于非常尖锐的音效来说太长了。其次，因为加载 MUSIC 补丁会占用所有 GUS 内存，我不得不在音效播放时把 8 个音效通过 DMA 送到卡上。这反而暴露了 GF1 芯片的一个 bug，Gravis 在我的代码开始折腾它之前并没发现。这个 bug 会导致总线冻结，从而冻结任何程序。解决方法是尽量减少 DMA 活动：在软件中混音，只传输 1 个通道到 GUS。但由于 GF1 不支持自动初始化 DMA，而且在卡上播放交错数据的唯一方法是设置两个 voice 指向同一个 patch 并调节频率跳过每隔一个样本，因此你无法从 GF1 获得采样平滑的好处。\\
 \par
-Sorry, but that's the way it has to be :(\\
+抱歉，但只能这样 :(\\
 }
 {Paul Radek, Digital Expressions, Inc.}\\
 \par
 
-The library evolved during the development of \doom. Sometimes API changes introduced bugs. Gravis UltraSound support was broken with v1.666. Support for the Audio Spectrum was also broken so users of the card had to fall back on (poor) SoundBlaster emulation\footnote{Source: John Romero post on \cw{alt.games.doom}.}.\\
+该库在 \doom{} 开发过程中不断演进。有时 API 变更会引入 bug。v1.666 破坏了 Gravis UltraSound 支持；Audio Spectrum 的支持也被破坏，用户不得不退回到（很差的）SoundBlaster 模拟\footnote{来源：John Romero 在 \cw{alt.games.doom} 上的帖子。}。\\
 \par
-The problem was partly due to poor API practices on DMX's side and partly because of hasty adjustments on id Software's part. Most issues were ultimately fixed except for one major bug which made it to gamers. The engine was originally supposed to emit sounds at random pitches to avoid monotony. To this effect, DMX function \cw{SFX\_PlayPatch} was used.\\
+问题一部分来自 DMX 的 API 设计不佳，一部分来自 id Software 的匆忙调整。多数问题最终被修复，但仍有一个重大 bug 留给了玩家。引擎原本应随机改变声音音高以避免单调，为此使用了 DMX 函数 \cw{SFX\_PlayPatch}。\\
 \par
 \ccode{dmx_before.c}
 
@@ -112,26 +112,20 @@ The problem was partly due to poor API practices on DMX's side and partly becaus
 
 
 
-In early versions it worked as intended but then the DMX API was modified in an incompatible way. It may not be immediately apparent but the parameters to \cw{SFX\_PlayPatch} are swapped.\\
+在早期版本中它能正常工作，但 DMX API 随后做了不兼容修改。虽然不易察觉，但 \cw{SFX\_PlayPatch} 的参数被调换了。\\
 \par
 \ccode{dmx_after.c}\\
 \par
- Invocation sites were never adjusted and the game shipped without the random pitch feature, instead randomly balancing sound between the left and right channel.\\
+调用点从未调整，游戏在没有随机音高功能的情况下发布，反而随机在左右声道之间平衡声音。\\
 \par
 \ccode{I_StartSound.c}\\
 \par
-In retrospect John Carmack regretted using DMX because it led to issues when open sourcing the game engine (it is unknown if Paul Radek was unwilling to open source DMX or if id Software was unwilling to negotiate with him).\\
+事后 John Carmack 后悔使用 DMX，因为这在开源引擎时导致了问题（不清楚是 Paul Radek 不愿开源 DMX，还是 id Software 不愿与他协商）。\\
 \par
 \fq{
-Our biggest mistake during DOOM development was the contracting of an  
-outside party to do dos sound drivers.  Because we had this black box  
-functionality coming, I didn't simulate it under NS.  BAAAAAD mistake.   
-All future work will be entirely developed under NS, with only DMA  
-buffer flipping being the hardware layer.  We will probably also run  
-midi under NS for music (which will be dynamically tuned to the game  
-situation in Quake).}{John Carmack}\\
+我们在 DOOM 开发中的最大错误是外包 DOS 声音驱动。因为我们要依赖这个黑盒功能，我没有在 NS 下模拟它。大错特错。今后的工作会完全在 NS 下开发，硬件层只剩 DMA 缓冲翻转。我们也可能在 NS 下运行 MIDI 音乐（在 Quake 中将根据游戏情况动态调整）。}{John Carmack}\\
 \par
-One can still find archived Usenet posts from \cw{alt.games.doom} where John Romero's comments hint that the relationship between Radek and id Software was suffering as the game neared its release date\footnote{Source: John Romero post on \cw{alt.games.doom}.}. Since the tone was less than cordial, it is left as an exercise to the reader if they want to dig these posts out. I do not recommend it.
+在 \cw{alt.games.doom} 上仍能找到一些存档的 Usenet 帖子，John Romero 的评论暗示 Radek 与 id Software 的关系在游戏临近发布时已出现问题\footnote{来源：John Romero 在 \cw{alt.games.doom} 上的帖子。}。由于语气并不友好，是否要挖出这些帖子留给读者自行决定。我不推荐这样做。
 % \par
 % \fq{Hey, everybody!  Thanks a lot for downloading DOOM II -- that's really "cool".   
 % We love it when we send evaluation copies to magazine editors and some piece of  
@@ -146,8 +140,8 @@ One can still find archived Usenet posts from \cw{alt.games.doom} where John Rom
 
 
 
-\section{Sound Propagation}
-How enemies react to sounds makes a tremendous impact on how smart the A.I. is perceived as being. id Software made sure sound propagation was realistic. When a shot is fired in a sector, a flood fill algorithm propagates the noise.\\
+\section{声音传播}
+敌人对声音的反应会极大影响玩家对 A.I. 智能程度的感受。id Software 确保了声音传播的真实性。当某个扇区开火时，会使用洪泛算法传播噪声。\\
 \par
 \ccode{P_RecursiveSound.c}\\
 
@@ -155,20 +149,20 @@ How enemies react to sounds makes a tremendous impact on how smart the A.I. is p
 \centering
 \includegraphics[width=.48\textwidth]{drawings/sound_blockers.pdf}
 \end{wrapfigure}
-  The sector/portal format is leveraged, starting from the player's sector and flood-filling into adjacent sectors via portals (two-sided lines). Sound is stopped when either a door is encountered or when two "sound blocker" lines have been crossed. Level E3M9 features a section with 38 monsters where the A.I. cost is lowered by three (red) blocker lines, ensuring some monsters remain dormant.\\
+  利用扇区/门户格式，从玩家所在扇区开始，通过门户（双面线）向相邻扇区洪泛。声音在遇到门或穿过两条“声音阻挡线”后停止。E3M9 关卡有一段包含 38 个怪物的区域，AI 成本被三条（红色）阻挡线降低，确保部分怪物保持休眠。\\
 \par
-Notice how function \cw{P\_RecursiveSound} mentions "waking up all monsters" but never iterates over the list of things in the level. This is a speed-up trick aimed at avoiding an expensive search to find all monsters to be awakened in each sector. Monsters always look up for the current sector's \cw{soundtarget} to pick a target. By simply assigning a value to \cw{sec->soundtarget}, all monsters in \cw{sec} automatically acquire the same target.\\
+注意 \cw{P\_RecursiveSound} 函数提到“唤醒所有怪物”，却从未遍历关卡中的物体列表。这是一个加速技巧，用于避免在每个扇区中昂贵地搜索要唤醒的所有怪物。怪物总是查看当前扇区的 \cw{soundtarget} 来选取目标。只需给 \cw{sec->soundtarget} 赋值，\cw{sec} 中的所有怪物就会自动获得相同目标。\\
 \par
 \rawdrawing{E1M1_audio_sections}
 \par
-\subsubsection{Ambushing}
-Map designers wanted to have sneaky monsters who could hide and wait to jump out at players. This is achieved via the MF\_AMBUSH flag assigned to monsters. It doesn't make monsters deaf, rather it makes them not seek the player until they make visual contact.
+\subsubsection{埋伏}
+地图设计者希望怪物能潜伏起来，等玩家靠近时突然跳出。这通过给怪物设置 MF\_AMBUSH 标记实现。它不会让怪物失聪，而是让它们在看到玩家之前不会主动寻找玩家。
 
 
-\subsubsection{Super Ambushing}
-Sound propagation was used inventively in level E1M9 for its super ambush.  The designers wanted the player to be swarmed with monsters teleporting, seemingly from a hellish dimension, as soon as the player walked across the center of a pentagram.\\
+\subsubsection{超级埋伏}
+在 E1M9 关卡中，声音传播被巧妙用于“超级埋伏”。设计者希望玩家在走过五芒星中心时，遭遇怪物传送蜂拥而至，仿佛来自地狱维度。\\
 \par
- Without a scripting language available that was next to impossible to implement. As we'll see in the A.I. section, monsters are state machines only able to do three things: stay dormant, pursue a target, and when they bump into walls and things, change direction.\\
+在没有脚本语言的情况下，这几乎不可能实现。正如我们在 AI 章节会看到的，怪物只是状态机，只能做三件事：休眠、追逐目标、以及在碰到墙和物体时改变方向。\\
 \par
 \begin{wrapfigure}[24]{r}{0.52\textwidth}
 \centering
@@ -177,30 +171,22 @@ Sound propagation was used inventively in level E1M9 for its super ambush.  The 
 
 \par
 
-To achieve the effect, they created an inaccessible "monster pool" room next to where they wanted the super ambush and filled it with monsters (red circles in the diagram). In the south-east corner of the hidden room, they placed a teleporter, protected by walls.\\
+为了实现这一效果，他们在超级埋伏位置旁建了一个无法进入的“怪物池”房间，并塞满怪物（图中红圈）。在隐藏房间的东南角放置了一个传送器，并用墙保护起来。\\
 \par
-Then they created a very tiny pipe to allow sound to flow between rooms, so that monsters from the "pool" room would wake up and try to reach the player. Without another way to get there (the pipe being at ceiling level and the monsters being too big to fit through it), monsters will wander in circles with a tendency to move towards the player's location (south-east).\\
+然后他们建了一个很细的管道让声音在两个房间之间流动，使“怪物池”房间中的怪物被唤醒并尝试抵达玩家。由于没有其他路径（管道在天花板高度，怪物太大无法通过），怪物会在原地绕圈，但会倾向于朝玩家位置（东南方向）移动。\\
 \par
-The last piece of the super ambush trap was to have four tripwires around the center of the "pentagram" which lowered the walls around the teleporter. A tempting bait was placed on it (health and ammunition) to make sure the player would go there.\\
+超级埋伏的最后一环是在“五芒星”中心周围设置四条触发线，降低传送器周围的墙体。他们放上诱人的诱饵（生命与弹药）确保玩家会去那里。\\
 \par
-
-As soon as the player crosses the trigger in the "star" room, the walls around the teleporter lower, monsters move towards it and swarm the player. \\
+当玩家跨过“星形”房间的触发线时，传送器周围的墙体下降，怪物涌向传送器并围攻玩家。 \\
 \par
-\trivia{Comments in the code suggest that monsters screaming awaken other monsters but this is not the case. It is unknown why this feature was cut. Maybe it was too buggy or too expensive.}
-
+\trivia{代码注释暗示怪物的尖叫会唤醒其他怪物，但实际上并没有。这个特性为何被删不清楚，可能是太多 bug 或代价太高。}
 
 
 
 
 
 
-John Romero himself described how they called these sound conduits, "pipes".\\
+John Romero 自己描述了他们称这些声音通道为“管道（pipes）”。\\
 \par
-\fq{We used sound zones in Wolfenstein 3D as another way to alert enemies to your presence. In DOOM, we did the same thing but used sectors as the conduits of audio travel. This was a really important part of making the game scary, as sound could leak all over the place and alert demons. You might see lots of little sector pipes that connect sectors together just to alert monsters-sectors that you'd never see because we put them way up high in the corner of a room. So, we paid a lot of attention to the sound flooding.}{John Romero, p29 in Scarydarkfast}\\
+\fq{我们在 Wolfenstein 3D 中用声音区域来提醒敌人你的存在。在 DOOM 中我们做了同样的事，但使用扇区作为音频传播的通道。这对让游戏更恐怖非常关键，因为声音可以泄漏到各处并警告恶魔。你可能会看到许多小扇区“管道”连接不同扇区，只是为了提醒你看不到的怪物扇区，因为我们把它们放在房间高处的角落里。所以我们非常关注声音的洪泛。}{John Romero, Scarydarkfast 第 29 页}\\
 \par
-The audio pipe for the E1M9 super ambush is so well-hidden in the ceiling that it is very hard to notice with the vanilla engine. The room is dark and in the distance, the tiny black rectangle blends in the obscurity. Opening the map with an editor such as SLADE that allows looking up and down reveals the mechanism.\\
-\par
-\cfullimage{sound_conduit.png}{}
-\par
-In figure \ref{sound_conduit.png} the audio conduit is visible in the upper right corner.
-% In figure \ref{sound_conduit.png}, the audio conduit to awaken the monsters and make them go to the teleporter is visible in the upper right corner (screenshot done with the amazing Slade3 Node Editor).
