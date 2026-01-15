@@ -1,0 +1,35 @@
+
+% \vspace*{2in}
+
+从 2017 年 10 月到 2018 年 7 月，这本书花了十个月完成写作。这很愉快。随后从 2018 年 8 月到 11 月，花了四个月进行校对。这很痛苦。\\
+\par
+我在任何能挤出时间的晚上与周末写作，但主要偏爱早上 7 点到 9 点的时段。文本使用 \LaTeX{} 编写，编辑器是 Sublime Text 3.0，并用 \cw{pdflatex} 编译。\cw{.pdf} 可以用一条命令构建。\\
+\par
+\tcode{compile.txt}
+\par
+为了提高编译速度，\cw{book.tex} 只是一个 \cw{\textbackslash subfile} 列表。根据当前工作的章节，会注释掉其他行。这样将构建时间从数分钟降到几秒钟，让 \LaTeX{} 变得可忍。\\
+\par
+插图使用 Inkscape 绘制，保存为 \cw{.svg} 并转换为 \cw{.eps} 以便与 \cw{pdflatex} 更好集成。截图用 Adobe Photoshop CC 清理。使用的字体是 Donald E. Knuth 的 Computer Modern Sans Serif 10pts。\\
+ \par
+ \begin{figure}[H]
+\centering  
+\begin{tabularx}{\textwidth}{ L{1} | C{1} }
+  \specialrule{1pt}{0pt}{0pt}
+  \textbf{描述} & \textbf{数值} \\
+  \specialrule{1pt}{0pt}{0pt}
+  文件数量 & 880 \\
+\cw{.tex} 文件数量 & 95 \\
+\cw{.png} 文件数量 & 561\\
+\cw{.svg} 文件数量& 102 \\
+\specialrule{1pt}{0pt}{0pt}
+构建时间（300 dpi） & 2 分 20 秒\\
+最终 PDF 大小（300 dpi） & 387,054,465 bytes\\
+\specialrule{1pt}{0pt}{0pt}
+构建时间（150 dpi） & 47 秒\\
+最终 PDF 大小（150 dpi） & 89,060,075 byte\\
+   \specialrule{1pt}{0pt}{0pt}
+\end{tabularx}
+\end{figure}
+
+
+

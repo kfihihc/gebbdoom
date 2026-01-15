@@ -1,0 +1,8 @@
+\section{渲染器}
+带着图形栈的概念，现在可以进入渲染例程 \cw{D\_Display}，它包含游戏中的所有渲染器。\\
+\par
+\ccode{D_Display.c}\\
+\par
+其中有多个 2D 渲染器（在代码里称为 "drawers"）以及一个 3D 渲染器。\cw{D\_Display} 的不同部分会根据 \cw{gamestate} 通过 switch case 启用。\\
+ \par
+ 大多数 drawer 在 3D 视图之前绘制，然后是 \cw{HUD}（显示拾取物品的文字），最后如果可见则在最上层绘制菜单。
