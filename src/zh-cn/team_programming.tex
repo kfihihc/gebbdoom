@@ -1,68 +1,67 @@
 \vspace{-10pt}
-\section{Programming}
-Migrating from the Borland C++ editor on DOS to TextEdit on NeXTSTEP was a trade-off. On the one hand, convenient features such as syntax highlighting were lost. On the other hand, apps never crashed. Precious hours of work were never lost. TextEdit also had markers (\cw{//}) allowing to "fold" code to improve navigation and readability.\\
+\section{编程}
+从 DOS 上的 Borland C++ 编辑器迁移到 NeXTSTEP 的 TextEdit，是一种权衡。一方面，语法高亮等便捷功能没了；另一方面，应用从不崩溃，宝贵的工作时间不会丢失。TextEdit 还提供标记（\cw{//}），可用于“折叠”代码，改善导航和可读性。\\
 \par
- The higher resolution (1120 x 832) of the MegaDisplay allowed seeing much more code vertically and up to three DOS 80 column windows side by side. Notice how Borland's IDE (in its default mode\footnote{Borland's C++ IDE could be set to use 80 column mode to get 50 lines but readability suffered greatly.}) shows 21 lines of code while TextEdit can show 57 lines.\\
+ 更高的分辨率（1120 x 832）让 MegaDisplay 可以纵向显示更多代码，并能并排显示最多三个 DOS 80 列窗口。注意 Borland 的 IDE（默认模式\footnote{Borland 的 C++ IDE 可以切换到 80 列模式显示 50 行，但可读性会大幅下降。}）只能显示 21 行代码，而 TextEdit 可以显示 57 行。\\
 \par
 \fullimage{development.png}\\
 
 \vspace{-4mm}
-\cfullimage{TextEditApp.png}{TextEdit.app allowed section folding via special markers}
+\cfullimage{TextEditApp.png}{TextEdit.app 可通过特殊标记折叠分节}
 
 
-In figure \ref{TextEditApp.png}, TextEdit tags and folding show close to 700 lines of \cw{d\_main.c}'s' 1181 lines. This feature allowed developers to think in terms of systems instead of functions.
+在图 \ref{TextEditApp.png} 中，TextEdit 的标记与折叠显示了 \cw{d\_main.c} 的 1181 行中的将近 700 行。这一功能让开发者能够以系统为单位思考，而非以函数为单位。
 
-\subsection{Interface Builder, OOP and Objective-C}
-The list of tools would not be complete without mentioning \NeXTns{}'s crown jewel which many considered to be NeXTSTEP's killer app, Interface Builder.\\
+\subsection{Interface Builder、OOP 与 Objective-C}
+工具列表中不能不提 \NeXTns{} 的王牌应用——Interface Builder。它被许多人视为 NeXTSTEP 的杀手级应用。\\
 \par
-"IB" was first written in Lisp by Jean-Marie Hullot in 1984 and commercialized in 1986 under the name "SOS Interface"\footnote{Source: "A Brief History of Human Computer Interaction Technology".}. Hullot was hired by NeXT, Inc. where along with a team he created a similar tool focused around Objective-C.\\
+“IB” 最初由 Jean-Marie Hullot 在 1984 年用 Lisp 编写，并在 1986 年以 “SOS Interface” 名称商业化\footnote{来源：“A Brief History of Human Computer Interaction Technology”。}。Hullot 后来加入 NeXT, Inc.，并与团队一起用 Objective-C 打造了类似但更专注的工具。\\
 \par
-The NeXTSTEP version he managed to produce would reduce the construction cost of building GUIs by a factor of 5-10x\footnote{Source: "NeXT vs Sun: A world of a difference", 1991 promotional video.}.\\
+他制作的 NeXTSTEP 版本将 GUI 开发成本降低了 5-10 倍\footnote{来源：“NeXT vs Sun: A world of a difference”，1991 年宣传视频。}。\\
 \par
 \fullimage{ib.png}
 
 
 
 \vspace{-4mm}
-With IB, all of the drudge involved in GUI authoring was done with a mouse in the blink of an eye. The "tedious" part involving writing code was only mandatory for the actual meat of the application in the business logic layer. Creating the GUI was a two-step process. First draw all the elements, then connect the UI elements to the Object models.\\
+借助 IB，GUI 编写中所有繁琐工作都能用鼠标飞快完成。“乏味”的部分——编写代码——只在业务逻辑层真正需要时才必须做。创建 GUI 分为两步：先绘制元素，再将 UI 元素连接到对象模型。\\
 \par
-The first part was, as Steve Jobs qualified it, "insanely easy" since building an interface was done with a series of drag-and-drop operations from a palette of GUI elements onto a canvas. An inspector allowed seeing the properties of an element. Everything from min/max of a slider to the default value of a text field could be adjusted easily.\\
+第一步正如 Steve Jobs 所形容的那样“疯狂简单”，因为构建界面只需从控件面板拖拽控件到画布上即可。检查器能显示元素属性，从滑块的最小/最大值到文本框的默认值都可轻松调整。\\
 \par
-The second part, connecting the visual elements to the business logic objects, was also done with the mouse, by connecting visual boxes to targets/actions. The target could be a boolean property in the case of a checkbox UI element or it could be a method in the case of a button UI element.
+第二步——将可视元素连接到业务逻辑对象——同样用鼠标完成，把可视化的方框连接到目标/动作。目标可能是复选框的布尔属性，也可能是按钮的一个方法。
 %\par
 %The developer could focus its time on implementing only the business logic.\\
 
-\subsubsection{Object Oriented Programming}
-Beyond its revolutionary design, IB was nicely complemented by the OOP (Object Oriented Programming) design of a programmer-friendly language called Objective-C.\\
+\subsubsection{面向对象编程}
+除了革命性的设计外，IB 还与一种程序员友好的语言——Objective-C——的 OOP（面向对象编程）理念相得益彰。\\
 \par
-\fq{In my 20 years in this industry, I have never seen a revolution as profound as [object-oriented-programming]. You can build software literally 5 to 10 times faster, and that software is much more reliable, much easier to maintain and much more powerful... All software will be written using this object technology someday. No question about it.}{Steve Jobs, Rolling Stone, June 16, 1994.}\\
+\fq{在我从业 20 年里，从未见过像面向对象编程这样深刻的革命。你可以以 5 到 10 倍的速度开发软件，而且软件更可靠、更易维护、功能更强大……所有软件终将采用这种对象技术。毫无疑问。}{Steve Jobs，《Rolling Stone》，1994 年 6 月 16 日。}\\
 \par
-OOP's encapsulation, inheritance and polymorphism allowed pushing back the limits of complexity a human programmer could deal with. A program would be conceptualized as a collection of potentially nested sub-systems. The mental image did not have to be a complex monolithic block. It could be decomposed in smaller, easier to summarize opaque systems.\\
+OOP 的封装、继承与多态，让程序员能处理更高复杂度。程序可被概念化为一组可能嵌套的子系统。思维模型不必是复杂的整体块，可以拆分成更小、更易概括的黑箱系统。\\
 
 \par
 \vspace{-10pt}
 \subsubsection{Objective-C}
-Objective-C was developed around the same time as \verb!C++!. However, as co-creator Brad Cox recalls, his creation and Bjarne Stroustrup's brainchild had opposing philosophies. Where C++ placed performance first, Objective-C valued the programmer's productivity first.\\
+Objective-C 与 \verb!C++! 差不多同一时期开发。不过如共同发明者 Brad Cox 回忆，他的作品与 Bjarne Stroustrup 的想法在哲学上截然不同。C++ 以性能为先，Objective-C 则更重视程序员生产力。\\
 \par
 \fq{
-	Back in 1980 when both our languages were under construction, I came down and met with Bjarne Stroustrup. We had radically different views on how our languages would be designed. The key concept was the relative importance of machine efficiency vs programmer efficiency. Eventually, we agreed to disagree.
-} {Brad Cox (Interview for "The NeXT Bible" book)}\\
+	回到 1980 年，当我们的语言都在构建中时，我去拜访了 Bjarne Stroustrup。我们对语言设计有截然不同的看法。关键在于机器效率与程序员效率的相对重要性。最终我们同意彼此不同。
+} {Brad Cox（采访自《The NeXT Bible》）}\\
 \par
 
 
 \par
 \vspace{-5pt}
-The version shipping with NeXT computers featured an important library called Foundation Kit. One of its components, \cw{NSObject}, freed developers from the error-prone memory management burden by offering reference counting via its \cw{retain} and \cw{release} methods. A collection of swiss army knife containers -- \cw{NSArray}, \cw{NSDictionary}, \cw{NSSet} and \cw{NSData} -- further allowed focusing on the core functionality instead of losing time on infrastructure.\\
+随 NeXT 电脑出货的版本包含一个重要库，名为 Foundation Kit。其组件之一 \cw{NSObject} 通过 \cw{retain} 与 \cw{release} 的引用计数机制，让开发者摆脱易错的内存管理负担。另一组瑞士军刀式容器——\cw{NSArray}、\cw{NSDictionary}、\cw{NSSet} 和 \cw{NSData}——进一步让开发者聚焦核心功能而非基础设施。\\
 \par
-\trivia{Initially using the prefix NX, all objects in Foundation were renamed with a leading NS for OpenSTEP where "NS" stands for the alliance between NeXT and Sun Microsystems. All these objects are still at the core of macOS and iOS today; the prefix NS was never removed.}\\
+\trivia{Foundation 的对象最初使用 NX 前缀，后来在 OpenSTEP 中改为 NS，意为 NeXT 与 Sun Microsystems 的联盟。它们至今仍是 macOS 与 iOS 的核心，NS 前缀从未被移除。}\\
 \par
-The very core of Objective-C architecture, based on messages routed via a dispatching method \cw{objc\_msgSend}, allowed programs to be more resilient to errors. By far the most amazing feat (at least to a C++ developer) was the ability to send a message to \cw{nullptr}. When a developer sent a message to an object via the following syntax.\\ \par
+Objective-C 架构的核心是通过调度方法 \cw{objc\_msgSend} 路由消息，使程序更能容错。最令人惊叹的能力（至少对 C++ 开发者来说）是向 \cw{nullptr} 发送消息。当开发者用以下语法向对象发送消息时：\\ \par
 \objccode{obj.message}
-What really happened behind the scenes was a call to the dispatcher.\\
+幕后实际发生的是调用分发器。\\
 \par
 \objccode{objc_msgSend.m}
-The highly-optimized\footnote{Source: "Dissecting objc\_msgSend on ARM64" by Mike Ash.}, hand written assembly was called millions of times by the time a NeXT had booted. Despite the complex mutable nature of ObjC objects (a method can be added at runtime, changing its duck type) \cw{objc\_msgSend} was able to follow an inheritance chain at runtime to find the proper target. More importantly, it was also able to detect a \cw{nullptr} and simply return the value \cw{0} instead of bringing down the entire process.\\
+这段高度优化\footnote{来源：“Dissecting objc\_msgSend on ARM64”，Mike Ash。}、手写的汇编会在 NeXT 启动时被调用数百万次。尽管 ObjC 对象具有复杂可变特性（方法可在运行时添加，改变其鸭子类型），\cw{objc\_msgSend} 仍能在运行时沿继承链查找正确目标。更重要的是，它还能检测 \cw{nullptr} 并返回 \cw{0}，而不是让进程崩溃。\\
 \par
 
-Altogether, the four pillars of NeXT development (Unix, IB, OOP, and Obj-C) sped up development of DoomED, doombsp, and wadlink to a level that DOS-based tools could not even compare\footnote{Many years later, while evangelizing static code analysis, John Carmack would rant a bit about how the sloppy programming permitted by dynamic languages like ObjC was Not A Good Thing.}.
-
+总而言之，NeXT 开发的四大支柱（Unix、IB、OOP 和 Obj-C）让 DoomED、doombsp 与 wadlink 的开发速度远超 DOS 工具\footnote{多年后，John Carmack 在推广静态代码分析时曾抱怨 ObjC 等动态语言带来的“随意编程”并非好事。}。

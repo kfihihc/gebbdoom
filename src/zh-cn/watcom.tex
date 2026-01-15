@@ -6,14 +6,14 @@
 \end{wrapfigure}
 
 
-The DOS extender was magical but hard to set up in a standalone product. A bootstrap which would locate \cw{DOS4GW.EXE} and the program to run, and set up both, required multiple steps and close to 100 lines of C code\footnote{Source: Watcom C/C++ Programmer's Guide, "7.1.1 The Stub Program"}. The ramp-up time was significant and raised the barrier to entry. What was really needed was an integrated environment where the compiler and the linker would take care of bundling the extender and the application together into one executable. The solution would once again come from the Great White North.\\ 
+DOS 扩展器很神奇，但在独立产品中设置却很困难。需要一个引导程序去定位 \cw{DOS4GW.EXE} 和要运行的程序，并设置两者，这一流程需要多步并接近 100 行 C 代码\footnote{来源：Watcom C/C++ Programmer's Guide，“7.1.1 The Stub Program”。}。上手时间很长，门槛很高。真正需要的是一个集成环境，让编译器与链接器负责将扩展器和应用打包为一个可执行文件。解决方案再次来自大白北国。\\ 
 \par
 
-The Watcom compiler project was started in 1979 at the University of Waterloo in Ontario, Canada. Initially only supporting BASIC, it was improved over the years by students with support for new OSes and languages. In 1988, three Ph.Ds (Fred Crigger, Ian McPhee, and Jack Schueler) had a version of their compiler supporting C and running on DOS.\\
+Watcom 编译器项目始于 1979 年，加拿大安大略省滑铁卢大学。最初只支持 BASIC，随后在学生的改进与支持下，逐步加入对新操作系统和语言的支持。1988 年，三位博士（Fred Crigger、Ian McPhee 和 Jack Schueler）拥有了能在 DOS 上运行并支持 C 的版本。\\
 \par
-Sensing commercial potential, they incorporated Watcom International Corporation and picked a lightning bolt for their logo to advertise their focus on performance. Five years later, in 1993, Watcom C had considerably improved. The latest version (9.0), retailing for "only" \$639\footnote{Inflation adjusted, USD\$1,116 in 2018. Nowadays compilers are "free".}, was deemed the best available on MS-DOS\footnote{Editor's choice -- PC Magazine, April 1995.}. \\
+看到商业潜力后，他们成立了 Watcom International Corporation，并选择闪电作为标志以突出性能优势。五年后的 1993 年，Watcom C 已大幅改进。最新版本（9.0）零售价“仅” 639 美元\footnote{按通胀调整，2018 年为 USD\$1,116。如今编译器“免费”。}，被认为是 MS-DOS 上最好的选择\footnote{Editor's choice -- PC Magazine, April 1995.}。 \\
 \par
-Not only were they talented programmers, they also excelled at marketing their products. In the early 90s, a reader could not open a computer magazine without finding a full page advertising Watcom's compiler. Every ad underlined the presence of a DOS extender that freed programmers from the hated 16-bit mode and "unleashed 32-bit power".
+他们不仅编程出色，营销也很厉害。90 年代初，翻开任意一本电脑杂志几乎都能看到 Watcom 编译器的整页广告。每条广告都强调其 DOS 扩展器能让程序员摆脱讨厌的 16 位模式，释放 32 位能力。
 \par
 \label{watcomad}
 \fullimage{watcom_ad.png}
@@ -21,15 +21,15 @@ Not only were they talented programmers, they also excelled at marketing their p
 
 
 \vspace{-4mm}
-Not only were they in the press, they also advertised online, such as on BBSes and Usenet.\\
+他们不仅在平面媒体，也在 BBS 和 Usenet 等线上渠道投放广告。\\
 \par
-\fq{WATCOM C/C++ will produce code which is at *least* twice as fast as your current 16-bit compiler, and more typically around five times as fast.}{rec.games.programmer}\\
+\fq{WATCOM C/C++ 生成的代码至少比你当前的 16 位编译器快两倍，通常会快五倍左右。}{rec.games.programmer}\\
 \par
-\trivia{One of the many marketing tricks up Watcom's sleeves was to never have released a Watcom v1.0 or even a Watcom v2.0. They started directly at "version 6". This was at least one version ahead of their competitors (Borland and Microsoft). A higher number unconsciously carried a notion of "more advanced than its competitors". Version one was also likely to feature many bugs whereas the sixth installment was likely to have been battle-hardened.}\\
+\trivia{Watcom 的营销策略之一是从未发布过 v1.0 或 v2.0，而是直接从“版本 6”开始。它至少领先竞争对手（Borland 与 Microsoft）一代。更高的版本号潜意识里传递“比竞争对手更先进”的感觉。版本 1 往往意味着大量 bug，而第六代更可能已经久经战阵。}\\
 
 
-\subsubsection{Popularity}
-id Software was not the only team to value Watcom's solution. Many other studios entrusted it with their code, and as a result much well-known software of the 90s was built with Watcom technology:\\
+\subsubsection{受欢迎程度}
+id Software 并不是唯一看重 Watcom 方案的团队。许多工作室也将代码托付给它，因此 90 年代大量知名软件都由 Watcom 技术构建：\\
 \begin{enumerate}
 \item id Software 
        \begin{enumerate}
@@ -41,7 +41,7 @@ id Software was not the only team to value Watcom's solution. Many other studios
        \item Warcraft (1994)
        \item Warcraft II (1995)
        \end{enumerate}
-\item Ken Silverman's BUILD Engine based games
+\item Ken Silverman 的 BUILD 引擎游戏
       \begin{enumerate}
        \item Duke Nukem 3D (1996)
        \item Shadow Warrior (1997)
@@ -59,13 +59,13 @@ id Software was not the only team to value Watcom's solution. Many other studios
 
 
 \subsection{ANSI C}
-The Watcom/extender combo made programming simpler and it also made programs run faster but the best has yet to be mentioned. There is a third aspect of protected-mode programming -- less obvious but very important -- that had a significant impact on \doom.\\
+Watcom/扩展器组合让编程更简单、程序更快，但最重要的还在后面。保护模式编程还有第三个方面——不那么明显但非常关键——对 \doom{} 影响巨大。\\
 \par
-To bring C to the world of PC/DOS's real mode and accommodate for segment manipulation, the language had been "augmented". An example from Wolfenstein 3D's memory manager shows what "C for DOS" looked like.\\
+为了让 C 适配 PC/DOS 的实模式并处理段寄存器，语言曾被“增强”。Wolfenstein 3D 的内存管理器示例展示了 “DOS 版 C” 的样子。\\
 \par
 \ccode{real_mode_c.c}\\
 \par
-Notice the wart keywords such as \cw{near}, \cw{far}, macros like \cw{FP\_OFF} and \cw{FP\_SEG}, and the \cw{DOS.H} library functions such as \cw{farmalloc}, \cw{coreleft}, and \cw{farcoreleft}. Neither "C for DOS" nor the I/O functions were portable. As a result, It was impossible to take a UNIX program and compile it directly on DOS.\\
-Using the Watcom compiler, C could be written using the ANSI standard, which opened the door to authoring programs on different machines running a different operating system.\\
+注意那些疣状关键词，如 \cw{near}、\cw{far}，以及 \cw{FP\_OFF}、\cw{FP\_SEG} 等宏，还有 \cw{DOS.H} 库函数，如 \cw{farmalloc}、\cw{coreleft} 与 \cw{farcoreleft}。无论是 “DOS 版 C” 还是 I/O 函数都不具可移植性，因此不可能将 UNIX 程序直接在 DOS 上编译。\\
+使用 Watcom 编译器，C 可以按 ANSI 标准编写，从而打开了在不同机器、不同操作系统上编写程序的大门。\\
 \par
-One system in particular would end up catching id Software's attention. The name was NeXTSTEP, running on hardware manufactured by \NeXTns, Inc.
+其中一个系统最终吸引了 id Software 的注意，它的名字叫 NeXTSTEP，运行在 \NeXTns, Inc. 制造的硬件上。
