@@ -1,32 +1,32 @@
-\section{Video Manager}
-Before continuing our trip through the code and looking at the rendering in  \cw{D\_Display}, let's take a few pages to study the graphics stack where each frame is stored and manipulated. The video system is located in the core. It maintains and exposes two data structures: a set of five framebuffers, and one dirtybox (used as a "dirty rectangles"). All write operations update the framebuffers and the box.\\
+\section{视频管理器}
+在继续我们的代码之旅、查看 \cw{D\_Display} 中的渲染之前，让我们先花几页来研究每帧存储与处理的图形堆栈。视频系统位于核心中，它维护并提供两类数据结构：一组五个帧缓冲和一个 dirtybox（用作“脏矩形”）。所有写操作都会更新帧缓冲与 dirtybox。\\
 \par
-\cccode{kernel_renderer.c}{Five framebuffers.}
+\cccode{kernel_renderer.c}{五个帧缓冲。}
 \par
 \par
-\cccode{kernel_renderer_dbox.c}{The dirtybox.}
+\cccode{kernel_renderer_dbox.c}{dirtybox。}
 \par
 \vspace{-10pt}
-The video system implementation must provide four functions to the core. \cw{I\_InitGraphics} is to be told when to initialize itself. \cw{I\_UpdateNoBlit} is to be called when a portion of the framebuffer has been modified. \cw{I\_FinishUpdate} is called when the framebuffer is fully composed and should be presented to the screen. \cw{I\_WaitVBL} blocks and returns on next V-Sync.\\
+视频系统实现必须向核心提供四个函数。\cw{I\_InitGraphics} 用于在需要时初始化自身。\cw{I\_UpdateNoBlit} 在帧缓冲某部分被修改时调用。\cw{I\_FinishUpdate} 在帧缓冲完全合成并应显示到屏幕时调用。\cw{I\_WaitVBL} 会阻塞直到下一次垂直同步。\\
  \begin{figure}[H]
 \centering
 \begin{tabularx}{\textwidth}{ L{0.27} | L{0.73} }
   \specialrule{1pt}{0pt}{0pt}
-  \textbf{Method} & \textbf{DOS Implementation} \\
+  \textbf{方法} & \textbf{DOS 实现} \\
   \specialrule{1pt}{0pt}{0pt}
-\cw{I\_InitGraphics} & Set VGA in Mode-Y (320x200 256 colors stretched to 4:3).\\
-\cw{I\_UpdateNoBlit} & Send updated area of the screen to the VGA hardware.\\
-\cw{I\_FinishUpdate} & Flip buffer (update CRTC start scan address).\\
-\cw{I\_WaitVBL} & Wait for V-Sync (Used to wait before updating palette).\\
+\cw{I\_InitGraphics} & 将 VGA 设为 Mode-Y（320x200 256 色，拉伸到 4:3）。\\
+\cw{I\_UpdateNoBlit} & 把更新区域发送到 VGA 硬件。\\
+\cw{I\_FinishUpdate} & 翻转缓冲（更新 CRTC 起始扫描地址）。\\
+\cw{I\_WaitVBL} & 等待 V-Sync（用于在更新调色板前等待）。\\
    \specialrule{1pt}{0pt}{0pt}
 \end{tabularx}
-%\caption{Video system interface}
+%\caption{视频系统接口}
 \end{figure}
 \par
-To host the framebuffer in the core and not in the video system itself was an audacious trade-off: it was a performance hit since data had to be copied twice before reaching the screen. But it tremendously improved portability since the framebuffer had been abstracted. It also opened the door to reading back from the core framebuffer. This capability allowed new effects such as the "predator" transparency seen with the "spectre" demon.\\
+把帧缓冲放在核心而不是视频系统里，是一个大胆的权衡：性能会受影响，因为数据在到达屏幕前要复制两次。但它极大提升了可移植性，因为帧缓冲被抽象化了。它还为从核心帧缓冲回读打开了大门。这种能力带来了新的效果，例如“spectre”恶魔使用的“predator”透明效果。\\
 \par
  % The performance hit was not too back on VLB systems. If you refer back to the architecture on page \pageref{vlbarchitecture}, you will see that it allowed transfer of one framebuffer to the video system while the next frame was being generated in the cachelines. This parallel pipeline allowed the framerate to be 90\% of what it would have been with direct access to the VGA.\\
- \trivia{Because \doom{} renders a full screen on every frame, there is no need to "clear" the framebuffer like Wolfenstein 3D did. If we were to interrupt the engine while rendering a frame to peek inside framebuffer \#0, it would look like a composition of a previous frame and the unfinished new one.}\\
+ \trivia{因为 \doom{} 每帧都会渲染全屏，所以不像 Wolfenstein 3D 那样需要“清空”帧缓冲。如果我们在渲染一帧时打断引擎去窥视帧缓冲 \#0，它看起来会像上一帧与尚未完成的新帧的组合。}\\
 \par
 \vspace{5pt}
 \drawing{renderer_full_pipeline}{}
@@ -34,32 +34,14 @@ To host the framebuffer in the core and not in the video system itself was an au
 %\par
 %\trivia{Notice how the VGA framebuffer are not exactyl 320x200=0x3E80 in size but 0x4000 instead. This is done because updating the CRTC start address can be don atomically.}
 \par
-The life of a frame is always the same, regardless of what the game is rendering:
+一帧的生命周期总是相同的，无论游戏正在渲染什么：
 \begin{enumerate}
-\item All write operations are done in framebuffer \#0. Each time the engine updates this buffer, it also updates the \cw{dirtybox} to mark which area has been touched.
-\item After a major write sequence, the engine calls \cw{I\_UpdateNoBlit} which triggers the video system to read framebuffer \#0, optimizing for the smallest data transfer possible via the \cw{dirtybox}. On DOS the VGA subsystem copies content to the VGA hardware in one of its three VRAM framebuffers. Each VGA buffer has its own dirtybox \cw{updatebox} to speed up blitting but this remains an expensive operation.
-
-\item Once a frame has been completed, the engine calls \cw{I\_FinishUpdate}  which signals to the video system that framebuffer \#0 will no longer be updated. On DOS, the implementation of \cw{I\_FinishUpdate} simply updates the start address of the CRTC which is a lightweight operation.
+\item 所有写操作都在帧缓冲 \#0 中完成。每次引擎更新这个缓冲时，也会更新 \cw{dirtybox} 来标记被触及的区域。
+\item 在一次较大的写操作后，引擎调用 \cw{I\_UpdateNoBlit}，触发视频系统读取帧缓冲 \#0，并借助 \cw{dirtybox} 尽可能减少数据传输。在 DOS 上，VGA 子系统把内容复制到它的三个 VRAM 帧缓冲之一。每个 VGA 缓冲都有自己的 dirtybox（\cw{updatebox}）来加速 blit，但这依然是昂贵操作。
 \end{enumerate}
+函数 \cw{I\_UpdateBox} 中负责把数据从 RAM 传到 VRAM 的内容可能会让人惊讶。毕竟在讨论过 32 位 CPU 和 32 位 VL-Bus 之后，却看到传输循环一次只做 16 位（\cw{short *dest;}）。事实证明这是有意为之。\\\\
 \par
-\ccode{I_FinishUpdate.c}\\
-%\par
-%On \NeXT system, the video implementation is very different. Calls to \cw{I\_UpdateNoBlit} are ignored. Only when \cw{I\_FinishUpdate} is called the framebuffer \#0 is copied and sent to Display PostScript subsystem. The \NeXT video system is detailed in the Annex on page \pageref{label_next_video_system}.\\
-\par
-The four other framebuffers in the core are used intermittently for temporary storage.
-\begin{itemize}
-\item Framebuffer \#1 is used when taking a screenshot but also to store the background when the 3D view is not full screen (\cw{R\_FillBackScreen}).
-
-\item Framebuffers \#2 and \#3 are used during the wipe animation to store the start and end screens while compositing into framebuffer \#0 (see detailed wipe system in the appendix on page \pageref{label_melt}).
-\item Framebuffer \#4 is smaller and only stores a virgin status bar used when content cannot be delta updated and a full redraw is needed.
-\end{itemize}
-\par
-
-
-
-The content of function \cw{I\_UpdateBox} to transfer data from RAM to VRAM may look surprising. After all the hardware discussion about 32-bit CPUs and the 32-bit VL-Bus it is uncanny to see the transfer loop do it 16 bits at a time (\cw{short *dest;}). It turns out this was a deliberate choice.\\
-\par
-\fq{Our artwork was done in 8x8 blocks, or "ebes" as Tom called them.  A 32-bit loop would have needed more code to handle widths that were an odd number of ebes.  It might have been a speedup, but the bus and video card would have to have handled full 32-bit writes, and I don't recall that being common back then.  Many VL-Bus cards were still the same basic chipset used on the ISA cards, and often still 16 bit, which meant that a 32-bit write just took 2x as long.}{John Carmack}\\
+\fq{我们的美术资产是按 8x8 块制作的，Tom 称它们为“ebes”。32 位循环会需要更多代码来处理宽度为奇数个 ebe 的情况。它也许能提速，但总线和显卡必须能处理完整的 32 位写入，而我不记得当时这很常见。许多 VL-Bus 卡仍然使用与 ISA 卡相同的基本芯片组，而且往往仍是 16 位，这意味着 32 位写入会花 2 倍的时间。}{John Carmack}\\\\
 \par
 \ccode{I_UpdateBox.c}
 \par

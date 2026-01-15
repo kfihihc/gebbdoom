@@ -1,48 +1,48 @@
-In May 1994, the source code of \cw{doombsp} was released. Like for other releases, John Carmack wrote a short note. \\
+1994 年 5 月，\cw{doombsp} 的源代码被发布。和其他发布一样，John Carmack 写了一段简短的说明。\\
 \par
 \vspace{10pt} 
 \hrule \par
 \begin{verbatim}
-The source code for the binary space partitioner we used for DOOM is 
-now available at ftp.uwp.edu: /incoming/id/doombsp.zip.
+我们用于 DOOM 的二叉空间划分器（binary space partitioner）源码
+现在可在 ftp.uwp.edu: /incoming/id/doombsp.zip 获取。
 
-The catch is that the source has a few objective-c constructs in it, 
-so it will take some work to port to dos.  The only thing that will 
-be a hassle is replacing the collection objects, the majority is just 
-straight C.
+需要注意的是，这份源码里包含一些 Objective-C 构造，
+所以要移植到 DOS 还得花点工夫。唯一麻烦的部分是
+替换集合对象，大多数代码都是纯 C。
 
-This code was written and extended, not evolved, so it probably isn't
-the cleanest thing in the world.  Please, PLEASE, PLEASE do not ask 
-for support on this.  I have far too much occupying my time as it is.
+这段代码是写出来并不断扩展的，而不是逐步演化出来的，
+所以它可能不是世界上最干净的实现。请一定、一定、一定
+不要向我请求支持。我已经被太多事情占满了时间。
 
-Our map editor does NOT work on wad files.  It saves an ascii text 
-representation of the file, then launches doombsp to process that into
-a wad file. I have included the input and output for E1M1, so you can
-verify any porting work you perform.
+我们的地图编辑器不能直接处理 WAD 文件。它会保存为
+ASCII 文本表示，然后启动 doombsp 把它处理成 WAD 文件。
+我附上了 E1M1 的输入与输出，你可以用来验证移植工作。
 
-Having two programs allowed us to seperate the tasks well under NEXTSTEP,
-but people working on dos editors will probably want to integrate a 
-version of the bsp code directly into the editor.
+拆成两个程序让我们在 NEXTSTEP 上很好地分工，
+但在 DOS 上做编辑器的人可能更希望把
+bsp 代码直接集成到编辑器里。
 
-If you are creating new DOOM maps for other people to use, we would 
-appreciate it if the wadfiles you create use a PWAD identifier at the 
-start of the file instead of the normal IWAD.  This causes DOOM to tell 
-the user that they are playing a modified version, and no technical 
-support will be given.
+如果你要制作供他人使用的新 DOOM 地图，
+我们希望你生成的 WAD 文件在文件开头使用 PWAD 标识，
+而不是普通的 IWAD。这样 DOOM 会告诉用户他们在玩修改版，
+并且我们不会提供技术支持。
 
-If you are creating a map editor for distribution to other people, contact
-Jay WIlbur (jayw@idsoftware.com) about getting a license agreement for the
-use of our trademark, etc.  Its not a money issue, just some legal jazz.
+如果你要制作供他人分发的地图编辑器，
+请联系 Jay Wilbur（jayw@idsoftware.com），
+以获取使用我们商标等的许可协议。
+这不是钱的问题，只是一些法律上的手续。
 
-BTW, there IS a bug in here that can cause up to a four pixel wide column 
-to be drawn out of order, causing a more distant floor and ceiling plane to
-stream farther forward than it should.  You can sometimes see this on E1M1
-looking towards the imp up on the ledge at the entrance to the zig zag room.
-A few pixel wide column of slime streams down to the right of the walkway.
-It takes a bit of fidgeting with the mouse to find the spot.  If someone
-out there tracks it down, let me know...
+顺便说一下，这里面确实有一个 bug，会导致
+最多 4 像素宽的一列被乱序绘制，
+从而让更远处的地板与天花板平面
+“向前流动”得比它应该的更远。
+有时你可以在 E1M1 上看到：
+在锯齿房间入口处朝着台阶上的小恶魔方向看，
+右侧通道旁会有一条几像素宽的黏液“往下流”。
+你得稍微用鼠标找一找那个位置。
+如果有人查到了这个问题，请告诉我……
 
-Have fun!
+玩得开心！
 
 John Carmack
 Id Software

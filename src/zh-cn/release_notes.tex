@@ -1,86 +1,77 @@
-In December 1997, the much awaited source code of \doom{} engine was finally released to the public. 
-John Carmack wrote a few words for the event.\\
+1997 年 12 月，备受期待的 \doom{} 引擎源代码终于向公众发布。
+John Carmack 为此写了几句话。\\
 \par
 \vspace{10pt}
 \hrule \par
 \begin{verbatim}
-Here it is, at long last.  The DOOM source code is released for your
-non-profit use.  You still need real DOOM data to work with this code.
-If you don't actually own a real copy of one of the DOOMs, you should
-still be able to find them at software stores.
+终于，终于发布了。DOOM 的源代码开放给你们非营利使用。
+你仍然需要真实的 DOOM 数据才能与这份代码配合工作。
+如果你没有真正的 DOOM 拷贝，
+在软件商店里应该还能找到。
 
-Many thanks to Bernd Kreimeier for taking the time to clean up the
-project and make sure that it actually works.  Projects tends to rot if
-you leave it alone for a few years, and it takes effort for someone to
-deal with it again.
+非常感谢 Bernd Kreimeier 花时间清理项目并确保它真的能跑起来。
+项目放几年不管就会腐朽，
+重新收拾起来需要有人投入精力。
 
-The bad news:  this code only compiles and runs on linux.  We couldn't
-release the dos code because of a copyrighted sound library we used
-(wow, was that a mistake -- I write my own sound code now), and I
-honestly don't even know what happened to the port that microsoft did
-to windows.
+坏消息：这份代码只在 Linux 上能编译运行。
+我们不能发布 DOS 代码，因为里面用到了受版权保护的声音库
+（哇，那真是个错误——现在我都自己写声音代码了），
+而且我也不清楚微软移植到 Windows 的版本后来怎样了。
 
-Still, the code is quite portable, and it should be straightforward to
-bring it up on just about any platform.
+不过这份代码的可移植性还是不错的，
+应该很容易把它移植到几乎任何平台上。
 
-I wrote this code a long, long time ago, and there are plenty of things
-that seem downright silly in retrospect (using polar coordinates for
-clipping comes to mind), but overall it should still be a usefull base
-to experiment and build on.
+这些代码是很久很久以前写的，
+现在回头看有不少地方显得相当愚蠢
+（比如用极坐标做裁剪），
+但总体来说它仍然是个很有用的基础，
+可以用来实验和构建新的东西。
 
-The basic rendering concept -- horizontal and vertical lines of constant
-Z with fixed light shading per band was dead-on, but the implementation
-could be improved dramatically from the original code if it were
-revisited.  The way the rendering proceded from walls to floors to
-sprites could be collapsed into a single front-to-back walk of the bsp
-tree to collect information, then draw all the contents of a subsector
-on the way back up the tree.  It requires treating floors and ceilings
-as polygons, rather than just the gaps between walls, and it requires
-clipping sprite billboards into subsector fragments, but it would be
-The Right Thing.
+基本的渲染概念——按带状区域使用固定光照的
+水平/垂直恒定 Z 线——是完全正确的，
+但如果重新审视，原始实现仍有极大的改进空间。
+渲染流程从墙到地板再到精灵，
+可以合并成一次从前到后的 BSP 树遍历来收集信息，
+然后在回溯时绘制一个子扇区内的所有内容。
+这需要把地板和天花板视作多边形，
+而不是墙之间的空隙，
+还需要把精灵广告牌裁剪成子扇区碎片，
+但这是正确的做法。
 
-The movement and line of sight checking against the lines is one of the
-bigger misses that I look back on.  It is messy code that had some
-failure cases, and there was a vastly simpler (and faster) solution
-sitting in front of my face.  I used the BSP tree for rendering things,
-but I didn't realize at the time that it could also be used for
-environment testing.  Replacing the line of sight test with a bsp line
-clip would be pretty easy.  Sweeping volumes for movement gets a bit
-tougher, and touches on many of the challenges faced in quake / quake2
-with edge bevels on polyhedrons.
+我回头看最糟糕的地方之一是运动与视线检测。
+它的代码很乱，而且有一些失败情况，
+其实有一个简单得多（也更快）的方案就在我眼前。
+我用 BSP 树来渲染，但当时没有意识到它也可以用于环境测试。
+把视线测试替换成 bsp 线段裁剪会很容易。
+用体积扫描来处理移动会更困难一些，
+会触及 Quake/Quake2 中许多边缘倒角的挑战。
 
-Some project ideas:
+一些项目想法：
 
-Port it to your favorite operating system.
+移植到你喜欢的操作系统。
 
-Add some rendering features -- transparency, look up / down, slopes,
-etc.
+添加一些渲染特性——透明、抬头/低头、斜坡等。
 
-Add some game features -- weapons, jumping, ducking, flying, etc.
+添加一些游戏特性——武器、跳跃、下蹲、飞行等。
 
-Create a packet server based internet game.
+创建一个基于包服务器的互联网游戏。
 
-Create a client / server based internet game.
+创建一个客户端/服务器架构的互联网游戏。
 
-Do a 3D accelerated version.  On modern hardware (fast pentium + 3DFX)
-you probably wouldn't even need to be clever -- you could just draw the
-entire level and get reasonable speed.  With a touch of effort, it should
-easily lock at 60 fps (well, there are some issues with DOOM's 35 Hz
-timebase...).  The biggest issues would probably be the non-power of two
-texture sizes and the walls composed of multiple textures.
+做一个 3D 加速版本。在现代硬件上（快速的 Pentium + 3DFX），
+你可能甚至不需要太聪明——直接把整个关卡画出来，
+也能有不错的速度。稍微努力一下，
+应该很容易锁定在 60 fps（不过 DOOM 的 35 Hz 时基
+还是有一些问题）。最大的麻烦可能是
+纹理尺寸不是 2 的幂，以及墙由多层纹理组成。
 
+我并不太确定会有多少人来折腾这些代码，
+但如果有人做出重要项目，
+我希望能看到一定程度的社区协作。
+我知道早期项目大多会是各自为战的粗糙黑客作品，
+但如果明年能看到一个协调发布的、改进且向后兼容的
+DOOM 多平台版本，那就很酷了。
 
-I don't have a real good guess at how many people are going to be
-playing with this, but if significant projects are undertaken, it would
-be cool to see a level of community cooperation.  I know that most early
-projects are going to be rough hacks done in isolation, but I would be
-very pleased to see a coordinated 'net release of an improved, backwards
-compatable version of DOOM on multiple platforms next year.
-
-Have fun.
-
-John Carmack
-12-23-97
-
+玩得开心。
 \end{verbatim}
 \par \hrule
