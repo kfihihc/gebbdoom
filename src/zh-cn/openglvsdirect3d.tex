@@ -1,166 +1,62 @@
-John Carmack's plan file was famous through the '90s. If the update started as a list of bugs and features he was working
-on, they morphed into blog posts. Of all the articles he wrote, the most famous is undoubtedly his December 1996 comparison of the two competing graphics programming APIs of the era named OpenGL and Direct3D.\\
+John Carmack 的 .plan 文件在 90 年代广为人知。更新最初是他在处理的 bug 与功能清单，后来逐渐变成博客文章。他写过的文章中，最著名的无疑是 1996 年 12 月对当时两大图形编程 API——OpenGL 与 Direct3D——的比较。\\
 \par
 \vspace{10pt}
 \label{openglvsdirectd}
 \hrule  \par
 \begin{verbatim}
 {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}
-John Carmack's .plan for Dec 23, 1996
+John Carmack 的 .plan（1996 年 12 月 23 日）
 {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}
 
 OpenGL vs Direct-3D
 
-I am going to use this installment of my .plan file to get up on a 
-soapbox about an important issue to me: 3D API. I get asked for my 
-opinions about this often enough that it is time I just made a public 
-statement. So here it is, my current position as of december '96... 
+我准备在这期 .plan 里站到一个小小的讲坛上，说说一个对我来说很重要的问题：3D API。别人经常问我对此的看法，所以我觉得该公开说一次了。以下就是我在 96 年 12 月的立场……
 
-While the rest of Id works on Quake 2, most of my effort is now focused 
-on developing the next generation of game technology. This new 
-generation of technology will be used by Id and other companies all the 
-way through the year 2000, so there are some very important long term 
-decisions to be made.
+当 Id 的其他人忙着做《Quake 2》时，我的大部分精力都放在研发下一代游戏技术上。这一代技术将被 Id 和其他公司使用到 2000 年，所以现在必须做出非常重要的长期决策。
 
-There are two viable contenders for low level 3D programming on win32: 
-Direct-3D Immediate Mode, the new, designed for games API, and OpenGL, 
-the workstation graphics API originally developed by SGI. They are both 
-supported by microsoft, but D3D has been evangelized as the one true 
-solution for games. 
-I have been using OpenGL for about six months now, and I have been very 
-impressed by the design of the API, and especially it's ease of use. A 
-month ago, I ported quake to OpenGL. It was an extremely pleasant 
-experience. It didn't take long, the code was clean and simple, and it 
-gave me a great testbed to rapidly try out new research ideas. 
+在 win32 上，有两种可行的底层 3D 编程方案：面向游戏的新 API——Direct-3D Immediate Mode，以及最初由 SGI 为工作站开发的图形 API——OpenGL。两者都得到了微软支持，但 D3D 被宣扬为游戏的唯一正解。
+我使用 OpenGL 约半年，对其 API 设计尤其是易用性印象深刻。一个月前我把 quake 移植到了 OpenGL，这是一段非常愉快的体验。进展很快，代码干净简洁，而且它为我提供了一个绝佳的平台去快速尝试新的研究想法。
 
-I started porting glquake to Direct-3D IM with the intent of learning 
-the api and doing a fair comparison. 
+我开始把 glquake 移植到 Direct-3D IM，目的是学习该 API 并进行公平比较。
 
-Well, I have learned enough about it. I'm not going to finish the port. 
-I have better things to do with my time. 
+嗯，我已经学够了。我不会完成移植。我还有更好的事情做。
 
-I am hoping that the vendors shipping second generation cards in the 
-coming year can be convinced to support OpenGL. If this doesn't happen 
-early on and there are capable cards that glquake does not run on, then 
-I apologize, but I am taking a little stand in my little corner of the 
-world with the hope of having some small influence on things that are 
- going to effect us for many years to come. 
+我希望明年出货的第二代显卡厂商能够支持 OpenGL。如果不能，并且出现一些 glquake 无法运行的合格显卡，那么我很抱歉，但我会在我这个小角落里稍微坚持一下，希望能对未来多年产生一点点影响。
 
-Direct-3D IM is a horribly broken API. It inflicts great pain and 
-suffering on the programmers using it, without returning any significant 
-advantages. I don't think there is ANY market segment that D3D is 
-apropriate for, OpenGL seems to work just fine for everything from quake 
-to softimage. There is no good technical reason for the existance of D3D. 
+Direct-3D IM 是一个糟糕透顶的 API。它给程序员带来巨大痛苦，却没有带来任何显著优势。我认为 D3D 没有任何市场细分是合适的，OpenGL 从 quake 到 softimage 都能很好地工作。没有任何技术理由让 D3D 存在。
 
-I'm sure D3D will suck less with each forthcoming version, but this is 
-an oportunity to just bypass dragging the entire development community 
-through the messy evolution of an ill-birthed API. 
+我确信 D3D 会在每个版本中变得不那么糟，但这恰好是一个机会：我们可以绕过这个“先天不足”的 API 漫长而混乱的演化，不必拖整个开发社区下水。
 
-Best case: Microsoft integrates OpenGL with direct-x (probably calling it
-Direct-GL or something), ports D3D retained mode on top of GL, and tells 
-everyone to forget they every heard of D3D immediate mode. Programmers 
-have one good api, vendors have one driver to write, and the world is a 
-better place. 
+最佳情况：微软把 OpenGL 集成进 direct-x（可能叫 Direct-GL 之类），把 D3D retained mode 构建在 GL 之上，并告诉所有人忘掉 D3D immediate mode。程序员只有一个好的 API，厂商只需写一个驱动，世界会更美好。
 
-To elaborate a bit: 
+稍作说明：
 
-"OpenGL" is either OpenGL 1.1 or OpenGL 1.0 with the common extensions. 
-Raw OpenGL 1.0 has several holes in functionality. 
+“OpenGL”指的是 OpenGL 1.1 或带常见扩展的 OpenGL 1.0。
+原始 OpenGL 1.0 在功能上有不少缺口。
 
-"D3D" is Direct-3D Immediate Mode. D3D retained mode is a seperate issue. 
-Retained mode has very valid reasons for existance. It is a good thing to 
-have an api that lets you just load in model files and fly around without 
-sweating the polygon details. Retained mode is going to be used by at 
-least ten times as many programmers as immediate mode. On the other 
-hand, the world class applications that really step to new levels are 
-going to be done in an immediate mode graphics API. D3D-RM doesn't even
-really have to be tied to D3D-IM. It could be implemented to emit OpenGL 
-code instead. 
+“D3D”指 Direct-3D Immediate Mode。D3D retained mode 是另一回事。Retained mode 有很合理的存在理由：它让你直接加载模型文件，四处飞行，而不必为多边形细节操心。Retained mode 的用户可能比 immediate mode 多出至少十倍。另一方面，真正推动行业的世界级应用会使用 immediate mode 的图形 API。D3D-RM 并不一定非要绑定 D3D-IM，它完全可以实现为输出 OpenGL 代码。
 
-I don't particularly care about the software only implementations of 
-either D3D or OpenGL. I haven't done serious research here, but I think 
-D3D has a real edge, because it was originally designed for software 
-rendering and much optimization effort has been focused there. COSMO GL
-is attempting to compete there, but I feel the effort is misguided. 
-Software rasterizers will still exist to support the lowest common 
-denominator, but soon all game development will be targeted at hardware 
-rasterization, so that's where effort should be focused. 
+我对纯软件实现的 D3D 或 OpenGL 并不太关心。我没做深入研究，但我认为 D3D 有明显优势，因为它最初为软件渲染设计，并投入了大量优化。COSMO GL 试图竞争，但我觉得这方向并不明智。软件光栅化会继续存在以支持最低配置，但很快所有游戏开发都会瞄准硬件光栅化，所以努力应集中在那上面。
 
-The primary importance of a 3D API to game developers is as an interface
-to the wide variety of 3D hardware that is emerging. If there was one 
-compatable line of hardware that did what we wanted and covered 90+ 
-percent of the target market, I wouldn't even want a 3D API for 
-production use, I would be writing straight to the metal, just like I 
-allways have with pure software schemes. I would still want a 3D API for
-research and tool development, but it wouldn't matter if it wasn't a 
-mainstream solution. 
+3D API 对游戏开发者最重要的意义，是提供一个连接各类新兴 3D 硬件的接口。如果有一条兼容的硬件产品线能满足我们需求并覆盖 90% 以上的目标市场，我甚至不需要用于生产的 3D API——我会直接“贴着金属写”，就像我一直在软件方案中做的那样。我仍然需要一个 3D API 来做研究与工具开发，但它不会影响主流。
 
-Because I am expecting the 3D accelerator market to be fairly fragmented
-for the forseeable future, I need an API to write to, with individual 
-drivers for each brand of hardware. OpenGL has been maturing in the 
-workstation market for many years now, allways with a hardware focus. 
-We have exisiting proof that it scales just great from a \$300 permedia 
-card all the way to a \$250,000 loaded infinite reality system. 
+由于我预计 3D 加速卡市场在可预见的未来会非常碎片化，我需要一个 API 来编写代码，并为每个品牌硬件提供独立驱动。OpenGL 在工作站市场已经发展了多年，始终以硬件为核心。我们已经证明它可以从 300 美元的 Permedia 卡扩展到 250,000 美元的顶级 Infinite Reality 系统。
 
-All of the game oriented PC 3D hardware basically came into existance in
-the last year. Because of the frantic nature of the PC world, we may be 
-getting stuck with a first guess API and driver model which isn't all 
-that good. 
+面向游戏的 PC 3D 硬件基本都在最近一年才出现。因为 PC 世界节奏疯狂，我们可能会被一个“初代猜测”的 API 和驱动模型绑住，而那模型并不那么好。
 
-The things that matter with an API are: functionality, performance, 
-driver coverage, and ease of use. 
+API 真正重要的因素是：功能、性能、驱动覆盖率与易用性。
 
-Both APIs cover the important functionality. There shouldn't be any real 
-argument about that. GL supports some additional esoteric features that 
-I am unlikely to use (or are unlikely to be supported by hardware -- 
-same effect). D3D actually has a couple nice features that I would like 
-to see moved to GL (specular blend at each vertex, color key 
-transparancy, and no clipping hints), which brings up the extensions 
-issue. GL can be extended by the driver, but because D3D imposes a 
-layer between the driver and the API, microsoft is the only one that 
-can extend D3D.  
+两者都覆盖了重要功能，这点不应有争议。GL 支持一些我不太可能用到的深奥特性（或硬件未必支持——结果一样）。D3D 确实有几个我希望加入 GL 的不错特性（如每顶点高光混合、颜色键透明、以及不裁剪提示），这引出了扩展问题。GL 可以由驱动扩展，而 D3D 在驱动与 API 之间有一层，因此只有微软才能扩展 D3D。
 
-My conclusion about performance is that there is not going to be any 
-significant performance difference (< 10\%) between properly written 
-OpenGL and D3D drivers for several years at least. There are some 
-arguments that gl will scale better to very high end hardware because
-it doesn't need to build any intermediate structures, but you could 
-use tiny sub cache sized execute buffers in d3d and acheive reasonably
-similar results (or build complex hardware just to suit D3D -- ack!). 
-There are also arguments from the other side that the vertex pools in 
-d3d will save work on geometry bound applications, but you can do the 
-same thing with vertex arrays in GL. 
+关于性能，我的结论是：至少在未来几年，正确编写的 OpenGL 与 D3D 驱动之间不会有显著性能差异（< 10%）。有人认为 GL 更易扩展到高端硬件，因为它不需要构建中间结构；而 D3D 可以用小到缓存大小的 execute buffers 达到类似效果（或者干脆为 D3D 造复杂硬件——呃）。也有人从另一边指出 D3D 的 vertex pools 可在几何受限应用中节省工作，但 GL 的 vertex arrays 也能做到类似事情。
 
-Currently, there are more drivers avaialble for D3D than OpenGL on the 
-consumer level boards. I hope we can change this. A serious problem is
-that there are no D3D conformance tests, and the documentation is very 
-poor, so the existing drivers aren't exactly uniform in their 
-functionality. OpenGL has an established set of conformance tests, so 
-there is no argument about exactly how things are supposed to work. 
-OpenGL offers two levels of drivers that can be written: mini client 
-drivers and installable client drivers. A MCD is a simple, robust 
-exporting of hardware rasterization capabilities. An ICD is basically 
-a full replacement for the API that lets hardware accelerate or extend
- any piece of GL without any overhead. 
+目前消费者级显卡的 D3D 驱动比 OpenGL 多。我希望我们能改变这一点。更严重的问题是，D3D 缺乏一致性测试、文档也很糟，因此现有驱动在功能上并不统一。OpenGL 有成熟的一致性测试，因此不会有“应该怎么做”的争论。OpenGL 提供两级驱动：mini client drivers 与 installable client drivers。MCD 是对硬件光栅化能力的简单、可靠输出；ICD 则基本是 API 的完整替代，允许硬件加速或扩展 GL 的任意部分，几乎无额外开销。
 
-The overriding reason why GL is so much better than D3D has to do with
-ease of use. GL is easy to use and fun to experiment with. D3D is not
-(ahem). You can make sample GL programs with a single page of code. I
-think D3D has managed to make the worst possible interface choice at 
-every oportunity. COM. Expandable structs passed to functions. Execute
-buffers. Some of these choices were made so that the API would be able
-to gracefully expand in the future, but who cares about having an API
-that can grow if you have forced it to be painful to use now and 
-forever after? Many things that are a single line of GL code require 
-half a page of D3D code to allocate a structure, set a size, fill 
-something in, call a COM routine, then extract the result. 
+GL 之所以远胜 D3D，最根本的原因是易用性。GL 易用、好玩，适合试验；D3D 则不是（咳）。你可以用一页代码写出 GL 示例程序。D3D 似乎在每个地方都做了最糟糕的接口选择：COM、可扩展结构体传参、execute buffers。某些选择是为了让 API 将来能优雅扩展，但如果这让现在和未来都痛苦，扩展性又有什么意义？许多 GL 一行代码就能完成的事，D3D 需要半页：分配结构体、设置大小、填数据、调用 COM 例程，再提取结果。
 
-Ease of use is damn important. If you can program something in half the
-time, you can ship earlier or explore more aproaches. A clean, readable
- coding interface also makes it easier to find / prevent bugs. 
+易用性非常重要。你能在一半时间内写完，就能更早出货或探索更多方案。干净可读的编码接口也更容易发现/避免 bug。
 
-GL's interface is procedural: You perform operations by calling gl 
-functions to pass vertex data and specify primitives. 
+GL 的接口是过程式的：调用 gl 函数传递顶点数据并指定图元。
 
 
 glBegin (GL_TRIANGLES); 
@@ -170,11 +66,7 @@ glVertex (2,0,0);
 glEnd (); 
 
 
-D3D's interface is by execute buffers: You build a structure containing 
-vertex data and commands, and pass the entire thing with a single call. 
-On the surface, this apears to be an efficiency improvement for D3D, 
-because it gets rid of a lot of procedure call overhead. In reality, it
-is a gigantic pain-in-the-ass. 
+D3D 的接口是 execute buffers：你构建一个包含顶点数据与命令的结构体，然后通过一次调用提交整个结构。在表面上这似乎提升了效率，因为减少了过程调用开销。但实际上，这是一个巨大的痛苦。 
 
 
 v = &buffer.vertexes[0]; 
@@ -191,44 +83,7 @@ c->vertexes[2] = 2;
 IssueExecuteBuffer (buffer); 
 
 
-If I included the complete code to actually lock, build, and issue an 
-execute buffer here, you would think I was choosing some pathologically 
-slanted case to make D3D look bad. 
+如果我在这里贴出完整的锁定、构建、提交 execute buffer 的代码，你会觉得我特意挑了一个极端案例来黑 D3D。
 
-You wouldn't actually make an execute buffer with a single triangle in 
-it, or your performance would be dreadfull. The idea is to build up a 
-large batch of commands so that you pass lots of work to D3D with a 
-single procedure call. 
-
-A problem with that is that the optimal definition of "large" and 
-"lots" varies depending on what hardware you are using, but instead of
-leaving that up to the driver, the application programmer has to know 
-what is best for every hardware situation. 
-
-You can cover some of the messy work with macros, but that brings its 
-own set of problems. The only way I can see to make D3D generally 
-usable is to create your own procedural interface that buffers 
-commands up into one or more execute buffers and flushes when needed. 
-But why bother, when there is this other nifty procedural API allready 
-there... 
-
-With OpenGL, you can get something working with simple, straightforward
-code, then if it is warranted, you can convert to display lists or 
-vertex arrays for max performance (although the difference usually isn't
-that large). This is the right way of doing things -- like converting 
-your crucial functions to assembly language after doing all your 
-development in C. 
-
-With D3D, you have to do everything the painful way from the beginning. 
-Like writing a complete program in assembly language, taking many times 
-longer, missing chances for algorithmic improvements, etc. And then 
-finding out it doesn't even go faster. 
-
-I am going to be programming with a 3D API every day for many years to 
-come. I want something that helps me, rather than gets in my way. 
-
-John Carmack 
-Id Software 
-
+你不会真的在一个 execute buffer 里只放一个三角形，否则性能会惨不忍睹。这个机制的本意是批量构建大量命令，把尽可能多的工作一次性提交给 D3D。
 \end{verbatim}
- \hrule

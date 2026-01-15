@@ -1,80 +1,75 @@
 \begin{wrapfigure}[5]{r}{0.35\textwidth}{
 \centering \scaledimage{0.35}{jaguar_logo.png}}
 \end{wrapfigure}
-Development of the Jaguar started in 1990 when Atari commissioned Cambridge-based Flare Technology to design not just one but two new game systems simultaneously: a fourth generation, 32-bit system called Panther, and an audacious 64-bit system called Jaguar\footnote{Atari named all its consoles after big cats. Besides the Jaguar and Panther, its handheld game system from 1989 was called "Lynx".}.
-\par Three years later, with the Jaguar project ahead of schedule, Atari decided to abandon the Panther and released the 64-bit Jaguar in November 1993.\\
+Jaguar 的开发始于 1990 年，当时 Atari 委托剑桥的 Flare Technology 同时设计两套新游戏系统：一套第四代 32 位系统“Panther”，以及大胆的 64 位系统“Jaguar”\footnote{Atari 以大型猫科命名其主机。除 Jaguar 与 Panther 外，1989 年的掌机名为“Lynx”。}。
+\par 三年后，Jaguar 项目进度领先，Atari 决定放弃 Panther，并于 1993 年 11 月发布 64 位 Jaguar。\\
 \par
 \fullimage{consoles/Jaguar.png}
 \par
-Martin Brennan, Ben Cheese, and John Mathieson from Flare Technology made opinionated design decisions. Besides the 18-button controller, the machine had no fewer than five processors to juggle with.\\
+Flare Technology 的 Martin Brennan、Ben Cheese 与 John Mathieson 做出了一些强烈主张的设计决策。除 18 键手柄外，该主机拥有不少于五颗处理器需要协调。\\
 \par
-On the audio side there was a 32-bit 27MHz RISC CPU nicknamed "Jerry". On the video side, three processors were all contained in a 32-bit 27MHz RISC chip nicknamed "Tom" with a GPU, blitter, and object processor. To orchestrate everything, there was a 16/32-bit 13MHz 68000 with 2MiB of RAM. Connecting them all, to the delight of marketing, was a 64-bit data bus.\\
+音频方面配有一颗 32 位 27MHz RISC CPU，绰号 “Jerry”。视频方面则有三颗处理器，均集成在 32 位 27MHz RISC 芯片 “Tom” 中，包括 GPU、blitter 与 object processor。协调全局的是一颗 16/32 位 13MHz 68000，并配有 2MiB RAM。将一切连接起来的，是让市场部门兴奋不已的 64 位数据总线。\\
 \par
-The bold ad, "Do the Math!" featuring the 64-bit claim triggered mostly suspicion from potential customers.  No matter how John Mathieson attempted to explain it in interviews, the machine felt like an attempt to mislead by an already suspicious Atari marketing department. How Atari could have managed to manufacture something four times better than the 16-bit Super Nintendo and Sega Genesis was not clear.
-\drawing{jaguar_arch}{Architecture of the Jaguar. Notice the uneven buses.}
+“Do the Math!” 这条大胆的 64 位广告标语引发了潜在用户的质疑。无论 John Mathieson 在访谈中如何解释，这台机器看起来都像是已经令人怀疑的 Atari 市场部在误导消费者。Atari 怎么可能造出比 16 位 Super Nintendo 与 Sega Genesis 强四倍的主机，这一点并不清楚。
+\drawing{jaguar_arch}{Jaguar 的架构。注意不均匀的总线。}
 \par
-Cautious purchasers on one side were met by incredulous game developers on the other side. The five-processor architecture was powerful but highly unusual for people accustomed to dealing with a single processor on the 8-bit Nintendo Entertainment System or Sega Master System. Programming the Jaguar was an art that few took the time to learn.\\
+谨慎的消费者与难以置信的开发者对峙。五处理器架构很强大，却对习惯于 8 位 NES 或 Sega Master System 单处理器的开发者来说极其反常。为 Jaguar 编程是一门艺术，很少有人愿意花时间掌握。\\
 \par
-The limited library of games available at launch prevented the formation of a critical mass of customers. Low sales figures made developers less likely to invest in the Jaguar which in turn impacted sales. Over its three-year lifetime, Atari sold about 100,000 units. 
+首发游戏数量有限，阻碍了玩家规模的形成。低销量让开发者更不愿投入，进而进一步影响销量。在其三年寿命里，Atari 仅售出约 10 万台。
 
 
 \fullimage{jagua_motherboard.png}\\
 \par
-Inside the machine: \circled{1} Motorola 68000, \circled{2} 2MiB RAM, \circled{3} JERRY, \circled{4} TOM, \circled{5} Operating System ROM, \circled{6} Cartridge slot, \circled{7} Joystick ports, \circled{8} AC Adapter Jack, \circled{9} DSP Port, \circled{A} Monitor (composite, component, and S-Video) Port, and \circled{B} Channel switch, TV port.\\
+机器内部：\circled{1} Motorola 68000，\circled{2} 2MiB RAM，\circled{3} JERRY，\circled{4} TOM，\circled{5} 操作系统 ROM，\circled{6} 卡带插槽，\circled{7} 手柄接口，\circled{8} 电源适配器接口，\circled{9} DSP 接口，\circled{A} 显示输出（复合、分量与 S-Video），以及 \circled{B} 频道切换、电视端口。\\
 \par
-\fq{Jaguar has a 64-bit memory interface to get a high bandwidth out of cheap DRAM. ... Where the system needs to be 64 bit then it is 64 bit, so the Object Processor, which takes data from DRAM and builds the display is 64 bit; and the blitter, which does all the 3D rendering, screen clearing, and pixel shuffling, is 64 bit. Where the system does not need to be 64 bit, it isn't. There is no point in a 64-bit address space in a games console! 3D calculations and audio processing do not generally use 64-bit numbers, so there would be no advantage to 64-bit processors for this.}{John Mathieson}
+\fq{Jaguar 具有 64 位内存接口，以便从廉价 DRAM 获取高带宽。……系统需要 64 位时，它就是 64 位，因此从 DRAM 获取数据并构建显示的 Object Processor 是 64 位；负责 3D 渲染、清屏与像素搬移的 blitter 也是 64 位。系统不需要 64 位的部分就不是 64 位。游戏主机没有 64 位地址空间的意义！3D 计算与音频处理一般不使用 64 位数字，因此 64 位处理器没有优势。}{John Mathieson}
 
 
 
 \rawdrawing{jaguar_motherboard}
 \par
-John Mathieson granted many interviews giving more insight into the constraints a hardware engineer has to deal with, from cost-related pressures to mandates from Atari to use CPUs from Motorola. The grass on the hardware side was not greener than on the software side.\\
+John Mathieson 接受了许多访谈，提供了更多硬件工程师所面临的约束，从成本压力到 Atari 要求使用 Motorola CPU 等。硬件端的草地并不比软件端更绿。\\
 \par
-\fq{Atari were keen to use a 68K family device, and we looked closely at various members.  We did actually build a couple of 68030 versions of the early beta developers systems, and for a while were going to use a 68020. However, this turned out too expensive.  We also considered the possibility of no [Motorola 680x0 chip] at all.  I always felt it was important to have some normal processor, to give developers a warm feeling when they start. The 68K is inexpensive and does that job well.}{John Mathieson}
+\fq{Atari 很希望使用 68K 系列器件，我们仔细研究了多个成员。我们确实做过 68030 版本的早期 Beta 开发系统，一度打算用 68020。但后来发现成本太高。我们也考虑过完全不用 [Motorola 680x0 芯片]。我始终觉得需要一个“正常”的处理器，能让开发者刚开始时感觉安心。68K 便宜且能很好地完成这份工作。}{John Mathieson}
 
 
 
 
 
 
-
-\subsection{Programming The Jaguar}
-To unleash the beast meant having all five processors work in parallel\footnote{Source: "Jaguar Technical Reference Manual: Tom \& Jerry".}. It was complicated in theory and complicated in practice.\\
+\subsection{Jaguar 编程}
+释放这只野兽意味着要让五颗处理器并行工作\footnote{来源：“Jaguar Technical Reference Manual: Tom \& Jerry”。}。理论上复杂，实践中更复杂。\\
 \par
-\fq{The 68000 may be the CPU in
-   the sense that it's the center of operation, and boot-straps the machine,
-   and starts everything else going; however, it is not the center of Jaguar's
-   power. ... The 68000 is like a manager who does no real work, but tells
-   everybody else what to do.\\
+\fq{68000 可以说是“CPU”，因为它负责引导机器并启动其它一切；然而它并不是 Jaguar 的力量中心。……68000 就像一位不干实事的经理，只是指挥别人干活。\\
    \par
-     I maintain that it's only there to read the joysticks.}{John Mathieson}
+     我认为它的存在只是为了读取手柄。}{John Mathieson}
 
-\subsubsection{Theory}
+\subsubsection{理论}
 \par
-The Motorola 68000 is used as a manager. It deals with the outside world and manages resources for the other processors. It is at the highest control level and has complete control over the system.\\
+Motorola 68000 作为管理者，负责对外部世界的交互并管理其他处理器的资源。它处于最高控制层，对系统拥有完全控制。\\
 \par
-The Object Processor is connected to the TV and is in charge of generating display lines. It reads an object list usually made of pixels (which can overlap). It performs all the functions of a traditional sprite engine. Its 16-bit per-pixel CRY (Cyan-Red-Yellow) color model was unconventional for consoles at that time. One byte is an (\cw{X,Y}) coordinate in a sRGB cube flattened into a square which gives a color. The other byte gives the brightness, for a total of 65,536 colors.\\
+Object Processor 连接电视，负责生成显示行。它读取通常由像素构成的对象列表（可重叠），完成传统精灵引擎的所有功能。其 16 位每像素的 CRY（Cyan-Red-Yellow）颜色模型在当时主机中非常另类。一个字节是将 sRGB 立方体压扁成方形后的 (X,Y) 坐标，给出颜色；另一个字节给出亮度，总计 65,536 色。\\
 \par
 \fullimage{CRY.png}\\
 
 
 \fullimage{CRY_persp.png}
 \par
-The Graphics Processor is the powerhouse with a high instruction throughput, a powerful ALU with a parallel multiplier, barrel-shifter, and a divide unit, in addition to the normal arithmetic functions. Its internal 4KiB of SRAM is meant to store not only data to operate on but also its local program instructions.\\
+Graphics Processor 是高吞吐、强 ALU 的主力，拥有并行乘法器、桶形移位器与除法单元，以及常规算术功能。其内部 4KiB SRAM 用于保存数据与本地程序指令。\\
 \par
-The Blitter performs fast RAM block move and fill operations. It can generate strips of pixels for Gouraud-shaded Z-buffered polygons and is also capable of skipping pixels (based on Z-testing). It is capable of rotating bitmaps, line-drawing, character-painting, and a range of other effects. It is in charge of loading the SRAM for Tom \& Jerry with local data and instructions\\
+Blitter 负责快速 RAM 块移动与填充，可生成 Gouraud 着色的 Z 缓冲多边形像素条，也可基于 Z 测试跳过像素。它能够进行位图旋转、画线、字符绘制等多种效果，并负责把本地数据与指令加载到 Tom \& Jerry 的 SRAM。\\
 \par
-Jerry, the DSP, is the twin brother of the Graphics Processor. Its bigger local SRAM (8 KiB) and smaller 32-bit connection to the 64-bit main bus make it a perfect candidate for generating music and sound effects. However, it was at the programmer's discretion to make it perform other tasks, even graphical ones. The versatility is such that the Jag-Link connecting two Jaguars together is plugged directly in the "DSP port" on the back of the console and Jerry is in charge of networking.\\
+Jerry（DSP）是 Graphics Processor 的孪生兄弟。更大的本地 SRAM（8 KiB）与更小的 32 位连接到 64 位主总线，使其适合生成音乐与音效。不过，程序员也可让它执行其他任务，包括图形。其灵活性之大体现在：连接两台 Jaguar 的 Jag-Link 直接插在背后的 “DSP 端口” 上，由 Jerry 负责网络。\\
 \par
-All RAM (even SRAM in the RISC CPUs) is addressable by any component thanks to a flexible memory controller. At any point during execution of their programs, any processor can become the DMA bus master. Despite its status as governor, the 68000 has the lowest level of priority (were its DMA master request to conflict with another processor) while the DSP is king, in order to avoid extremely unpleasant audio glitches.
+所有 RAM（包括 RISC CPU 内的 SRAM）都可被任何组件访问，依赖灵活的内存控制器。执行过程中任何处理器都可成为 DMA 总线主控。尽管 68000 是“总管”，在 DMA 主控冲突时它却优先级最低，DSP 反而是“王”，以避免糟糕的音频毛刺。
 \par
 
 
 
-\subsubsection{Practice}
-The hardware had several bugs, especially at the memory controller level, making multitasking hard to rely on and even harder to debug.\\
+\subsubsection{实践}
+硬件存在不少 bug，尤其是内存控制器层面，使得多任务难以依赖，调试更是困难重重。\\
 \par 
-It may not be obvious at first sight but the Motorola 68000 and Tom/Jerry had different architectures and different instruction sets. The intended workflow was to program the Motorola in C while the GPU/DSP RISC path was more convoluted. The programmer had to first learn the new instruction set, then write assembly code, use the provided assembler to generate machine code, and finally write a full pipeline to store and later deliver the machine code to local program-dedicated SRAM on Tom \& Jerry.\\
+乍看不明显，但 Motorola 68000 与 Tom/Jerry 采用不同架构与指令集。预期工作流是使用 C 语言编程 Motorola，而 GPU/DSP 的 RISC 路径则更繁琐：程序员必须先学习新指令集，再写汇编代码，用汇编器生成机器码，最后构建完整流水线，将机器码存储并交付到 Tom \& Jerry 的本地 SRAM。\\
 \par
 
 
@@ -83,84 +78,52 @@ It may not be obvious at first sight but the Motorola 68000 and Tom/Jerry had di
 
 
 
-
-
-
-
-\subsection{\doom{} On Jaguar}
-John Carmack took an early interest in the Jaguar and did the port himself with Dave Taylor taking care of the sound and MIDI music. It was not John's first contact with the machine.\\
+\subsection{\doom{} 在 Jaguar 上}
+John Carmack 很早就对 Jaguar 感兴趣，并亲自完成移植，Dave Taylor 负责音效与 MIDI 音乐。这并非 John 首次接触该机。\\
 \par
-\fq{I converted Wolfenstein 3D on a whim. I was thinking about how the Jag's hardware could be applied to games other than Doom, and Wolfenstein seemed a pretty good utilization. I started programming one afternoon and 15 CDs later, when the other guys were coming in the next morning, I had a functional port of the Jaguar Wolfenstein code running. We sent it to Atari, and they gave us the go-ahead to stall Doom for a little while and get Wolfenstein out real quick.}{John Carmack for EDGE Magazine, June 1994}\\
+\fq{我心血来潮移植了 Wolfenstein 3D。我在想 Jaguar 的硬件还能用在 Doom 之外的哪些游戏里，Wolfenstein 看起来是个很好的利用。我某天下午开始写，烧了 15 张 CD，第二天早上其他人来上班时，我已经有了一个可运行的 Jaguar Wolfenstein 版本。我们把它寄给 Atari，他们同意让 Doom 稍微延期，好让 Wolfenstein 先行发布。}{John Carmack for EDGE Magazine, June 1994}\\
 \par
-For \doom, the duo had something up and running two weeks after they signed off on the port, even though it was running at a wretched rate\footnote{Source: EDGE Magazine, June 1994.}.\\
+对于 \doom，二人组在签署移植协议两周后就跑起来了，尽管帧率糟糕\footnote{来源：EDGE Magazine, 1994 年 6 月。}。\\
 \par
-\trivia{To ease the task of generating RISC instructions for Tom \& Jerry, John Carmack wrote his own \cw{lcc} compiler backend. Output was optimized further by hand.\footnote{It was not the last time id Software would use the excellent \cw{lcc}. in 1999, it was used for Quake 3 to generate the VM bytecode.}}\\
+\trivia{为简化 Tom \& Jerry 的 RISC 指令生成，John Carmack 编写了自己的 \cw{lcc} 编译器后端。输出还被手工进一步优化\footnote{这不是 id Software 最后一次使用优秀的 \cw{lcc}。1999 年它用于 Quake 3 生成 VM 字节码。}}\\
 \par
-To run on a machine with 50\% less RAM was difficult. The Cyberdemon and Spiderdemon were cut. Sprite and texture resolution were reduced. Maps were heavily modified to use fewer textures, have fewer segments, and create fewer visplanes. Take a look at E1M1 in Figure \ref{doom_jaguar3.png} and compare it with the PC version (on page \pageref{mashed_potatoes1.png}). See how the blue floor texture is gone and there is only one step instead of two.\\
+在一台 RAM 只有 PC 版本 50\% 的机器上运行非常困难。Cyberdemon 与 Spiderdemon 被删。精灵与纹理分辨率降低。地图被大量修改以减少纹理、线段与可见平面。请看图 \ref{doom_jaguar3.png} 中的 E1M1，并与 PC 版（第 \pageref{mashed_potatoes1.png} 页）比较：蓝色地面纹理消失，台阶从两阶变为一阶。\\
 \par
-The 3D renderer had to be rewritten to fit in a small chunk of ASM that ran on the RISCs. Nine overlays were swapped in and out of the SRAM at runtime based on engine "phases".\\
+3D 渲染器必须重写，以适配在 RISC 上运行的小型汇编块。运行时根据引擎“阶段”在 SRAM 中切换九个覆盖块。\\
 \par
 \cfullimage{doom_jaguar3.png}{}
 \par
 \vspace{-12pt}
-The source code of \doom{} for Jaguar was released in May, 2003 by Carl Forhan of Songbird Productions. Peeking inside reveals the details of how memory footprint was reduced. Visplane storage for example was reduced from 128 to 64.\\
+Jaguar 版 \doom{} 的源代码于 2003 年 5 月由 Songbird Productions 的 Carl Forhan 发布。查看其中可发现内存占用缩减的细节，例如 visplane 从 128 缩减为 64。\\
 \par
 \ccode{jaguar_visplanes.c}
 \par
-A big decision was to cut music playback during game. This was due to the poor performance of Tom which was not able to handle the game engine on its own. To resolve this problem, Jerry (the so-called DSP) was used to run collision detections. Thankfully, there was still enough juice in Jerry to play sound effects and the engine managed a solid 20 FPS.\\
+一个重要决定是取消游戏内音乐播放。这是因为 Tom 无法独立承载游戏引擎性能。为解决此问题，Jerry（DSP）被用于碰撞检测。幸运的是，Jerry 仍有余力播放音效，引擎最终稳定在 20 FPS。\\
 \par
-The 3D rendering was done at a resolution of 160x180. Columns were doubled to reach 320x180 with 60 pixels at the bottom for the status bar, bringing the overall resolution to 320x240. In many ways the graphical result was better than the PC. With its tailor-made 16-bit CRY mode, the Jaguar really had 65,536 colors with no color banding in sight.
+3D 渲染分辨率为 160x180，列重复后达到 320x180，并在底部留出 60 像素状态栏，总分辨率 320x240。在很多方面，画面甚至优于 PC。凭借定制 16 位 CRY 模式，Jaguar 实际上拥有 65,536 色，且无色带。
 
 
 
 
 \fullimage{doom_jaguar2.png}
 \par
-Further inspection shows the Jaguar code also contains a few artifacts from the Sega 32X version (\cw{MARS} was the code name of the Sega 32X). We can also learn that development was done on NeXTSTEP in what was called "Simulator" mode.\\
+进一步查看源代码还能发现一些来自 Sega 32X 版本的遗留（\cw{MARS} 是 Sega 32X 的代号）。我们还可以得知开发是在 NeXTSTEP 的 “Simulator” 模式下完成的。\\
 \par
 \ccode{jaguar_src.c}
 \par
 
-\fq{The memory, bus, blitter and video processor were 64 bits wide, but the
-processors (68k and two custom RISC processors) were 32 bit.\\
+\fq{内存、总线、blitter 与视频处理器是 64 位的，但处理器（68k 与两颗定制 RISC）是 32 位。\\
 \par
-The blitter could do basic texture mapping of horizontal and vertical spans,
-but because there wasn't any caching involved, every pixel caused two
-ram page misses and only used 1/4 of the 64-bit bus. Two 64-bit buffers
-would have easily tripled texture mapping performance. Unfortunate.\\
+blitter 可以做基本的水平与垂直跨度纹理映射，但因为没有缓存，每个像素都会造成两次 RAM 页缺失，只用了 64 位总线的 1/4。两个 64 位缓冲区本可以轻松让纹理映射性能提升三倍。可惜了。\\
 \par
-It could make better use of the 64-bit bus with Z buffered, shaded triangles,
-but that didn't make for compelling games.\\
+它可以用 Z 缓冲的着色三角形更好地利用 64 位总线，但这并不会带来更吸引人的游戏。\\
 \par
-It offered a useful color space option that allowed you to do lighting effects
-based on a single channel, instead of RGB.\\
+它提供了一个有用的颜色空间选项，让你可以基于单一通道做光照效果，而不是 RGB。\\
 \par
-The video compositing engine was the most innovative part of the console.
-All of the characters in Wolf3D were done with just the back end
-scalar instead of blitting. Still, the experience with the limitations and
-hard failure cases of that gave me good ammunition to rail against Microsoft's
-(thankfully aborted) talisman project.\\
+视频合成引擎是主机最具创新性的部分。Wolf3D 中所有角色都只用后台 scalar 完成，而不是 blitting。尽管如此，极限与失败案例的经验让我有足够弹药去反对微软（幸好被取消的）talisman 项目。\\
 \par
-The little RISC engines were decent processors. I was surprised that they
-didn't use off the shelf designs, but they basically worked ok. They had
-some design hazards (write after write) that didn't get fixed, but the only
-thing truly wrong with them was that they had scratchpad memory instead
-of caches, and couldn't execute code from main memory\footnote{A \codeword{jmp} could fail when executed from main memory (see Jaguar Tech reference manual p137)!}. I had
-to chunk the DOOM renderer into nine sequentially loaded overlays to
-get it working (with hindsight, I would have done it differently in about
-three...).\\
+小型 RISC 引擎是不错的处理器。我惊讶他们没用现成设计，但基本可用。它们有一些设计隐患（写后写）未修复，但真正的问题是：它们使用 scratchpad 内存而非缓存，且无法从主内存执行代码\footnote{在主内存中执行 \codeword{jmp} 会失败（见 Jaguar 技术参考手册第 137 页）！}。我不得不将 DOOM 渲染器拆成九个依序加载的覆盖块来运行（事后看来，我会在三……个不同的方案中做得更好）。\\
 \par
-The 68k was slow. This was the primary problem of the system. Your options
-were either taking it easy, running everything on the 68k, and going
-slow, or sweating over lots of overlayed parallel asm chunks to make
-something go fast on the risc processors.\\
+68k 很慢，这是系统的主要问题。你的选择是要么轻松点，所有东西跑在 68k 上，速度很慢；要么在 RISC 上加班加点，通过大量叠加并行汇编块来提升速度。\\
 \par
-That is why PlayStation kicked so much ass for development - it was programmed
-like a single serial processor with a single fast accelerator.
-If the jaguar had dumped the 68k and offered a dynamic cache on the
-RISC processors and had a tiny bit of buffering on the blitter, it could have put up a reasonable fight against Sony.} {John Carmack}
-
-
-
-
-
+这也是 PlayStation 在开发上如此强势的原因——它的编程方式像单一串行处理器搭配一个快速加速器。若 Jaguar 去掉 68k，为 RISC 处理器提供动态缓存，并在 blitter 上增加一点缓冲，它完全可以与索尼有一战之力。} {John Carmack}
