@@ -1,0 +1,21 @@
+\section{碰撞检测} \label{blockmapdetails}
+碰撞检测是引擎中重要的活动之一。每个移动对象（玩家、怪物或投射物）在移动前都必须进行碰撞检测。视线也依赖于高效的碰撞系统。造成直接命中伤害的敌人同样需要检查是否有清晰的射线。\\
+\par
+碰撞本可以通过 BSP 来检测。然而直到 Bruce Naylor 访问 id Software 后，John Carmack 才意识到这一点。那时 \doom{} 已经发布，并带有名为 blockmap 的碰撞检测数据结构。\\
+\par
+\vspace{10pt}
+\drawing{E1M1_lines}{E1M1 的扇区与线段}
+\par
+每张地图都有一个 blockmap，它通过在 NeXTstation 上运行 \cw{doombsp} 预处理生成。它被保存为一个大胆命名为 \cw{BLOCKMAP} 的 lump，在运行时用于减少需要测试相交的线段数量。\\
+\par
+\cw{doombsp} 的工作很简单：将地图划分为 128x128 的轴对齐块。对于每个块，会列出所有穿过它的线段。最后，根据 blockmap 坐标（以 128x128 为单位）构建索引，指向对应的线段列表。注意一条线可能出现在多个块中。在地图 E1M1 中，结果如图 \ref{E1M1_blockmap} 所示。
+
+\drawing{E1M1_blockmap}{通过 blockmap 索引的 E1M1 线段。注意空块未绘制}
+
+所有地图遍历由抽象方法 \cw{P\_PathTraverse} 完成，它接收两点坐标（定义要检测碰撞的线）以及一个在检测到命中时调用的函数指针（也就是如何用 C 模拟 OOP）。\\
+\par
+\ccode{P_PathTraverse.c}
+\par
+函数 \cw{P\_AimLineAttack}（用于拳击与电锯攻击）以 flag = \cw{PT\_ADDLINES|PT\_ADDTHINGS} 调用 \cw{P\_PathTraverse}，从而在遍历时只考虑线段与物体。任意地图坐标的块坐标可通过除以 128 获得（优化为 $\gg$ 7）。要检测与物体的碰撞，每当物体改变位置，其块坐标都会更新。\\
+\par
+\ccode{P_AimLineAttack.c}
