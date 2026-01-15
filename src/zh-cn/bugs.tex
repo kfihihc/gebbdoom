@@ -1,0 +1,136 @@
+\vspace{-20pt}
+\section{缺陷}
+\doom{} 以稳定性著称，这部分归功于使用七种编译器与系统的开发流程。尽管如此，它仍带有一些 bug。
+
+
+
+
+
+
+
+\subsection{有缺陷的碰撞检测}
+一个罕见的碰撞检测 bug 最早由 Colin "cph" Phipps 在文章《Shooting Through Things》中揭示并深入解释。\\
+\par
+\fq{怪物靠得太近让你不安。你朝它开火，却打偏了。如果你运气不好，它会杀掉你。但你明明确信自己正对着怪物，而且距离这么近怎么可能打偏？也许是机枪在捣乱，把子弹全打向一侧。也许这游戏是一些高中几何不及格的笨蛋写的。或者，也许在那一瞬间你真的打偏了——没人是完美的。\\
+\par
+好消息是：你可以怪你的工具。}{Colin Phipps}\\
+\par
+有些敌人非常巨大，几乎是玩家（16 单位）的十倍，比如 Spider Mastermind（128 单位）。正如我们在第 \pageref{E1M1_blockmap} 页看到的，\doom{} 使用 blockmap 加速对物体与墙体的相交检测。如果一个物体处在 block 边缘，而玩家又有点“倒霉”，本该命中的射击可能会判定为未命中。
+
+\fullimage{beasts_sizes.png}
+\vspace{-1cm}
+\fullimage{beasts_sizes2.png}
+
+
+\rawdrawing{collision_miss}
+\par
+在走廊里甚至可以打偏一只 SpiderDemon。在上面的单房间示意图中，左侧的绿色玩家朝右侧宽 128 单位的红色敌人开火（可能是 SpiderDemon）。蓝色网格显示 blockmap 的对齐。\\
+\par
+子弹轨迹与怪物半径明显重叠，这本应命中。但只会检查 blockmap 中的 \cw{0}、\cw{1} 和 \cw{2}，因此只与墙 \cw{D}、\cw{A} 与 \cw{B} 做相交测试。由于敌人在 block \cw{5} 中且子弹没有穿过该 block，命中就没有被记录。\\
+ \par
+该 bug 并不限于巨型怪物，任何敌人都可能触发，这取决于它们与玩家的距离以及 blockmap 的对齐方式。
+
+
+
+
+
+
+\subsection{史莱姆拖尾}
+当两面墙之间存在水平屏幕空间缝隙时，会出现“史莱姆拖尾”。Visplane 会在缝隙间“泄漏”，导致图形瑕疵。这是开发期间已知的问题，但因期限与其罕见性而未修复。John Carmack 在 \cw{doombsp} 源码发布时提到过。\\
+\par
+\fq{这里确实有个 bug，会导致最多四个像素宽的列以错误顺序绘制，让更远处的地板与天花板平面向前“流”得太多。你有时可以在 E1M1 中朝着之字形房间入口平台上的 Imp 看去时看到。几像素宽的史莱姆列会沿着走道右侧流下来。需要稍微摆动鼠标才能找到位置。如果有人能追踪到它，请告诉我……
+}{John Carmack}\\\par
+\fullimage{slime_trail.png}\\
+\par
+实际上，如果知道观察点，这个问题会远远超过四个像素宽。\\
+\par
+\fullimage{big_slime_trail.png}
+\par
+\vspace{10pt}
+这个特定的史莱姆拖尾，是引擎的 visplane 推断系统与 \cw{doombsp} 在切割地图时整数精度有限共同作用的结果。\\
+\par
+再次来看一个例子。前两张截图来自游戏第一张地图 E1M1，在一段被毒绿色液体包围的之字形区域。乍看没有异常，但当我们查看它在二叉分割时的切割方式，会出现一个有趣的特殊情况。\\
+\par
+线段 \cw{A} 被选为分割线。当它穿过 \cw{B} 与 \cw{G} 时，产生了 \cw{B1}、\cw{B2}、\cw{G1} 和 \cw{G2} 四段。新生成的顶点以红色标出。对于线段 C 与 E（或是 F？）的情况就没那么明确，我们需要更仔细地看。\\
+\par
+放大顶点 \cw{3} 可见，分割线在整数坐标之间穿过 \cw{F}。由于地图顶点坐标以整数存储，无法进行精确切分。误差很小，因此 \cw{doombsp} 认为该顶点正好在分割线上。
+
+\begin{minipage}{0.47\textwidth}
+\rawscaleddrawing{1}{E1M1_slimetrail}
+\end{minipage}
+\hspace{4mm}
+\begin{minipage}{0.47\textwidth}
+\rawscaleddrawing{1}{E1M1_slimetrail_split}
+\end{minipage} 
+\par
+\vspace{1mm}
+\rawdrawing{E1M1_slimetrail_zoom}
+\par
+
+
+
+\fullimage{leak_opposite.png}
+\par
+\begin{wrapfigure}[20]{r}{0.41\textwidth}
+\centering
+\includegraphics[width=.41\textwidth]{drawings/E1M1_slimetrail_split2.pdf}
+\end{wrapfigure}
+\par
+\vspace{10pt}
+让玩家沿我们刚研究的分割线站位，但面朝相反方向（场景更简单、墙更少）。玩家非常接近 \cw{E} 与 \cw{F} 段（也就是渲染误差发生处）。更远处是 \cw{G1} 与 \cw{G2}，它们来自线段 \cw{G} 的切分。\par
+\vspace{10pt}
+画面从空白开始。首先渲染 \cw{E} 门洞。它没有上部或中部贴图，但有下部贴图，并被绘制（在第 \pageref{leak_opposite_explained.png} 页用绿色叠加标注）。绘制下部贴图时，屏幕下方区域被推断为地板 visplane \cw{E-VP}（粉色叠加）。引擎随后继续遍历 BSP 并渲染 \cw{G1}。\par
+\vspace{10pt}
+
+\cw{G1} 的下部贴图被绘制（红色）。其下方全部区域被推断为地板，于是创建 visplane \cw{G1-VP}。注意它一直延伸到屏幕底部，这是渲染 bug。若 BSP 分割正确，\cw{F1} 会在 \cw{G1} 之前绘制，从而阻止 visplane 在屏幕空间中错误“泛滥”。\\
+\par
+ 
+
+\fullimage{leak_opposite_explained.png}\\
+\label{leak_opposite_explained.png}
+\par
+从这里开始，伤害已经造成。引擎渲染 BSP 的另一侧并碰到 \cw{F}，它被 \cw{G1} 设定的垂直边界裁剪后绘制（蓝色）。\cw{F} 下方的空间被推断为地板并生成 visplane \cw{F-VP}（青绿色）\footnote{引擎实际上会合并 \cw{E-VP} 与 \cw{F-VP}，但为简化说明暂不考虑。}。
+
+
+\section{油桶自杀}
+\doom{} 的怪物会互相攻击。当战斗中发生误伤时，被击中的怪物会自动反击对方而非继续攻击玩家，这被称为“怪物内斗”。\\
+\par
+有一个涉及爆炸桶的有趣特殊情况。当桶受到伤害时，引擎会“记住”责任实体。当桶真正爆炸时，伤害来源会传递给所有受伤实体，使其进行报复。\\
+\par
+可能发生的情况是：某怪物触发桶爆炸并被爆炸波及受伤。此时有近战攻击的怪物（Cacodemon、Imp、Hellknight）会“撕裂自己”，而只能远程攻击的怪物（前人类）会发疯乱射，可能进一步引发怪物内斗。
+
+
+
+
+
+
+
+
+\section{Always Run 溢出}
+让玩家遗憾的是，\doom{} 引擎里没有“始终奔跑”的开关。但玩家发现了一个技巧：在 \doom{} 配置文件中手动把 \cw{joyb\_speed} 设为 \cw{29}，就能一直奔跑。\\
+\par
+如果这还不够像“缓冲区越界读取”，那么 \cw{29} 仅对 DOOM v1.9 有效，而 Final DOOM 需要 \cw{31} 的事实应该足以让你信服。\\
+\par 
+其内部原因是检查摇杆按钮数组时没有边界检查。把值设为不存在的按钮编号时，引擎会读到数组之外。\\
+\par
+\ccode{speed.c}
+\par
+要理解 \cw{29}/\cw{31} 对应的位置，需要看看变量声明方式。\\
+\par
+\ccode{joybuttons.c}
+\par
+它到底读到了哪里？\cw{joybuttons} 从 \cw{joyarray} 的第二项开始初始化，因此还需要知道 DOOM 中 \cw{bool} 的大小。\\
+\par
+
+\ccode{typedef_bool.c}
+\par
+由于代码编写时 C 和 C++ 标准都没有 \cw{bool}，\doom{} 使用 enum，每个元素是 4 字节整数。这意味着 \cw{29}/\cw{31} 会落到 \cw{savedescription} 内部，它保存存档时的名称。很可能在 \cw{savegameslot} 之前曾有其他字段，使 \cw{29}/\cw{31} 落在 \cw{savedescription} 的字符指针上。该指针必定非零，因此持续启用“奔跑模式”。\\
+\par
+
+
+
+
+
+
+
+\trivia{为了让游戏更有趣，John Romero 提高了 DOOM 角色的移动速度。在现实中他们能以 21.5 英里/小时行走、以 43 英里/小时奔跑\footnote{来源：https://www.doomworld.com/vb/doom-general/5909-so-just-how-fast-does-the-marine-run/}！}

@@ -1,0 +1,135 @@
+PC 环境在 1991 年开发 Wolfenstein 3D 与 1993 年开发 \doom{} 之间发生了显著变化。之前基于 Intel 386、2~MiB 内存与 VGA 显卡的“推荐配置”已成为过去。\\
+\par
+“新的”顶级 PC 仍由六个子系统组成：\circled{1}~输入、\circled{2}~总线、\circled{3}~CPU、\circled{4}~RAM、\circled{5}~视频输出与 \circled{6}~音频输出，共同形成一条流水线。每个子系统都变得更快或容量更大。\\
+\par
+\vspace{2mm}
+\drawing{pc_components}{IBM PC 的六大组件。}
+\par
+在详细介绍各组件之前，需要一个重要说明。本章以“增量”的方式对比 \doom{} 与 Wolfenstein 3D 时代的硬件，因此会给人一种“力量充沛”的错觉。\\
+ \par
+尽管接下来会列出令人印象深刻的改进清单，但要记住 IBM PC 仍不是适合电子游戏的机器。它们的设计目标是办公，因此充满限制：用于文字处理、表格计算，也许偶尔显示静态图表——从未打算做能在 70Hz\footnote{VGA 最常见的游戏刷新率（320x200）是 70Hz，不同于如今普遍的 60Hz。} 实时动画的系统。\\ 
+\par 
+回头看，很难相信工作室会专注于一台显然比主机更弱的机器来制作游戏。问题清单相当长：
+\begin{itemize}
+\item CPU 无法执行浮点运算，也没有协处理器\footnote{如 Amiga 的 Paula、Denise 与 Agnus。}。
+\item 古老的图形系统似乎无法双缓冲，且与显示器纵横比不匹配，导致图像失真。
+\item 事实上的声音系统只能发出刺耳的“哔哔”声；即便用户购买声卡，生态也极其碎片化。
+\item 顶级机型价格接近 3,000 美元。作为对比，SNES 与 SEGA Genesis 均为 199 美元，而提供街机体验的 Neo-Geo 为 649.99 美元\footnote{按 2018 年通胀调整后，PC 约为 10,476 美元，SNES/Genesis 为 377 美元，Neo-Geo 为 1,134 美元。}。
+\end{itemize}
+\par
+PC 充其量并不吸引人，似乎也更难产生好游戏，尤其是相比更便宜、为 60Hz 动画与精灵引擎而设计的系统。\\
+ \par
+当然，正如你手中书名所暗示的，借助一些软件技巧，PC 硬件能做到远超其设计目标的事情。PC 不擅长某些类型的游戏，但在需要 framebuffer 的类型上可以非常出色。在没有互联网且文档稀少的时代，这远非易事。\\
+\par
+
+对页图 \ref{ibm_ps1_top} 复刻了 90 年代电脑杂志中随处可见的一种广告。请注意，广告中的 IBM PS/1 配备 Intel 486 CPU，强调办公与运行静态办公应用的能力。生产力与利润是唯一能为高价机器辩护的理由——它相当于 1993 年美国家庭年收入中位数的 5\%\footnote{statista.com 记录 1993 年美国家庭收入中位数为 52,335 美元；Byte Magazine 1993 年春季广告显示 486 DX2-66 VESA PC 价格为 2,575 美元。}。\\
+\par
+
+ % (\$2,000\footnote{\$13,000 in 2017.}). Also worth mentioning, the "huge" standard 14" CRT which must have weighted close to 20 pounds!\\
+\par
+\begin{figure}[H] \centering
+\fullimage{ibm_ps1_top}
+\caption{约 1993 年的 IBM PS/1 广告。注意那个小得离谱的 14" CRT 标配显示器，分辨率最高只有 800x600。}
+\label{ibm_ps1_top}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\cleartoleftpage
+ 
+\cfullimage{PX486P3/b-486-px486p3_romain}{QDI Computer, Inc. 的 PX486P3 主板。}
+获取当时硬件概览的实用方式是打开一台 PC，看看把一切连接在一起的组件。1994 年最畅销的主板是 QDI Computer, Inc 的 PX486P3\footnote{一家加拿大公司 \scaledimage{0.03}{Canada}！}。\\
+
+\par
+最显眼的新特性当然是电脑的心脏——Intel i486 CPU \circled{1}。仔细观察还能发现许多对 \doom{} 架构至关重要的特性。\\
+\par 
+黑色连接器显示传统 ISA 总线扩展口。一个 8 位 \circled{2} 与三个双槽 16 位 \circled{3} 共支持四张 ISA 卡。还有三组新型连接器，带一个棕色附加插槽 \circled{4}。这些是 VLB 插槽\footnote{又称 VL-Bus、VESA Local Bus。}，总线速度可比 ISA 快 10 倍。
+
+\drawing{px486p3}{PX486P3 的组件示意图。}
+\par
+左上角 \circled{6} 是系统主存，其容量、速度与复杂度都提升了。得益于制造成本大幅下降，标配 DRAM\footnote{Dynamic RAM.} 达到 4 MiB\footnote{\doom{} 无法在仅 2 MiB 的 PC 上运行。}。\\
+\par
+最后，右上角 \circled{5} 出现了一种新型 RAM。八颗黑色 SRAM\footnote{Static RAM.} 芯片共计 256 KiB，作为 L2 “缓存”。它用于防止 CPU 数据与指令饥饿的新系统中。SRAM 的速度更快（访问时间 20ns，是 DRAM 的 10 倍），但缺点是制造成本更高且密度更低，限制了使用范围。
+
+
+
+% \begin{enumerate}
+% \item RAM prices had dropped significantly. The standard 2 MiB was not a whooping 4 MiB. 
+% \item Bandwidth hungry GUI and had lead motherboard manufacturers to come up with a faster bus called VLB.
+% \item The sound generator ecosystems was even more fragmented than before with more and more manufacturer producing sound cards.
+% \item Not visible on the drawing, the operating system shortcomings were being addressed by independent developers via something called "DOS eXtenders".
+% \item Unsurprisingly the impossible to program VGA was still the standard but manufacturers were now competing to produce the faster DACs and \fixme{"RAMDAC"}?.
+% \item CACHE
+% \end{enumerate}
+\pagebreak
+\trivia{当时一些最令人惊叹的游戏工作室押注了 RAM 价格下降。1994 年最出色的游戏（包括 \doom）要求至少安装 4 MiB。Strike Commander、Ultima 8 与 Comanche Maximum Overkill 是代表。
+\par
+\begin{center}
+\scaledimage{0.32}{box_strike_commander.png}  \scaledimage{0.32}{box_ultima8.png} \scaledimage{0.32}{box_comanche.png}
+\end{center}
+}
+讽刺的是，这一时期恰好遇上 1994 年内存大短缺，价格反而回升。传说原因是台湾一家树脂工厂失火。更可能的原因是微软宣布 Windows 95，该系统推荐至少 8 MiB RAM 的机器。
+
+\begin{center}
+\begin{tikzpicture}
+
+\begin{axis}[
+    width=1.0\textwidth,
+    height=0.55\textwidth,
+    title={1990-2000 年 1 MiB RAM 的平均价格\protect\footnotemark},
+    xlabel={年份},
+    xtick pos=left,
+    ytick pos=left,
+    ylabel={美元价格},
+    yticklabel={${\$\pgfmathprintnumber{\tick}}$},
+    xticklabel style={ rotate=30,},
+    xticklabel style={/pgf/number format/1000 sep=},
+    xmin=1990, xmax=2000,
+    ymin=0, ymax=104,
+    %xtick={0,20,40,60,80,100},
+    %ytick={0,20,40,60,80,100,120},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+ 
+\addplot[
+    color=black,
+    mark=*,
+    ]
+    coordinates {
+    (1990,59)
+      (1991,43)
+      (1992,34)
+      (1993,27)
+      (1994,35)
+    (1995,32)
+      (1996,5)
+      (1997,4)
+      (1998,0.9)
+      (1999,0.98)
+      (2000,1.22)
+    
+    };
+ 
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\footnotetext{来源：John C. McCallum 调研。}
+
+
+
+
+
+

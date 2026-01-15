@@ -1,0 +1,59 @@
+\section{内存}
+随着内存价格下降，游戏开发者终于可以指望 4 MiB。按理说这意味着更丰富的世界、更好的资产、更多角色与更大的地图。但由于臭名昭著的内存管理方式，这反而带来更多复杂度与头痛。\\
+\par
+责任一部分在 Intel，但更多在微软。1981 年 IBM 发布了第一台 PC——5150，基于 Intel 8088。CPU 寄存器只有 16 位，但 Intel 希望它能访问 20 位地址空间。为调和二者，Intel 设计师创造了名为“分段寻址”的怪物：将两个 16 位寄存器组合成一个 20 位地址。\\
+\par
+
+\drawing{register_combination_20_bits_address}{}
+\vspace{-10pt}
+\par
+指针操作很容易出错，因为不同的段/偏移组合可能指向同一块 RAM。指针算术也有问题：当偏移量回绕时，段并不会自动更新。\\
+\par
+在 Intel 286 与 386SX（支持 24 位寻址）之后，RAM 系统已混乱不堪；到了拥有 32 位地址总线的 386DX 与 486，更是雪上加霜。20 位分段技巧无法应对如此大的地址空间。解决方案是使用 \cw{EMM386.EXE} 与 \cw{HIMEM.SYS} 等内存管理器\footnote{16 位编程与内存管理器在 \textit{Game Engine Black Book: Wolfenstein 3D} 中有详细介绍。}，它们提供了访问 1 MiB 以上不可寻址内存的方法。\\
+
+如果操作系统能运行在保护模式，会有更简单的方案。Intel 允许 CPU 以两种模式运行：向后兼容的实模式让 CPU 像极快的 8088；保护模式则释放全部能力。在保护模式下，32 位寄存器足以寻址全部内存（即平坦寻址）。\\
+\par
+如果操作系统能够运行在保护模式，这一切就顺利了。然而为了向后兼容，微软的 DOS 只能处理实模式，等同于把开发者锁在 16 位编程中。\\ 
+\par
+
+
+
+\par
+随着 DOS 的阵痛与挫败感加剧，一些人看到了机会。\newpage 
+
+虽然可以解决问题的产品很多，但有两家公司组合起来脱颖而出：Watcom International Corporation 的 C 编译器与 Rational Systems 的 DOS/4GW “DOS 扩展器”。它们让程序在保护模式下运行，同时仍可访问 16 位 DOS 函数。\\
+\par
+
+
+\subsection{DOS/4GW 扩展器}
+在 DOS 下，执行“系统调用”的常规方式是使用带参数 \cw{21h} 的软件中断指令。在 C 语言中，这通过头文件 \cw{DOS.H} 抽象出来，由其在幕后完成低层工作。\\
+\par
+\drawing{realmode_app_limk}{}
+要让应用在一种模式运行、操作系统在另一种模式运行，两者必须桥接。一个名为 “DOS extender” 的中间层——能在两种模式下运行——插在程序与操作系统之间。\\
+
+\par
+\rawdrawing{realmode_app_limk_extender}
+启动时，DOS 扩展器会在操作系统的中断向量表（IVT）中挂钩，并放入自己的例程。从应用程序的角度看一切透明，开发者无需修改代码。对于扩展器未挂钩的系统调用（例如用 \cw{int 33h} 读取鼠标输入），扩展器提供一个名为 DPMI 的特殊接口（中断 \cw{31h}），将 32 位寄存器请求转换为 16 位，以便 IVT 例程理解。\\
+\par
+\trivia{DPMI（DOS Protected Mode Interface）最初用于让 Windows 3.0 运行 32 位应用，并与 IBM 的 OS/2 联合操作系统项目兼容。}\\
+\par
+当扩展器拦截操作系统调用时，需要完成大量工作：
+\begin{enumerate}
+\item 执行所有必要的转换（例如把 32 位地址表示为 16 位段+偏移）。
+\item 将 CPU 切换到实模式。
+\item 转发调用给 DOS。
+\item 取回结果并将 16 位寄存器值转换回 32 位。
+\item 将 CPU 切回保护模式。
+\end{enumerate} 
+
+性能敏感之处在于实模式与保护模式之间的切换。最初这在 286 上是个问题，因为 Intel 从未设想程序会从保护模式切回实模式。必须使用各种技巧\footnote{详见 \textit{Game Engine Black Book: Wolfenstein 3D}。}，其中包括伪造键盘 Ctrl-Alt-Del 重启，以在不真正重启的情况下重置 CPU。\\
+\par
+相反，从实模式切回保护模式则很简单：将控制寄存器第 0 位从 0 置为 1 只需六条指令。\\
+\par
+\acode{switch_to_protected_mode.asm}
+\par
+
+\doom{} 使用了 Rational Systems 的 DOS/4GW 扩展器，其存在会在启动时短暂显示。执行 \cw{DOOM.EXE} 时，DOS 先加载这个小型扩展器。加载后，DOS/4GW 将 CPU 切换到保护模式，把 \doom{} 代码载入内存，并跳转到 \cw{main} 函数。\\
+\par
+\fakedosoutput{dos4gw.txt}
+

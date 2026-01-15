@@ -1,0 +1,180 @@
+截至 2018 年，距离 \NeXT{} 1993 年在 Redwood City 工厂下线最后一台机器已经过去 25 年。要找到一台仍能工作的黑色硬件已属罕见。\\
+ \par
+ 由于本书追求历史准确，找到一台真正的 NeXTstation TurboColor 至关重要——首先是为了记录当时的开发条件，其次是为了亲眼见证完整游戏流水线运转。尽管热情而敬业的程序员们制作了一个名为 “Previous” 的华丽模拟器，但其性能数据并不准确。\\
+ \par
+ 我在 eBay 上幸运地找到了一台符合需求的配置。机器能工作，但 SCSI 硬盘发出咔嗒声，说明它快要坏了。此外，MegaDisplay 的颜色已经褪色\footnote{更换显示器控制板电容很容易修复颜色问题，但无法解决重量问题。}，其 50 磅（23 kg）的重量也不易移动。\\
+  \par
+  多亏 Black Hole Inc. 的创始人兼老板 Rob Blessin，我得以用 SCSI2SD 的 SD 卡替换硬盘，并获得类似的访问时间。找到与 \NeXTns{} 古怪的 “sync on green” 兼容的显示器很困难，但 \cw{www.nextcomputers.org} 的朋友们指引我找到一台 NEC MultiSync 1980SX，表现完美。\\
+  \par
+  无法用言语形容听到机器风扇嗡鸣的感受。看到 \cw{Doom.app}、\cw{DoomED} 与 \cw{doombsp} 顺利编译；看到这台 NeXTstation Turbo Color（序列号 \cw{\#ABC0053943}）重获新生。它没有像乔布斯希望的那样治愈癌症，但确实给无数开发者带来了快乐。
+
+
+
+
+
+\section{开发游戏}
+这一跨页重现了典型开发者桌面配置。注意 “Interceptor VGA Console”，它暗示了 \cw{libinterceptor.a}——\NeXTns 工程师提供的私有库，用于突破 Display Postscript，绕过“缓慢”的合成器。\\
+\par
+\cscaledimage{0.9}{doom_on_next.png}{NeXTSTEP 开发环境（屏幕左侧）}
+
+MegaDisplay 的 1120x832 分辨率高到 id Software 必须为游戏窗口实现 2x 软件缩放。否则 \doom{} 窗口看起来像邮票一样小，几乎看不到像素。\\
+\par
+\vspace{18.5pt}
+\cscaledimage{0.92}{doom_on_next2.png}{NeXTSTEP 开发环境（屏幕右侧）}
+\pagebreak
+
+\section{编译地图}
+以下是 \doom~与 \doomii 的每张关卡在 \cw{doombsp} 下的运行时间基准\footnote{基于 John Romero 于 2015-04-22 发布的 \cw{.map} 文件。}。\\
+\par
+ \begin{minipage}[t]{0.45\textwidth}
+ \begin{figure}[H]
+\centering  
+\begin{tabularx}{\textwidth}{ L{0.3} | R{0.7} }
+  \specialrule{1pt}{0pt}{0pt}
+  \textbf{地图} & \textbf{\cw{doombsp} 运行时间（秒）} \\
+  \specialrule{1pt}{0pt}{0pt}
+E1M1 &     8.2 \\ 
+E1M2 &       32.0 \\
+E1M3 &       26.2\\
+E1M4 &       18.4\\  
+E1M5 &       19.9\\
+E1M6 &       44.0\\
+E1M7 &       22.3\\
+E1M8 &        6.9\\
+E1M9 &       15.4\\
+E2M1 &        6.0\\
+E2M2 &        55.4\\
+E2M3 &        19.6\\
+E2M4 &        36.0\\
+E2M5 &        46.8\\
+E2M6 &        32.5\\
+E2M7 &        60.8\\
+E2M8 &         2.5\\
+E2M9 &         1.5\\
+E3M1 &        2.5\\
+E3M2 &        9.2\\
+E3M3 &       38.1\\
+E3M4 &       23.7\\
+E3M5 &       34.5\\
+E3M6 &       22.5\\
+E3M7 &       23.4\\
+E3M8 &        1.9\\
+E3M9 &        8.9\\
+   \specialrule{1pt}{0pt}{0pt}
+\end{tabularx}
+%\caption{Video system interface}
+\end{figure}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}[t]{0.45\textwidth}
+ \begin{figure}[H]
+\centering  
+\begin{tabularx}{\textwidth}{ L{0.3} | R{0.7} }
+  \specialrule{1pt}{0pt}{0pt}
+  \textbf{地图} & \textbf{\cw{doombsp} 运行时间（秒）} \\
+  \specialrule{1pt}{0pt}{0pt}
+MAP01 &       6.1  \\
+MAP02 &       6.6 \\
+MAP03 &       8.7 \\
+MAP04 &       8.5 \\
+MAP05 &       17.6\\
+MAP06 &       25.0\\
+MAP07 &       1.9 \\
+MAP08 &       15.2\\
+MAP09 &       16.3\\
+MAP10 &       34.0\\
+MAP11 &        15.7 \\
+MAP12 &        15.2\\
+MAP13 &        31.5\\
+MAP14 &        44.7\\
+MAP15 &        66.0\\
+MAP16 &        16.2\\
+MAP17 &        36.2\\
+MAP18 &        17.2\\
+MAP19 &        45.8\\
+MAP20 &        29.2\\
+MAP21 &        5.7 \\
+MAP22 &        9.4 \\
+MAP23 &        7.5 \\
+MAP24 &       30.5 \\
+MAP25 &       21.1 \\
+MAP26 &       18.8 \\
+MAP27 &       26.2 \\
+MAP28 &       19.6 \\
+MAP29 &       45.8 \\
+MAP30 &        1.0 \\
+MAP31 &       16.4 \\
+MAP32 &        2.7 \\
+MAP33 &        6.6 \\
+MAP34 &        9.3 \\
+MAP35 &        0.3 \\
+   \specialrule{1pt}{0pt}{0pt}
+\end{tabularx}
+%\caption{Video system interface}
+\end{figure}
+
+\end{minipage}
+\\
+
+\section{运行游戏}
+在 NeXTstation TurboColor 上运行 \doom{} 的帧率出人意料地低。\\
+\par
+ \begin{figure}[H]
+
+\centering  
+\begin{tabularx}{\textwidth}{ L{0.08} | C{0.42} | R{0.25} | R{0.25} }
+  \specialrule{1pt}{0pt}{0pt}
+  \textbf{模式} & \textbf{分辨率} & \textbf{高细节 FPS} & \textbf{低细节 FPS} \\
+  \specialrule{1pt}{0pt}{0pt}
+B & 320x200 & 9 & 13 \\  
+A & 320x168&  9 & 14 \\
+9 & 288x144& 11 & 15 \\
+8 & 256x128& 12 & 16 \\
+7 & 224x112& 13 & 17\\
+6 & 192x096& 15 & 19 \\
+5 & 160x080& 17 & 20 \\
+4 & 128x064& 19 & 22 \\
+3 & 096x048& 21 & 23 \\
+   \specialrule{1pt}{0pt}{0pt}
+\end{tabularx}
+\caption{NeXTstation TurboColor 上的 \doom{} 帧率}
+\end{figure}
+\par
+如果使用开发时的 2x 缩放，情况更糟。同样数量的像素写入核心 framebuffer，但需要通过总线传输四倍数据。\\
+\par
+ \begin{figure}[H]
+\centering  
+\begin{tabularx}{\textwidth}{ L{0.08} | C{0.42} | R{0.25} | R{0.25} }
+  \specialrule{1pt}{0pt}{0pt}
+  \textbf{模式} & \textbf{分辨率} & \textbf{高细节 FPS} & \textbf{低细节 FPS} \\
+  \specialrule{1pt}{0pt}{0pt}
+B & 640x400 & 6 & 8 \\  
+A & 640x336 & 6 & 8 \\
+9 & 576x288 & 7 & 9 \\
+8 & 512x256 & 8 & 9 \\
+7 & 448x224 & 8& 10\\
+6 & 384x192 & 9 & 10 \\
+5 & 320x160& 9 & 10 \\
+4 & 256x128& 10 & 11 \\
+3 & 192x096 & 11  & 11 \\
+   \specialrule{1pt}{0pt}{0pt}
+\end{tabularx}
+\caption{NeXTstation TurboColor 上 \doom{} 的 2x 缩放帧率}
+\end{figure}
+\par
+降低分辨率或细节等级稍有帮助，但不如 DOS 版本明显。这是因为在 \NeXTns{} 上，视频系统的实现方式不同。\\
+\par
+实现方式忽略 \cw{I\_UpdateNoBlit} 的更新信号，把所有工作延后到 \cw{I\_FinishUpdate}，在那里将 framebuffer \#0 的全部内容 blit 到 \cw{NSWindow}。没有脏矩形优化，也没有像 DOS 那样直接访问硬件。\\
+\par
+\trivia{“低细节”模式在 NeXTSTEP 上从未被正确实现。引擎只写一半的列，但没有像 VGA bank mask 那样的复制系统，因此只更新 \cw{NSWindow} 的左半部分。}
+
+\section{Framebuffer 的非失真}
+NeXTstation 的视频系统很“干净”，色彩空间线性且像素“正方形”（framebuffer 与 MegaDisplay 显示器纵横比相同）。因此 \doom{} 的 framebuffer \#0 在窗口系统呈现时不会变形。\\
+\par
+320x200\footnote{320x200 是活动区域尺寸，不包括标题栏。} 的 “Interceptor VGA Console” \cw{NSWindow} 没有被拉伸到 320x240，因此看起来被垂直压扁。特别是当 NeXTSTEP 上的启动画面（图 \ref{doom_crushed}）与 DOS 版本（图 \ref{doom_title_4_3}）并排时更明显。\\
+\par
+\cscaledimage{1}{doom_crushed}{\doom{} 在 NeXTSTEP 上。内容看起来垂直压扁}
+\par
+\trivia{许多移植版都弄错了纵横比。为展示 Windows 95 图形驱动低开销而推出的 \doom{} 95 就是其一。默认设置下，320x200 的宿主窗口直接映射 \doom{} 的核心 framebuffer，导致敌人看起来更矮、火箭爆炸呈椭圆，其他一切也变形。}
+\par
+\cscaledimage{1}{doom_title_4_3}{\doom{} 以 4:3 纵横比呈现在 1993 年 PC 显示器上}

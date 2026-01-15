@@ -167,8 +167,8 @@ func main() {
 	checkExecutable(inkscapeBin)
 	checkExecutable(epsToPdfBin)
 
-	if mode != "debug" && mode != "release" && mode != "print" {
-		fmt.Println("Mode must be either 'debug' or 'release' or 'print'.")
+	if mode != "debug" && mode != "release" && mode != "print" && mode != "zh" {
+		fmt.Println("Mode must be either 'debug' or 'release' or 'print' or 'zh'.")
 		return
 	}
 
@@ -194,6 +194,10 @@ func main() {
 	arg1 := outputDirName
 	arg2 := compileOptions + ` \input{src/book.tex}`
 	draftMode := "-draftmode"
+	if mode == "zh" {
+		bin = "xelatex"
+		arg2 = compileOptions + ` \input{src/zh-cn/book.tex}`
+	}
 
 	var err error
 	var out []byte

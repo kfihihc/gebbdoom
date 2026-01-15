@@ -1,0 +1,21 @@
+\section{源代码}
+\doom{} 的源代码于 1997 年 12 月 23 日发布，约在游戏商业发行四年之后。最初托管在 id Software 的 \cw{FTP} 服务器上，后来迁移到 \cw{github.com}，至今仍可找到。\\
+\par
+\tcode{doom_src_zip_url.c}
+\par
+在 id Software 一系列源代码发布中\footnote{从 1993 年到 2012 年，id Software 发布了其制作的所有游戏代码。}，\doom{} 与众不同，因为发布的并不是当年用于发行的版本。这背后有一段小故事。\\
+ \par
+ 1997 年初，Bernd Kreimeier 向 id Software 提出一项商业提案。他想写一本书，解释引擎内部、如何编译以及如何修改。计划是与源代码一起发布这本书。\\
+ \par
+ id 的人员，尤其是 John Carmack，认为这是“正确的事情”\footnote{“The Right Thing” 是 Steven Levy 的《Hackers: Heroes of the Computer Revolution》中提到的概念，John Carmack 的 finger plan 中常引用。}。他们很快把源代码发给了他。Bernd 审阅后意识到必须做出一些重要决定。开发需求与 Dave Taylor 的移植版本导致代码针对多个平台，引擎可在至少五种操作系统上编译，包括 Linux、NeXTSTEP、SGI IRIX，当然还有 MS-DOS。为了更易理解，Bernd 决定选择一个平台并删除所有无关内容。\\
+  \par
+  理想选择本应是 MS-DOS 版本，因为它是主导操作系统，也是玩家体验游戏的版本。然而存在版权问题。id Software 授权使用了音频库 DMX，该代码是专有的，不能包含在源代码中。因此 MS-DOS 不可行。\\
+  \par
+   另一个选择是发布使用最多、稳定性第二的 NeXTSTEP 版本。然而 \NeXT 在 1994 年停止生产工作站，生命周期内销量不足 5 万台，因此也走不通。很少有人能运行它。NeXTSTEP 还有另一个问题——音效与音乐系统从未在该平台实现，因此 NeXTSTEP 也不可行。\\
+   \par
+   
+    第三个可选项是 Linux 版本，这也是 Bernd 选择的版本。当他剥离与 Linux 无关的代码并写书时，软硬件持续演进。最终，游戏世界变化速度超过他的写作速度，在他完成前，\doom{} 的关注度已被 Quake 与 Duke Nukem 3D 等更新引擎所取代。\\
+ \par
+  由于盈利前景受损，出版商退出，图书项目被放弃\footnote{幸存下来的《A Brief Summary of DOOM style Rendering by Robert Forsman and Bernd Kreimeier》质量很高。}。在 id Software 的许可下，Kreimeier 发布了他清理过的 Linux 代码。该移植版本成为此后数百个分支的基础。\footnote{原始 MS-DOS 代码在很大程度上得以重建，这要归功于 Raven 对 DMX 相关代码没那么保守。此前被删减的部分源代码（如 \cw{i\_sound.c} 与 \cw{i\_ibm.c}）可在 Heretic 与 Hexen 的源代码中找到。}。\\
+ \par  
+

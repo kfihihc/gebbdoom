@@ -1,0 +1,55 @@
+\section{等待点点}
+\label{dots_explained}
+对于 1994 年在 PC 上玩 \doom{} 的玩家来说，最令人抓狂的部分就是等待游戏加载。尤其是某一步——神秘的 \cw{R\_Init}——似乎永远也结束不了\footnote{事实上，根据硬盘速度不同，这一步需要 15 到 30 秒。}。一个由点点组成的“进度条”提示玩家游戏正在加载，耐心等待即可。无数小时都耗在看这些整齐的小点向右推进上。大概也有不少时间用来猜测 \cw{R\_Init} 在后台到底做了什么。\\
+\par
+\fakedosoutput{dots.txt}\\
+\par
+如果能访问源码，就可以修改引擎：不再输出点点，而是输出当前阶段的“标签”。结果发现共有 11 个“阶段”。\\
+\par
+\fakedosoutput{dots_explained.txt}\\
+\par
+
+阶段 \cw{OOOOO} 对应 \cw{R\_InitTextures}。书中在 3D 渲染器部分为简洁起见没有提到的是：纹理由 patch 组成。为了节省空间，纹理通过标识符引用所有 patch。对于由重复图案构成的纹理，这尤其强大。该阶段会把纹理的所有属性（如尺寸与 patch 定义）加载到 RAM（但 texel 仍留在 \cw{.WAD} 中）。由于数据量大且有大量 \cw{Z\_Malloc} 内存分配，这是最昂贵的阶段。\\
+\par
+该阶段第一步是打开名为 \cw{PNAMES} 的 lump，其中包含所有 patch 名称。根据它们出现的顺序，建立 patch 名称到 ID 的映射。\\
+第二步（占据绝大部分处理时间）是打开 \cw{TEXTURE1} 与 \cw{TEXTURE2} 两个 lump。它们包含所有纹理条目，每个条目包含纹理名与 patch ID 列表，以及 patch 坐标与偏移。\\
+\par
+阶段 \cw{1} 只是一个标记，显示 \cw{R\_InitTextures} 返回的时刻。\\
+\par
+
+阶段 \cw{2} 对应 \cw{R\_InitFlats}。它查找 \cw{F\_START} 与 \cw{F\_END} 两个 lump，它们是 flat 纹理的边界标记。这里只读取 flat 的数量，以便对 flat 数组进行正确的 \cw{malloc}。\\
+\par
+
+阶段 \cw{333333333333} 类似于阶段 \cw{0}，但这次是 sprite lump。函数 \cw{R\_InitSpriteLumps} 查找 \cw{S\_START} 与 \cw{S\_END} 来获取 WAD 中所有 sprite 的宽度与水平偏移，并将数据保存到 sprite 数组中。过程中每 64 个 sprite 打印一个点。这是 \cw{R\_Init} 中第二慢的阶段（仅次于 \cw{R\_InitTextures}），因为需要大量 I/O。\\
+\par
+
+第五阶段（\cw{4}）只是一个标记，表示 \cw{R\_InitSpriteLumps} 结束。\\
+\par
+
+第六阶段（\cw{5}）也是标记，用于表示 \cw{R\_InitData} 结束，它涵盖了 \cw{OOOOO}、\cw{1}、\cw{2}、\cw{333333333333} 与 \cw{4}。\\
+\par
+
+阶段 \cw{6} 对应函数 \cw{R\_InitPointToAngle} ——如果使用——用于构建切线查找表。现在它是空函数，因为该表已预计算并存储在 \cw{tables.c} 中。\\
+\par
+
+阶段 \cw{7} 对应函数 \cw{R\_InitTables}，过去用于构建查找表 \cw{finetangent} 与 \cw{finesine}。像切线表一样，这些表已预计算并烘焙进 \cw{tables.c} 的可执行文件中。\\
+\par
+
+阶段 \cw{8} 对应函数 \cw{R\_InitPlanes}，它什么也不做。真是浪费了一个点。\\
+\par
+
+阶段 \cw{9} 对应函数 \cw{R\_InitLightTables}，初始化用于光照贴图的 zlight 表。\\
+\par
+
+阶段 \cw{A} 对应函数 \cw{R\_InitSkyMap}，初始化静态 \cw{skyflatnum}。\\
+% \par
+% As you will have guessed, the "dot thermometer" was not very accurate. It started fast with next to instant \cw{OOOOO12}, slowed down to a crawl for \cw{333333333333} which accessed a lot of data, and then sped up again at the end with \cw{456789A} when calling mostly empty functions.\\
+\par
+\section{重载 Hack}
+在开发期间，漫长的启动时间是个问题。即便设计师没有改动地图几何（因此无需运行 \cw{doombsp}），仍要等待 30 秒才能看到结果。为了不打断创作流程，引擎被加入了一个“重载 hack”。\\
+\par
+只要在 WAD 路径前加上波浪号（\textasciitilde），引擎就会在每次关卡开始时重新加载 WAD。\\
+\par
+\fakedosoutput{reload_hack.txt}
+\par
+这让美术与设计人员几乎能立即看到工作成果。
