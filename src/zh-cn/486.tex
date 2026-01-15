@@ -1,24 +1,24 @@
-\section{The Intel 486}
+\section{Intel 486}
 
 \begin{wrapfigure}[5]{r}{0.25\textwidth}
 \centering
 \includegraphics[width=.25\textwidth]{drawings/intel_logo.pdf}
 \end{wrapfigure}
 
-Announced in 1989, the 80486 was a performance evolution that addressed all the bottlenecks of the 80386. However, its price tag of \$950 (\$1,920 in 2018) kept it away from most consumers. By 1993 it was finally becoming affordable (\$500) and would become \doom{}'s recommended CPU.\\
+486（80486）在 1989 年发布，是 80386 的一次性能演进，解决了 80386 的所有瓶颈。然而它 950 美元（2018 年约 1,920 美元）的售价让多数消费者望而却步。到 1993 年它终于变得可负担（500 美元），并成为 \doom{} 推荐的 CPU。\\
 \par
-The design had changed significantly compared to its predecessor. The pipeline was gifted with two extra stages, extending its depth to five elements. The FPU\footnote{Floating Point Unit.}, which used to be optional and somewhere on the motherboard was brought on-die. Most importantly, manufacturing improvements\footnote{The 1.0$\mu$ process (vs the i386's 1.5$\mu$) and a die size increase allowed five times more transistors for a total of 1.2 million (the i386 featured 275,000).  It was the first x86 chip to include more than one million transistors.} allowed the 486 a more elaborate design that finally featured an integrated L1 cache -- something Intel had attempted with the 386 without success.\\
+与前代相比，设计变化很大。流水线增加了两个阶段，深度扩展到五级。此前可选且位于主板某处的 FPU\footnote{Floating Point Unit.} 被集成到芯片内部。最重要的是，制造工艺的改进\footnote{1.0$\mu$ 工艺（对比 i386 的 1.5$\mu$）以及晶圆面积增大，使得晶体管数量提升五倍，达到 120 万（i386 为 27.5 万）。它是首个晶体管数量超过一百万的 x86 芯片。} 让 486 能采用更复杂的设计，终于集成了 L1 缓存——这是 Intel 在 386 上尝试但失败的功能。\\
 \par
-\fq{The 386 actually had a small cache that eventually got exited because it didn't have enough performance for the size of the cache that we could put on board the chip. The problem was that if you made the chip bigger, it literally wouldn't fit inside the lithography machine's field of view, to flash on the chip.}{Gene Hill - Intel 386 Microprocessor Design and Development}\\
+\fq{386 实际上有一个很小的缓存，但最终被取消了，因为在我们能放到芯片上的缓存大小下，它性能不够。问题在于如果做更大的芯片，它会大到无法放进光刻机的视场去把图案曝光到芯片上。}{Gene Hill - Intel 386 Microprocessor Design and Development}\\
 \par
 {
 \setlength{\belowcaptionskip}{-10pt}
-\drawing{486_arch}{Intel 486 architecture.}
+\drawing{486_arch}{Intel 486 架构。}
 }
 \pagebreak
-Like with the 386, Intel marketed its new CPU in two flavors. The DX version was the pure technology, while the SX version had an unavailable FPU. A decades-old diehard myth is that the DX/SX distinction was a marketing stunt from Intel to sell chips coming out of the factory with malfunctioning parts due to manufacturing problems. It was in fact an intentional commercial operation\footnote{Source: "Lies, Damn Lies, and Wikipedia" by Michal Necasek; The timeline did not make sense since "The 486DX started shipping in volume in late 1989. The 486SX was only introduced in mid-1991. In the first 18 months or so when yield problems would have been the worst, there was no SX.".} to provide a discounted (50\%) price and an opportunity to sell i487 FPU co-processors.\footnote{Amusingly, the i487 FPU upgrade was a full-blown 486DX that disabled the 486SX completely!}.\\
+和 386 类似，Intel 以两种型号营销新 CPU。DX 是完整技术版本，而 SX 缺少 FPU。坊间流传一个经久不衰的神话：DX/SX 区分是 Intel 的营销把戏，用来卖出制造缺陷的芯片。实际上这是一个有意的商业策略\footnote{来源：“Lies, Damn Lies, and Wikipedia” by Michal Necasek；该时间线并不合理，因为“486DX 在 1989 年末开始量产，而 486SX 直到 1991 年中才发布。在最初 18 个月里良率问题最严重时，根本没有 SX。”。}，以提供 50\% 的折扣价和销售 i487 FPU 协处理器的机会。\footnote{有趣的是，i487 FPU 升级实际上是一颗完整的 486DX，并会彻底禁用 486SX。}\\
 \par
-If in retrospect the 486 was Intel's 1994 champion and an unquestionable powerhouse (both in terms of performance and sales\footnote{As of late 2015, the 486 was still manufactured and used inside network routers.}), it had to sustain a period of uncertainty. Just as the 386 had to face its brother (the i960), the i486 also had to face a challenger from the same company. The competing sibling was named the "Intel 860".\\
+回顾来看，486 是 Intel 在 1994 年的冠军且无可争议的强者（性能与销量皆然\footnote{截至 2015 年末，486 仍被生产并用于网络路由器内。}），但它也经历过一段不确定时期。就像 386 要面对兄弟 i960 一样，i486 也要面对同厂的挑战者“Intel 860”。\\
 \par
 \fq{
 
@@ -27,30 +27,30 @@ If in retrospect the 486 was Intel's 1994 champion and an unquestionable powerho
 \scaledimage{0.55}{i860.png}
 \end{wrapfigure}
 
-...We now had two very powerful chips that we were introducing at just about the same time: the 486, largely based on CISC technology and compatible with all the PC software, and the i860, based on RISC technology, which was very fast but compatible with nothing. We didn't know what to do. So we introduced both, figuring we'd let the marketplace decide. However, things were not that simple. Supporting a microprocessor architecture with all the necessary computer-related products --- software, sales, and technical support --- takes enormous resources. Even a company like Intel had to strain to do an adequate job with just one architecture. And now we had two different and competing efforts, each demanding more and more internal resources. Development projects have a tendency to want to grow like the proverbial mustard seed. The fight for resources and for marketing attention (for example, when meeting with the customer, which processor should we highlight) led to internal debates that were fierce enough to tear apart our microprocessor organization. Meanwhile, our equivocation caused our customers to wonder what Intel really stood for, the 486 or i860?}{Andy Grove, "Only the paranoid survive"}
+……我们在几乎同一时间推出了两颗非常强大的芯片：基于 CISC 技术、与所有 PC 软件兼容的 486；以及基于 RISC 技术、速度很快但与任何软件都不兼容的 i860。我们不知道该怎么做，于是两颗都推出，让市场决定。然而事情并不简单。支持一套微处理器架构所需的所有计算机相关产品——软件、销售、技术支持——需要巨大的资源。即便是 Intel，也只能勉强把一套架构做好。而我们现在有两套不同且相互竞争的架构，每一套都在不断消耗更多内部资源。研发项目往往像芥菜种子一样膨胀。为争夺资源和营销注意力（比如见客户时该重点推哪颗处理器）而爆发的内部争论，激烈到足以撕裂我们的微处理器组织。与此同时，我们的摇摆也让客户疑惑 Intel 到底代表什么：486 还是 i860？}{Andy Grove, “Only the paranoid survive”}
 
 
 
 
 
-On paper, the i860 was impressive and a serious opponent. Relying on a heavily pipelined super-scalar architecture crushing VLIWs\footnote{Very Long Instruction Word.}, it had three units (X, Y, and Z) allowing parallel processing and when used efficiently could outperform the Intel 486.\\
+在纸面上，i860 很惊艳，是个严肃的对手。它采用重度流水线的超标量架构并压榨 VLIW\footnote{Very Long Instruction Word.}，有 X、Y、Z 三个单元允许并行处理，若高效使用可超越 Intel 486。\\
 \par
-But whereas later CPUs such as the Pentium chose to hide the chip's complexity by automatically executing instructions in parallel when possible, the i860's architecture mandated direct manipulation of its parallel pipelines. The chip did nothing behind the scenes and relied on compiler writers to sequence instructions appropriately.\\
+但与后来的 Pentium 等 CPU 通过自动并行执行指令来隐藏芯片复杂性不同，i860 的架构要求直接操控其并行流水线。芯片本身不做任何“幕后”工作，完全依赖编译器作者来安排指令序列。\\
 \par
-Unfortunately, compiler technology was not there yet. Without Intel's full backing to generate the precious tool, none of the compilers available came even remotely close to generating instructions able to exploit its super-scalar capability. The i860 was never able to reach its full potential. If only Intel had been willing to build the tools it desperately needed, the history of the i860 could have been different.\\
+可惜当时编译器技术还不成熟。在缺乏 Intel 全力支持来打造关键工具的情况下，现有编译器完全无法生成能发挥其超标量能力的指令。i860 从未能发挥全部潜力。若 Intel 当时愿意打造所需工具，i860 的历史可能会截然不同。\\
 \par
 \par
-\cscaledimage{0.85}{i486DX.png}{The Intel 80486 package.}
+\cscaledimage{0.85}{i486DX.png}{Intel 80486 封装。}
 \par
-Figure \ref{i486DX.png} shows the Intel 486 die featuring 1,180,235 transistors inside its package. Around this time period, Intel started to stamp its CPU with a trademarked logo in an attempt to distance itself from increasingly aggressive AMD and Cyrix clones.\\
+图 \ref{i486DX.png} 展示了 Intel 486 的裸片，包含 1,180,235 个晶体管。大约在这个时期，Intel 开始在 CPU 上印上注册商标的标志，以与日益激进的 AMD 与 Cyrix 兼容芯片拉开距离。\\
 \par
-\trivia{The i860 played a part in \doom{} anyway since it was used in the NeXTDimension's video processing boards.}
+\trivia{i860 与 \doom{} 也有一点联系，因为它被用于 NeXTDimension 的视频处理板。}
 
 \par
-\subsection{Pipeline improvements}
-Charting the 486's MIPS performance against the previous generation makes the performance boost appear vividly. Thanks to a better manufacturing process, top of the line 486s were able to run at 50MHz\footnote{To reach this frequency, 486 DX 50MHz were manufactured at 1.0$\mu$.}, but frequency increase was not the main source of the improvement.\\
+\subsection{流水线改进}
+将 486 的 MIPS 性能与上一代进行对比，性能提升非常直观。得益于更好的制造工艺，顶级 486 可达到 50MHz\footnote{达到该频率的 486 DX 50MHz 采用 1.0$\mu$ 工艺制造。}，但频率提升并非改进的主要来源。\\
 \par
- Looking closely at the chart, one will notice that even at equal frequencies, a 486 offered more than twice the processing power of a 386.\\
+仔细观察图表可以发现，即便在相同频率下，486 的处理能力也超过 386 的两倍。\\
 
 \par
 \begin{figure}[H]
@@ -83,98 +83,102 @@ Charting the 486's MIPS performance against the previous generation makes the pe
     \end{axis}
    
    \end{tikzpicture}
-   \caption{Comparison of Intel CPUs with MIPS\protect\footnotemark.}
+   \caption{Intel CPU 的 MIPS 对比\protect\footnotemark。}
  \end{figure}
-\footnotetext{"Million of Instructions Per Seconds (MIPS). Source: Roy Longbottom's PC Benchmark: http://www.roylongbottom.org.uk/mips.htm.}
+\footnotetext{“每秒百万指令（MIPS）”。来源：Roy Longbottom 的 PC Benchmark：http://www.roylongbottom.org.uk/mips.htm。}
 
-The way it achieves higher performance is through a higher average throughput. Its documentation describes the 386 as a three-stage pipelined processor. Figure \ref{386_doc_pipeline} shows how, under ideal conditions, it should have been able to execute one instruction per cycle. In practice the CPU behaved as shown in figure \ref{386_real_pipeline}, two times slower than suggested.
+其性能提升来自更高的平均吞吐量。官方文档将 386 描述为三级流水线处理器。图 \ref{386_doc_pipeline} 显示在理想条件下，它应该能做到每个周期执行一条指令。实际中 CPU 的行为如图 \ref{386_real_pipeline}，比文档建议慢了两倍。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{drawings/386_instruction_pipeline.pdf}
-\caption{386 pipeline in theory according to Intel documentation.}
+\caption{根据 Intel 文档的 386 理论流水线。}
 \label{386_doc_pipeline}
 \end{figure}
 
 
 
 \par
-Even if the Prefetch Unit and the Execution Unit were properly fed, the Decode unit always took a minimum of two cycles to decode an instruction\footnote{Decoding is complex since x86 uses variable-length instructions, contrary to RISC's fixed-length approach.}. Since the maximum throughput of a pipeline cannot exceed the speed of its slowest stage, the Intel 386 could process at most one instruction every two cycles.\\
+即使预取单元和执行单元得到充分供给，解码单元解码一条指令也至少需要两个周期\footnote{解码很复杂，因为 x86 使用变长指令，而不是 RISC 的定长方式。}。由于流水线的最大吞吐量受最慢阶段限制，Intel 386 最多只能每两周期处理一条指令。\\
 \par
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{drawings/actual_386_instruction_pipeline.pdf}
-\caption{386 pipeline in practice: Two cycles per instruction.}
+\caption{实际中的 386 流水线：每条指令两周期。}
 \label{386_real_pipeline}
 \end{figure}
 
 \par
-To solve this problem, Intel broke down the three stage pipeline into five (Prefetch, Decode1, Decode2, Execute, WriteBack). With all stages performing at 1 CPI\footnote{Cycle Per Instruction.}, the total throughput of the 486 was doubled (as long as the pipeline never starved).\\
+为解决该问题，Intel 将三段流水线拆成五段（预取、解码1、解码2、执行、回写）。在各阶段都保持 1 CPI\footnote{Cycle Per Instruction。} 的情况下，486 的总吞吐量翻倍（只要流水线不被饿死）。\\
 \par
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{drawings/actual_486_instruction_pipeline.pdf}
-\caption{486 pipeline: One cycle per instruction.}
+\caption{486 流水线：每条指令一周期。}
 \end{figure}
 \par
 
 
 
-
-
-\subsection{Caching }
-Modifying the pipeline and making each stage run as fast as the others was one step in the right direction. But making the pipeline deeper also made it more vulnerable to starvation. Starting from an empty pipeline, the 486 had a latency of 5 cycles compared to the 386, which had a latency of 4 cycles. A frequently stalling 486 would have been slower than a 386. Halting processing due to missing data or instructions was to be avoided at all cost.\\
 \par
-It was a problem seemingly impossible to solve for a technical standing point. Since 1980, RAM performance had been lagging behind CPU performance. Each year, CPUs performance improved by 60\% while DRAM had only improved by 7\%, the gap increasing by 50\% per year. By 1989, DRAM access time was 10 times slower than CPU cycle time.\\
+
+
+
+
+
+\subsection{缓存}
+改进流水线并让各阶段运行速度一致，是向前迈出的一步。但更深的流水线也更容易饿死。从空流水线开始，486 的延迟为 5 个周期，而 386 是 4 个周期。若 486 经常停顿，它会比 386 还慢。由于缺失数据或指令而导致的停顿必须被尽可能避免。\\
+\par
+从技术角度看，这似乎是个难题。自 1980 年以来，RAM 性能一直落后于 CPU 性能。每年 CPU 性能提升 60\%，而 DRAM 仅提升 7\%，差距每年扩大 50\%。到 1989 年，DRAM 访问时间已比 CPU 周期时间慢 10 倍。\\
 \par
 \vspace{2mm}
-\drawing{ram_vs_cpu}{Source: "Computer Organization and Design" by Hennessy and Patterson}
+\drawing{ram_vs_cpu}{来源：“Computer Organization and Design” by Hennessy and Patterson}
 \par
-Until the 486, a CPU requesting either instructions or data from DRAM always had to stall and go through its Bus Unit to talk to the motherboard memory controller. As optimized as the ISA bus protocol was, it took at the very minimum two cycles.\\
+在 486 之前，CPU 从 DRAM 请求指令或数据时必须停顿，通过总线单元与主板内存控制器通信。尽管 ISA 总线协议已相当优化，也至少需要两个周期。\\
 \par 
-A first cycle initialized the bus request, placed the address on the address line and set the control line (Read/Write). Then, a wait cycle ran (which Intel called Wait State since while waiting on the Bus Unit, the CPU did absolutely nothing) while the device on the other side of the bus fulfilled the request.\\
+第一周期初始化总线请求，在地址线上放置地址并设置控制线（读/写）。然后进入等待周期（Intel 称为 Wait State，因为等待总线单元时 CPU 什么都不做），由总线另一端的设备完成请求。\\
 \par
-\drawing{cpu_chipset_bus}{386 CPU-RAM communication elements.}
+\drawing{cpu_chipset_bus}{386 的 CPU-RAM 通信元素。}
 \par
-If a device was able to answer the bus request within the first wait state cycle, the CPU was able to resume operations having reached Zero Wait state. Otherwise, additional Wait States were inserted in order to wait for the request to be completed. From a performance perspective, these Wait States were a disaster. Not only because it took longer for the instruction to finish but also because it stalled all other instructions in the pipeline.\\
+如果设备能在首个等待周期内响应，总线请求可在零等待状态完成，CPU 继续执行。否则会插入额外 Wait State 直到请求完成。从性能角度看，这些 Wait State 是灾难性的，不仅让指令耗时更长，还会阻塞流水线中的所有其它指令。\\
 \par
 \rawdrawing{cpu_wait_states}
 \par
-A two-cycle bus request was the fastest a CPU could achieve. In practice, DRAM access required several Wait State insertions.
-To avoid this meant avoiding using the bus completely. Therefore, Intel inserted a new component between the pipeline and the bus unit called the L1 (Level 1) cache. The idea was to exploit both the spatial and temporal locality of a program.\\
+两周期的总线请求是 CPU 所能达到的最快速度。实际中 DRAM 访问往往需要插入多个 Wait State。
+要避免这一点，就意味着完全避免使用总线。因此，Intel 在流水线与总线单元之间加入了一个新组件：L1（一级）缓存。其思路是利用程序的时间局部性与空间局部性。\\
 \par
-Temporal locality relies on the iterative nature of programs. While in a loop, a recently accessed instruction is likely to be accessed again on the next iteration. Spatial locality has to do with the way programs sequentially read or write arrays containing data. If a memory address is accessed, it is likely a neighboring address will also be accessed shortly after.\\
+时间局部性来源于程序的迭代特性。处于循环时，刚访问过的指令在下一次迭代中很可能再次被访问。空间局部性与程序顺序读写数据数组有关：当访问一个内存地址时，邻近地址很可能也会在不久后被访问。\\
 \par
-By leveraging these two properties, a well-designed cache located between the CPU and the Bus Unit would often already contain the requested data or instruction, making a bus request unnecessary.\\
+利用这两种特性，设计良好的缓存放在 CPU 与总线单元之间时，经常已经包含了所需数据或指令，从而无需总线请求。\\
 \par
-\drawing{cpu_cache}{486 CPU-RAM communication elements.}
+\drawing{cpu_cache}{486 的 CPU-RAM 通信元素。}
 
 
 
 \vspace{-20pt}
-\subsection{L1 Cache}
-Hopefully it is now abundantly clear that the cache was the cornerstone of the entire CPU. Designing the cache to yield the highest hit rate possible and making it as fast as possible were paramount. 
+\subsection{L1 缓存}
+希望到这里已经很清楚，缓存是整个 CPU 的基石。设计缓存以获得尽可能高的命中率，并让它尽可能快，是至关重要的。
 
 \subsubsection{DRAM vs SRAM}
-The first thing the cache had going for itself was the lower latency of its RAM. While the main RAM in the SIMM slots used DRAM (Dynamic RAM), the cache was made of a different type called SRAM (Static RAM), with a much faster access time. DRAM typically had an access time of 200ns while SRAM was capable of 20ns, 10x faster.\\
+缓存的第一个优势是更低的 RAM 延迟。SIMM 插槽中的主内存使用 DRAM（动态 RAM），而缓存使用另一种称为 SRAM（静态 RAM）的类型，访问速度更快。DRAM 的典型访问时间为 200ns，而 SRAM 可达到 20ns，快 10 倍。\\
 \par
-The difference in speed comes from the design of their elementary cells.\\
+速度差异来自其基本存储单元的设计。\\
 \par
- A DRAM cell holds a single bit. Its simple design features one transistor and one storage capacitor which allow tight packing and high capacity. However, the capacitor loses its charge over time and each time it is accessed. Every time the cell is read, it must be written back with its value. Even if it is not accessed, it must be refreshed every 15$\mu s$.\\
+DRAM 单元存储 1 bit。其设计简单，包含一个晶体管和一个存储电容，能够高密度堆叠、容量大。但电容会随时间及每次访问而放电。每次读取后必须写回其值，即使不访问也需要每 15$\mu s$ 刷新一次。\\
 \par
-\scaleddrawing{1}{DRAM}{Dynamic RAM and its two elements holding one bit of data.}
+\scaleddrawing{1}{DRAM}{动态 RAM 及其存储 1 bit 数据的两个元件。}
 \vspace{-5pt}
-The slowness comes from the high maintenance cost of each cell. The DRAM also has the disadvantage of being far away. Located somewhere on the motherboard, it requires using the ISA bus which is shared with other devices.\\
+DRAM 的缓慢来自每个单元的高维护成本。它还有距离上的劣势：位于主板某处，需要使用与其他设备共享的 ISA 总线。\\
 \par
 
 \vspace{2mm}
-Thanks to a more elaborate design (which made it less dense but more expensive to manufacture), an SRAM cell has none of these disadvantages.\\
+得益于更复杂的设计（密度更低、制造更贵），SRAM 单元没有这些缺点。\\
 \par
-\scaleddrawing{1}{SRAM}{Static RAM made of six elements.}
+\scaleddrawing{1}{SRAM}{由六个元件构成的静态 RAM。}
 \par
-Without a capacitor, an SRAM cell doesn't leak. It does not need a periodic refresh and it does not need to be written back each time it is accessed. Its two bit lines allow twice as fast voltage variation detection and faster timing.
-Since it is located inside the CPU chip, accessing it doesn't require an expensive bus request and there is no contention with other devices\footnote{DRAM speed improved over the years. Fast Page Mode "cached" rows of DRAM cells with an SDRAM row buffer. udacity.com's UPCF courses are excellent if you want to learn more about this topic.}.
+没有电容的 SRAM 单元不会漏电，不需要周期刷新，也不需要每次访问后写回。其两根位线能实现更快的电压变化检测与更快的时序。
+由于它位于 CPU 芯片内部，访问不需要昂贵的总线请求，也不会与其他设备争用\footnote{DRAM 速度随后有所改善。Fast Page Mode 会用 SDRAM 行缓冲“缓存”DRAM 的行。udacity.com 的 UPCF 课程若想深入了解该主题很值得一看。}。
 \par
 
 
@@ -184,56 +188,53 @@ Since it is located inside the CPU chip, accessing it doesn't require an expensi
 
 
 
-
-
-\subsubsection{Cachelines}
-Not only did the L1 cache have better hardware, it was also cleverly designed. Its small size (8 KiB) and heavy duty (unified cache for both code and data) placed a considerable stress on it, yet it managed an impressive 92\% hit rate\footnote{Source: "The i486 CPU: Executing Instructions in One Clock Cycle".} under normal operation.\\
+\subsubsection{缓存行}
+L1 缓存不仅硬件更好，设计也很巧妙。它体积小（8 KiB）且负载重（代码与数据统一缓存），但仍在正常工作时达到了令人印象深刻的 92\% 命中率\footnote{来源：“The i486 CPU: Executing Instructions in One Clock Cycle”。}。\\
 \par
-To achieve this, Intel engineers used a four-way associative design where the $2^{32}$ address space is divided into 2,097,152 pages of 2 KiB. Within each page there are 128 lines of 16 bytes called cachelines.\\
+为达成这一点，Intel 工程师采用了四路组相联设计，将 $2^{32}$ 地址空间分成 2,097,152 个 2 KiB 页面。每个页面内有 128 行 16 字节的缓存行（cacheline）。\\
 \par
-\drawing{cacheline}{The 16 bytes in a cacheline.}
+\drawing{cacheline}{缓存行中的 16 字节。}
 \par
-The cache system is made of one directory and four banks (also called ways). Each way can store 128 cachelines of 16 bytes and therefore has a capacity of 2 KiB. These lines of 16 bytes are the elementary units of the cache.\\
-\drawing{mem_to_way}{How a memory address is interpreted by the cache controller.}
+缓存系统由一个目录和四个 bank（也称为 way）组成。每个 way 可存储 128 条 16 字节的缓存行，因此容量为 2 KiB。这些 16 字节的行就是缓存的基本单位。\\
+\drawing{mem_to_way}{缓存控制器如何解析内存地址。}
 \par
-Upon receiving a 32-bit address access request, the cache controller splits it into the three fields shown in Figure \ref{mem_to_way} and performs the following steps.
+当接收到 32 位地址访问请求时，缓存控制器将其拆分为图 \ref{mem_to_way} 所示的三段，并执行以下步骤。
 \begin{enumerate}
-\item Use the LINE field [4-10] to look up one of the 128 directory entries.
-\item Look at the four tags in the entry. If one matches the TAG [11-31] then it means the cacheline is present in one of the four ways.
-\item Check the flag F in the directory entry to make sure the cacheline is valid.
-\item Use the OFFSET [0-3] field to access one of the 16 values in the cacheline.
-\item Update the flag F in the directory entry to update the LRU\footnote{Least Recently Used.}  value.
+\item 使用 LINE 字段 [4-10] 查找 128 条目录项之一。
+\item 查看该目录项中的四个 tag。若有一个与 TAG [11-31] 匹配，则表示该缓存行存在于四个 way 之一。
+\item 检查目录项中的标志 F，确认该缓存行有效。
+\item 使用 OFFSET [0-3] 字段访问缓存行中的 16 个值之一。
+\item 更新目录项中的标志 F，以更新 LRU\footnote{Least Recently Used。} 值。
 \end{enumerate}
 \par
-A memory address' content can be in any of the four ways but always at the same LINE offset. With $2^{32} / 128 = 33,554,432$ addresses competing for four slots, the unavoidable cacheline evictions are arbitrated via an LRU policy\footnote{Eviction can happen on read but also on write if the cache is write-allocate, which all Intel 486s were (Source: "Internal Cache Architecture of X86 Processors").}.\\
+某个内存地址的内容可以位于四个 way 中的任意一个，但总是在相同的 LINE 偏移处。由于 $2^{32} / 128 = 33,554,432$ 个地址争夺 4 个槽位，缓存行的逐出不可避免，并通过 LRU 策略仲裁\footnote{逐出既可能发生在读操作中，也可能发生在写操作中，如果缓存为写分配模式，而所有 Intel 486 都是写分配（来源：“Internal Cache Architecture of X86 Processors”）。}。\\
 \par
-\drawing{cacheways}{The cache controller and its four ways (banks).}
+\drawing{cacheways}{缓存控制器与四个 way（bank）。}
 \par
-\trivia{What about increasing the number of ways or the cache size? With 8 KiB of cache, four ways grant the best trade-off\footnote{Source: "Computer Architecture: A Quantitative Approach" by Hennessy/Patterson.}. A two-ways cache yields a 14\% miss rate and a 4-ways cache yields a 10.5\% miss rate. However, going up to eight only improves the percentage to 10\%, and fully associative to 9\%.}\\
+\trivia{为什么不增加 way 数或缓存大小？在 8 KiB 缓存下，四路提供了最佳折衷\footnote{来源：“Computer Architecture: A Quantitative Approach” by Hennessy/Patterson。}。两路缓存的未命中率为 14\%，四路为 10.5\%，但增加到八路仅提升到 10\%，全相联也只是 9\%。}\\
 \par
 
 \rawscaleddrawing{0.9}{set_state_caches}
 
 
 
-\subsection{Bus Burst Transfer}
-Any cache miss within the 486 pipeline triggered the eviction of a cacheline and a full 16 bytes had to be transfered from DRAM to SRAM\footnote{The prefetcher also worked with units of 16 bytes. It retrieved and stored cachelines into a prefetch queue of 32 bytes.}. Normally this would have been a very costly operation and a huge issue for the CPU. But Intel added something called "Burst Transfer" capability to make it all work together.\\
+\subsection{总线突发传输}
+486 流水线中的任何缓存未命中都会触发缓存行逐出，并需要将整整 16 字节从 DRAM 传入 SRAM\footnote{预取器也以 16 字节为单位工作。它会取回并将缓存行存入 32 字节的预取队列。}。通常这会是非常昂贵的操作，也是 CPU 的重大问题。但 Intel 加入了所谓“突发传输（Burst Transfer）”能力来配合。\\
 \par
-The principle was simple: While waiting for data to arrive, latch the next request so the bus controller can use it right away without waiting for the CPU to initialize a bus request.\\
+原理很简单：在等待数据到达时，预先锁存下一次请求，这样总线控制器可以直接使用它，而无需等待 CPU 初始化新的总线请求。\\
 \par
-\drawing{netburst}{"Burst Transfer" allows for 65\% faster cacheline filling.}
+\drawing{netburst}{“突发传输”使缓存行填充速度提升 65\%。}
 
 
 
 
 
 
-
-\subsection{Overdrive and L1 Writeback}
-Intel managed to improve performance by 33\% with its line of 80486 OverDrive chips. These CPUs featured a frequency multiplier that made them run two times faster than the bus (the 33MHz model CPU ran at 66MHz)\footnote{To this day, designers still try to solve the problem of having a CPU so much faster than the bus.}.  Furthermore, the L1 cache policy became write-back (instead of write-through) which reduced bus traffic significantly.\\
+\subsection{Overdrive 与 L1 写回}
+Intel 通过 80486 OverDrive 系列芯片将性能提高了 33\%。这些 CPU 具有倍频器，使其运行频率是总线的两倍（33MHz 型号 CPU 以 66MHz 运行）\footnote{直到今天，设计者仍在努力解决 CPU 远快于总线的难题。}。此外，L1 缓存策略改为写回（write-back，而非 write-through），显著降低了总线流量。\\
 \par 
 \vspace{10pt}
-\scaleddrawing{0.9}{486dx2_notm}{The "DX2-66" was the golden standard and absolute best to run \doom{}}%{Best CPU to run \doom at the time.}
+\scaleddrawing{0.9}{486dx2_notm}{“DX2-66” 是当时运行 \doom{} 的黄金标准}%{Best CPU to run \doom at the time.}
 \par
 %\trivia{Want even more performance? Not only a DX2-66 ran faster, they also came with an enhanced writeback L1 cache\footnote{The standard 486 L1 cache was writethrough with post-writes.}}
 
@@ -265,18 +266,18 @@ Intel managed to improve performance by 33\% with its line of 80486 OverDrive ch
     \end{axis}
    
    \end{tikzpicture}
-   \caption{Comparison of CPUs with MIPS \protect\footnotemark.}
+   \caption{CPU 的 MIPS 对比\protect\footnotemark。}
  \end{figure}
-\footnotetext{Source: "Roy Longbottom's PC Benchmark Collection: http://www.roylongbottom.org.uk/mips.htm".}
+\footnotetext{来源：“Roy Longbottom's PC Benchmark Collection: http://www.roylongbottom.org.uk/mips.htm”。}
 \par
-On the chart above, notice how a 486DX2-66MHz is faster than a 486DX-50MHz but not by the full 20\% that frequency would make us expect. This is because the DX2 bus runs at 33MHz while on the DX, both the CPU and bus run at 50MHz.
+观察上图可见，486DX2-66MHz 的速度快于 486DX-50MHz，但没有频率差异所暗示的 20\% 全幅提升。这是因为 DX2 的总线运行在 33MHz，而 DX 的 CPU 与总线都在 50MHz。
 
 
 
 
-\subsection{Die}
+\subsection{裸片}
 %To close this section on the 486, I cannot resist including a magnified photography of the die. 
-If you are holding a physical 9.25''x7.5'' copy of this book, the CPU packaging is 30mm square and the die is 15.5 x 9.9 mm, both represented at 1:1 scale.\\
+如果你手中有本书的实体 9.25''x7.5'' 版本，CPU 封装为 30mm 正方形，裸片为 15.5 x 9.9 mm，均按 1:1 比例呈现。\\
 \par
 \bigskip
 
@@ -313,12 +314,12 @@ If you are holding a physical 9.25''x7.5'' copy of this book, the CPU packaging 
 
 
 
-\trivia{On the previous page, the transistor layout differs between the data path, which was hand-crafted, and the control path, which was created with CAD tools built especially for the 486\footnote{Source: Coping with the Complexity of Microprocessor Design at Intel -- A CAD History.}.}\\
+\trivia{上一页中，数据通路与控制通路的晶体管布局不同：数据通路是手工设计的，控制通路则使用专为 486 打造的 CAD 工具生成\footnote{来源：Coping with the Complexity of Microprocessor Design at Intel -- A CAD History。}。}\\
 \par
-\subsection{Programming the 486}
-With the architecture in mind we can now understand how a programmer could take best advantage of the 486. The good news was that most of the performance improvement was the characterized free-lunch of the 90s. The exact same binary would run twice as fast on the new CPU.\\
+\subsection{为 486 编程}
+有了架构背景，我们就能理解程序员如何充分利用 486。好消息是，性能提升的大部分是 90 年代“白捡”的免费午餐。同样的二进制在新 CPU 上会快两倍。\\
 \par
-Apart from a few peculiarities\footnote{"Pushing the 486" by Michael Abrash.}, as long as the programmer was mindful of the cachelines and maximized time and space locality\footnote{And avoided branching. Without a branch predictor, \cw{jmp}s are ignored and usually incur a two cycle stall.}, the CPU would fly in processing integers. Floating-point operations had improved by a factor of 2 compared to the i386's FPU (i387). In fact, floating point operations had improved so much that the i487 FPU could \cw{FMUL} faster than the i386 could \cw{IMUL}.\\
+除了少数特性\footnote{“Pushing the 486” by Michael Abrash。}之外，只要程序员注意缓存行并最大化时间与空间局部性\footnote{并避免分支。由于没有分支预测器，\cw{jmp} 会被忽略，通常会引入两周期停顿。}，CPU 在整数运算上就会飞起来。浮点运算性能相较 i386 的 FPU（i387）提升了两倍。事实上，浮点提升之大，以至于 i487 的 \cw{FMUL} 可以比 i386 的 \cw{IMUL} 更快。\\
 \par
 \begin{figure}[H]
 \centering
@@ -329,12 +330,12 @@ Apart from a few peculiarities\footnote{"Pushing the 486" by Michael Abrash.}, a
 Intel 387 & 23-34 & 29-57   & 88-91 & 18 \\
 Intel 487 & 8-20  & 16   & 73 & 4 \\ \bottomrule
 \end{tabularx}
-\caption{FPU cycles per instruction: 387 vs 487.}
+\caption{FPU 每条指令的周期数：387 vs 487。}
 
 \end{figure}
 
 \par
-But the FPU performance was still a far cry compared to the ALU and its barrel shifter. This mandated \doom{} to use integer operations exclusively\footnote{The dawn of floating-point in games would begin with Intel's Pentium and Quake in 1996.}.\\
+但 FPU 性能与 ALU 及其桶形移位器相比仍相去甚远。这使得 \doom{} 必须只使用整数运算\footnote{游戏中使用浮点运算的黎明将从 1996 年 Intel 的 Pentium 与 Quake 开始。}。\\
 
 \par
  \begin{figure}[H]
@@ -347,7 +348,7 @@ But the FPU performance was still a far cry compared to the ALU and its barrel s
    i486 (ALU) & 1  & 12-42 & 43\\
    \toprule
 \end{tabularx}
-\caption{Cycles per instruction: ALU vs FPU.}
+\caption{每条指令周期数：ALU vs FPU。}
 \end{figure}
 
 %  \begin{figure}[H]
@@ -356,7 +357,7 @@ But the FPU performance was still a far cry compared to the ALU and its barrel s
 %   \toprule
 %   \textbf{Operation} &  \textbf{i486 (ALU)} & \textbf{i487 (FPU)} \\
 %   \toprule 
-   
+%   
 %    \cw{ADD} & 1 & 8-20\\
 %    \cw{DIV} & 43 & 73\\
 %    \cw{MUL} & 12-42 & 29-52\\
@@ -366,42 +367,33 @@ But the FPU performance was still a far cry compared to the ALU and its barrel s
 % \end{figure}
 
 \par
-\trivia{Difficulty in accessing information birthed myths about \doom{} and floating point units. One endless thread that occurred on \cw{alt.games.doom} in 1994 helps to appreciate the state of things. The topic, "Does a 486DX run Doom faster than an SX?" from July 1994 and its (filtered) five answers shows how difficult it was to reach the truth.}
+\trivia{难以获取信息催生了关于 \doom{} 和浮点单元的神话。1994 年在 \cw{alt.games.doom} 上出现的一条长讨论有助于理解当时情况。主题是“486DX 跑 Doom 是否比 SX 快？”（1994 年 7 月）及其（筛选后的）五条回复，展示了当时要接近真相有多难。}
 
 
-\fq{\cw{My friend is buying a computer and doesn't see much reason to buy
-a DX.  Any opinions?  (or hard facts :) ?).}}{\cw{Dave Gates@bestsd.sdsu.edu - 23 Jul 1994 05:28}}
+\fq{\cw{我的朋友要买电脑，看不出买 DX 的理由。有什么建议吗？（或者硬事实 :)？）}}{\cw{Dave Gates@bestsd.sdsu.edu - 23 Jul 1994 05:28}}
 
 
 \vspace{1mm}
 
-\fq{\cw{DOOM runs *MUCH* faster on a 486DX/33 than on a 486SX/33.  Believe me,
-I've seen it running on the 2 different machines in the same room.} }{\cw{BillyBoB 4@aol.com - 23 Jul 1994 10:45}}
+\fq{\cw{DOOM 在 486DX/33 上跑得*快得多*，比 486SX/33 快。相信我，我在同一个房间里看过两台机器。} }{\cw{BillyBoB 4@aol.com - 23 Jul 1994 10:45}}
 
 \vspace{1mm}
 
-\fq{\cw{They are *NOT* any different as far as CPU speed go.  Period.
-The reason one (DX) is faster must have something to do with
-probably the SX has an ISA video card, or no cache, or less
-memory. Doom does NOT NOT NOT NOT use an FPU (math co-processor) so there will be no slowdown for the SX.}}{\cw{Chad Anson@daisy.cc.utexas.edu - 23 Jul 1994 11:48}}
+\fq{\cw{它们在 CPU 速度上*没有*任何差别。原因肯定在别处——可能 SX 是 ISA 显卡，或没缓存，或内存更少。Doom 不使用 FPU（数学协处理器），所以 SX 不会因为它变慢。}}{\cw{Chad Anson@daisy.cc.utexas.edu - 23 Jul 1994 11:48}}
 
 \vspace{1mm}
 
-\fq{\cw{We have a 486SX/25 and a 486DX/50 and the DX 50 runs faster at full screen
-high detail then the SX runs at postage stamp. It is so slow as to be
-almost unplayable.} }{\cw{BonesBro@aol.com - 23 Jul 1994 12:36}}
+\fq{\cw{我们有一台 486SX/25 和一台 486DX/50，DX 50 全屏高细节跑得比 SX 的邮票大小还快。SX 慢到几乎不能玩。} }{\cw{BonesBro@aol.com - 23 Jul 1994 12:36}}
 
 \vspace{1mm}
 
-\fq{\cw{An SX is considerably slower than a DX for most processor-intensive
-applications and games, including DOOM.}}{\cw{Neal W.Miller@@rebecca.its.rpi.edu - 23 Jul 1994 13:34}}
+\fq{\cw{对大多数处理器密集型应用和游戏（包括 DOOM）而言，SX 比 DX 慢得多。}}{\cw{Neal W.Miller@@rebecca.its.rpi.edu - 23 Jul 1994 13:34}}
 
 \vspace{1mm}
 
-\fq{\cw{Thats wrong !
-A 486 SX runs Doom with exactly the same speed like a 486 DX
-(if you use the same VGA Card and Motherboard).}}{\cw{Grassl Wolfgang@papin.HRZ.Uni-Marburg.DE - 23 Jul 1994 14:24}}
-
+\fq{\cw{不对！
+486 SX 运行 Doom 的速度和 486 DX 完全一样
+（只要使用相同的 VGA 卡和主板）。}}{\cw{Grassl Wolfgang@papin.HRZ.Uni-Marburg.DE - 23 Jul 1994 14:24}}
 
 
 

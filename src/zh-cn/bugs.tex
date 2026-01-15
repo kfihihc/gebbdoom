@@ -1,6 +1,6 @@
 \vspace{-20pt}
-\section{Bugs}
-\doom{} is known for its stability partly thanks to a development process using seven compilers and systems. Nonetheless it shipped with a few bugs.
+\section{漏洞}
+\doom{} 因为开发过程使用了七种编译器和系统而以稳定著称，但它仍然带着一些 bug 发货。
 
 
 
@@ -8,15 +8,14 @@
 
 
 
-
-\subsection{Flawed collision detection}
-One rare collision detection bug was first brought to light (and subsequently explained in depth) by Colin "cph" Phipps in his article "Shooting Through Things".\\
+\subsection{有缺陷的碰撞检测}
+一个罕见的碰撞检测 bug 首先由 Colin “cph” Phipps 在他的文章《Shooting Through Things》中揭示并深入解释。\\
 \par
-\fq{A monster is getting too close for comfort. You shoot at it, and miss. If you are unlucky, the monster kills you. But you were so sure that you were pointing right into the monster, that so close as you were you couldn't have missed. Perhaps it was the chaingun playing up, shooting all the bullets off to one side. Perhaps the game was written by a bunch of losers who failed their high-school geometry. Or perhaps, in the heat of the moment, you really did miss; nobody's perfect.\\
+\fq{一个怪物离你太近了。你朝它开枪，却没打中。如果你运气不好，它就会杀了你。但你非常确定准星正对着它，离得这么近你不可能打空。也许是链锯枪在捣乱，把子弹都偏到了一边。也许这游戏是群在高中几何课上挂科的菜鸟写的。或者也许在千钧一发的时刻，你真的打偏了——人无完人。\\
 \par
-Well I have good news. You can blame your tools.}{Colin Phipps}\\
+好消息是：你可以怪罪工具。}{Colin Phipps}\\
 \par
-Some enemies can be really big, almost ten times bigger than the player (16 units), such as in the case of the Spider Mastermind (128 units). As we saw on page \pageref{E1M1_blockmap}, \doom{} uses blockmaps to speed up detection of intersections with things and walls. If a thing is on the edge of block and the player is a bit unlucky, what should have been a hit can end up as a miss.
+有些敌人非常大，几乎是玩家（16 单位）的十倍，例如 Spider Mastermind（128 单位）。如第 \pageref{E1M1_blockmap} 页所示，\doom{} 使用 blockmap 来加速与物体和墙体的相交检测。如果一个物体恰好在 block 的边缘，而玩家又稍不走运，本该命中的攻击可能会变成未命中。
 
 \fullimage{beasts_sizes.png}
 \vspace{-1cm}
@@ -25,37 +24,36 @@ Some enemies can be really big, almost ten times bigger than the player (16 unit
 
 \rawdrawing{collision_miss}
 \par
-It is possible to miss a SpiderDemon in a hallway. In the single room map above, the green player on the left is firing at a red enemy 128 units wide on the right (probably a SpiderDemon). The blue grid shows the blockmap's alignment.\\
+在走廊里确实可能打空一个 SpiderDemon。上面的单房间地图中，左侧绿色玩家向右侧一个宽 128 单位的红色敌人开火（可能是 SpiderDemon）。蓝色网格显示 blockmap 的对齐方式。\\
 \par
- The line of the bullet and the radius of the monster clearly overlap. This should be a hit. But only the content of blockmaps \cw{0}, \cw{1} and \cw{2} will be checked, resulting in tests with walls \cw{D}, \cw{A} and \cw{B}. Since the enemy is in block \cw{5} and the bullet doesn't cross it, the hit is not registered.\\
- \par
- This bug is not limited to very large monsters. It can happen with any enemy depending on how close they are to the player and how the blockmaps align.
-
-
-
-
-
-
-
-\subsection{Slime trail}
-A slime trail happens when there is a horizontal screen space gap between two walls. Visplanes "leak" between the space, resulting in graphical glitches. This was a known issue during development that was never fixed due to deadlines and the fact they only rarely occurred. John Carmack mentioned it when the \cw{doombsp} source code was released.\\
+子弹的轨迹线和怪物的半径明显重叠，这本应命中。但实际只会检查 blockmap 的 \cw{0}、\cw{1} 和 \cw{2}，因此只会与墙 \cw{D}、\cw{A} 和 \cw{B} 做测试。由于敌人在 block \cw{5} 中，子弹并未穿过该 block，因此命中不会被记录。\\
 \par
-\fq{There IS a bug in here that can cause up to a four pixel wide column to be drawn out of order, causing a more distant floor and ceiling plane to stream farther forward than it should.  You can sometimes see this on E1M1 looking towards the imp up on the ledge at the entrance to the zig zag room.  A few pixel wide column of slime streams down to the right of the walkway.  It takes a bit of fidgeting with the mouse to find the spot.  If someone out there tracks it down, let me know...
+这个 bug 并不局限于非常大的怪物。它可能发生在任何敌人身上，取决于敌人与玩家的距离以及 blockmap 的对齐方式。
+
+
+
+
+
+
+\subsection{黏液拖尾}
+当两面墙之间在屏幕空间出现水平缝隙时，就会出现“黏液拖尾”。Visplane 会在缝隙中“泄漏”，导致图形瑕疵。开发期间这是已知问题，但由于截止日期和出现频率较低而从未修复。John Carmack 在 \cw{doombsp} 源码发布时提到过这一点。\\
+\par
+\fq{这里确实有个 bug，会导致最多 4 像素宽的一列被错序绘制，使得更远处的地板和天花板平面向前“流”得比应该的更远。有时你能在 E1M1 里看到它：看向入口处锯齿房间里平台上的小恶魔。你会看到人行道右侧有一条几像素宽的黏液往下流。要用鼠标稍微抖动一下才能找到位置。如果有人能追查到它，告诉我……
 }{John Carmack}\\\par
 \fullimage{slime_trail.png}\\
 \par
-The issue can actually be far wider than four pixels if one knows where to look.\\
+如果知道去哪看，这个问题实际上可以远宽于 4 像素。\\
 \par
 \fullimage{big_slime_trail.png}
 \par
 \vspace{10pt}
-This particular instance of slime trail is the result of the engine's visplane inference system combined with the limited precision of integers when a map is sliced up by via \cw{doombsp}.\\
+这一特定的黏液拖尾是由引擎的 visplane 推断系统与 \cw{doombsp} 对地图切分时整数精度有限共同导致的。\\
 \par
- Once again, let's take an example. The two previous screenshots were taken in the very first map of the game, E1M1, in a zigzag section surrounded by toxic green liquid. At first glance, there is nothing unusual here but when we take a look at how it was sliced during binary partitioning, an interesting special case appears.\\
+再次来看一个例子。前两张截图来自游戏第一关 E1M1 的一个锯齿区域，四周是毒绿液体。乍看没有异常，但当我们查看二叉划分时的切分情况，就会出现一个有趣的特殊情形。\\
 \par
-Line \cw{A} was selected as a splitter. As it crosses lines \cw{B} and \cw{G}, two segments are created as \cw{B1}, \cw{B2}, \cw{G1}, and \cw{G2}. The new vertices created are in red. Things are less clear for lines C and E (or is it F ?). We need to look closer. \\
+线段 \cw{A} 被选作分割线。当它与 \cw{B} 与 \cw{G} 相交时，产生 \cw{B1}、\cw{B2}、\cw{G1}、\cw{G2} 四段。新生成的顶点为红色。对于 C 和 E（或者是 F？）就没那么清晰了，我们需要更仔细地看。\\
 \par
-If we zoom in on vertex \cw{3}, we see the splitter crossed \cw{F} between integer coordinates. Since map vertex coordinates are stored as integers, a split is impossible. The error is small, so \cw{doombsp} treats the vertex as if it was exactly on the splitting line.
+当我们放大到顶点 \cw{3} 时，会看到分割线在整数坐标之间穿过了 \cw{F}。由于地图顶点坐标以整数存储，这种分割是不可能的。误差很小，因此 \cw{doombsp} 将该顶点当作正好落在分割线上处理。
 
 \begin{minipage}{0.47\textwidth}
 \rawscaleddrawing{1}{E1M1_slimetrail}
@@ -79,27 +77,27 @@ If we zoom in on vertex \cw{3}, we see the splitter crossed \cw{F} between integ
 \end{wrapfigure}
 \par
 \vspace{10pt}
-Let's position the player along the same split line we just studied, but facing the opposite direction (the scene is simpler with fewer walls). The player is very close to segments \cw{E} and \cw{F} (which is where the rendering error is). Further in the background are segments \cw{G1} and \cw{G2} where line \cw{G} was split.\par
+让玩家站在刚才研究的同一条分割线附近，但朝相反方向看（场景更简单、墙更少）。玩家非常靠近 \cw{E} 和 \cw{F} 段（渲染错误发生处）。更远处是 \cw{G1} 和 \cw{G2} 段，它们来自 \cw{G} 被切分后的结果。\par
 \vspace{10pt}
-The frame starts with a blank canvas. Portal \cw{E} is rendered first. It has no upper or middle texture but it does have a lower texture that is drawn (marked with a green overlay on page \pageref{leak_opposite_explained.png}). As the lower texture is rendered, the screen space below is inferred to be a floor visplane \cw{E-VP} (shown with a pink overlay). The engine then continues down the BSP and renders \cw{G1}.\par
+该帧从空白画布开始。首先渲染 portal \cw{E}。它没有上部或中部贴图，但有下部贴图要绘制（在 \pageref{leak_opposite_explained.png} 页用绿色覆盖标注）。渲染下部贴图时，其下方的屏幕空间会被推断为地板 visplane \cw{E-VP}（用粉色覆盖表示）。引擎随后继续向下遍历 BSP 并渲染 \cw{G1}。\par
 \vspace{10pt}
 
- \cw{G1}'s lower texture is rendered (in red). Everything below that is inferred to be a floor and therefore visplane \cw{G1-VP} is created. Notice that the visplane goes all the way to the bottom of the screen which is a rendering bug. Had the BSP been split properly, \cw{F1} would have been rendered before \cw{G1} and stopped the visplane from flooding in screenspace improperly.\\
+\cw{G1} 的下部贴图被渲染（红色）。其下方的一切被推断为地板，于是生成 visplane \cw{G1-VP}。注意该 visplane 一直延伸到底部，这是渲染错误。若 BSP 被正确切分，\cw{F1} 会在 \cw{G1} 之前渲染，阻止 visplane 在屏幕空间中错误泛滥。\\
 \par
  
 
 \fullimage{leak_opposite_explained.png}\\
 \label{leak_opposite_explained.png}
 \par
-From there, the damage is done. The engine renders the other side of the BSP and hits \cw{F} which is clipped against the vertical boundary set by \cw{G1} and then drawn (in blue). The space below \cw{F} is inferred to be floor and visplane \cw{F-VP} (turquoise) is generated\footnote{The engine actually merges \cw{E-VP} and \cw{F-VP} but let's discard it for the sake of simplicity.}.
+从这里开始，问题就已经发生了。引擎渲染 BSP 的另一侧，遇到 \cw{F}，并在 \cw{G1} 设定的垂直边界上进行裁剪后绘制（蓝色）。\cw{F} 下方被推断为地板，生成 visplane \cw{F-VP}（青绿色）\footnote{引擎实际上会合并 \cw{E-VP} 与 \cw{F-VP}，为简化说明此处忽略。}。
 
 
-\section{Barrel suicide}
-\doom{} monsters are capable of fighting against each other. If friendly fire was to occur during combat, the damaged monster will automatically attempt to retaliate instead of attacking the player. This is called monster infighting.\\
+\section{油桶自杀}
+\doom{} 的怪物可以互相厮杀。在战斗中若发生误伤，受伤的怪物会自动转而反击伤害来源，而不是继续攻击玩家。这被称为怪物内讧（monster infighting）。\\
 \par
-There is an amusing special case of infighting which involves exploding barrels. When a barrel is damaged, the engine "memorizes" which entity was responsible for it. When the barrel actually explodes the source of the damage is passed to all damaged entities so they can retaliate.\\
+有一个有趣的特殊情况与爆炸桶有关。当桶受到伤害时，引擎会“记住”是谁造成了伤害。桶真正爆炸时，会把伤害来源传递给所有受伤实体，以便它们反击。\\
 \par
-What can happen is that a monster triggers a barrel to explode and gets injured by the blast in the process. In this occurrence, monsters with a melee attack (Cacodemon, Imp, Hellknight) will "tear themselves apart" while those only capable of range attack (former humans) will go nuts and fire blindly at random, possibly triggering further monster infighting.
+可能发生的情况是：怪物引爆桶并被爆炸波及受伤。在这种情况下，带近战攻击的怪物（如 Cacodemon、Imp、Hellknight）会“把自己撕碎”，而只有远程攻击能力的怪物（人类僵尸）则会发疯，盲目乱射，可能引发进一步的怪物内讧。
 
 
 
@@ -109,25 +107,25 @@ What can happen is that a monster triggers a barrel to explode and gets injured 
 
 
 
-\section{Always Run overflow}
-Much to the dismay of players, they was not "always run" toggle in \doom{} engine. However players found a trick. By opening \doom{} config file and setting the value of \cw{joyb\_speed} manually to \cw{29}, they could in fact always run.\\
+\section{“始终奔跑”溢出}
+令玩家沮丧的是，\doom{} 引擎并没有“始终奔跑”的切换项。不过玩家发现了一个技巧：打开 \doom{} 配置文件，把 \cw{joyb\_speed} 的值手动设为 \cw{29}，就能始终奔跑。\\
 \par
-If that did not scream "buffer over-read" to you, that fact that \cw{29} worked on DOOM v1.9 only while a value of \cw{31} was required for Final DOOM should achieve to convince you.\\
+如果这还没让你大喊“缓冲区越界读”，那 \cw{29} 仅在 DOOM v1.9 有效，而 Final DOOM 需要 \cw{31} 的事实应该足以说服你。\\
 \par 
-What happens under the hood is that there is not boundary check when checking the joystick button array. By setting the value to a non-existent joystick button number, the engine reads way past the joystick button array.\\
+幕后发生的事情是：检查摇杆按钮数组时没有边界检查。将值设为一个不存在的按钮编号后，引擎会读取摇杆按钮数组之外的内存。\\
 \par
 \ccode{speed.c}
 \par
-To understand where these values of \cw{29}/\cw{31} lands us, we need to take a look at how the variables are declared.\\
+要理解 \cw{29}/\cw{31} 这两个值落在哪里，我们得看变量是如何声明的。\\
 \par
 \ccode{joybuttons.c}
 \par
-Where does it read? With \cw{joybuttons initialized at the second entry in \cw{joyarray}, we need to also know how big a \cw{bool} is in DOOM.}\\
+它到底读到了哪里？由于 \cw{joybuttons} 初始化为 \cw{joyarray} 的第二个条目，我们还需要知道 \doom{} 中 \cw{bool} 的大小。\\
 \par
 
 \ccode{typedef_bool.c}
 \par
-Since the code was written before either C or C++ has \cw{bool} in their standard, \doom{} use an enum where each elements is a four bytes integer. This means the values of \cw{29}/\cw{31} lands somewhere inside \cw{savedescription} which hold the name when saving a game. What is likely is that there used to be something before \cw{savegameslot} which made \cw{29}/\cw{31} land on \cw{savedescription} character pointer. This was guaranteed to be different from zero, which constantly enabled "running mode".\\
+由于代码写于 C/C++ 标准引入 \cw{bool} 之前，\doom{} 使用 enum，其中每个元素都是 4 字节整数。这意味着 \cw{29}/\cw{31} 会落在 \cw{savedescription} 内部，它存放游戏存档时的名称。更可能的是，在 \cw{savegameslot} 之前曾经有别的东西，使得 \cw{29}/\cw{31} 落在 \cw{savedescription} 的字符指针上。它必定非零，从而持续启用“奔跑模式”。\\
 \par
 
 
@@ -137,5 +135,4 @@ Since the code was written before either C or C++ has \cw{bool} in their standar
 
 
 
-
-\trivia{To make the game more fun, John Romero cranked up the mouvement speed of the DOOM guy. In real-life they could walk at 21.5 miles an hour and runs as 43 miles an hour\footnote{Source: https://www.doomworld.com/vb/doom-general/5909-so-just-how-fast-does-the-marine-run/}!}
+\trivia{为了让游戏更有趣，John Romero 把 DOOM 角色的移动速度调得很高。现实中他们可以走到 21.5 英里/小时，跑到 43 英里/小时\footnote{来源：https://www.doomworld.com/vb/doom-general/5909-so-just-how-fast-does-the-marine-run/}！}

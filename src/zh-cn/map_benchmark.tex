@@ -1,37 +1,37 @@
- As of 2018, it has been twenty five years since the last machine came out of \NeXT{}'s Redwood City factory in 1993. It has become a rare occurrence to find one of these pieces of black hardware in working condition.\\
- \par
- Since this book strives to be historically accurate, it was paramount to find an actual NeXTstation TurboColor -- first and foremost to document the development condition of the time, but also to witness the full game pipeline in motion. Even though passionate and dedicated programmers have produced a gorgeous emulator called "Previous", the performance numbers would not have been accurate.\\
- \par
-  I lucked out on eBay and found exactly the configuration I needed. The machine was in working condition but the SCSI hard-drive was making clinking noises, a sign that it was about to die. Additionally, the MegaDisplay colors had faded out\footnote{This would have been easily fixable by replacing the capacitors on the monitor control board, but it would not have solved the issue of the weight.} and its 50 lbs (23 kg) made it difficult to move.\\
-  \par
-  Thanks to Rob Blessin, owner and founder of Black Hole Inc., I was able to replace the HDD with a SD card SCSI2SD providing similar access time. It was difficult to find a screen compatible with \NeXTns{}'s exotic "sync on green" but thanks to the wonderful people at \cw{www.nextcomputers.org} I was pointed to a NEC MultiSync 1980SX which worked flawlessly.\\
-  \par
-  Words cannot convey how it felt to hear the humming of the machine's fan. To witness \cw{Doom.app}, \cw{DoomED}, and \cw{doombsp} compile flawlessly. To witness this NeXTstation Turbo Color (serial \cw{\#ABC0053943}) come back to life. The machine did not cure cancer as Jobs wished for but it did provide happiness to countless developers.
-
-
-
-
-
-\section{Developing The Game}
-On this double page is recreated the typical developer desktop setup. Notice "Interceptor VGA Console" which gives away \cw{libinterceptor.a}, a private library provided by \NeXTns's engineers to punch a hole in Display Postscript and bypass the "slow" compositor.\\
+截至 2018 年，距离 \NeXT{} 在 1993 年位于 Redwood City 的工厂产出最后一台机器已经过去了 25 年。如今要找到一台仍能工作的黑色硬件已十分罕见。\\
 \par
-\cscaledimage{0.9}{doom_on_next.png}{NeXTSTEP development setup (left part of the screen)}
+由于本书力求历史准确，找到一台真正的 NeXTstation TurboColor 变得至关重要——首先用于记录当时的开发条件，其次也为了亲眼见证完整的游戏流水线运行。尽管热心而敬业的程序员们制作了名为 “Previous” 的精美模拟器，但其性能数据并不准确。\\
+\par
+我在 eBay 上走运，找到了所需的配置。机器能正常工作，但 SCSI 硬盘发出咔哒声，这是濒死迹象。此外，MegaDisplay 的颜色也褪色了\footnote{这可以通过更换显示器控制板上的电容轻松修复，但无法解决重量问题。}，而它 50 磅（23 kg）的重量使移动十分困难。\\
+\par
+多亏 Black Hole Inc. 的创始人兼老板 Rob Blessin，我将 HDD 更换为 SCSI2SD 的 SD 卡，提供类似的访问时间。\NeXTns{} 那套“绿同步”的奇特视频规格使得很难找到兼容显示器，但得益于 \cw{www.nextcomputers.org} 的热心人士，我找到了 NEC MultiSync 1980SX，运行完美。\\
+\par
+言语难以形容听到机器风扇嗡鸣的感觉。看到 \cw{Doom.app}、\cw{DoomED} 和 \cw{doombsp} 无误编译。看到这台 NeXTstation Turbo Color（序列号 \cw{\#ABC0053943}）重获新生。这台机器没有像 Jobs 希望的那样治愈癌症，但它确实给无数开发者带来快乐。
 
-The MegaDisplay resolution of 1120x832 was so high that id Software had to implement a 2x software zoom for the game window. Without it, the \doom{} window looked like a tiny stamp with barely any pixels visible.\\
+
+
+
+
+\section{开发游戏}
+这一跨页重现了典型的开发者桌面。注意 “Interceptor VGA Console”，它暴露了 \cw{libinterceptor.a}——\NeXTns{} 工程师提供的私有库，用于在 Display Postscript 中打开一个“洞”，绕过“缓慢”的合成器。\\
+\par
+\cscaledimage{0.9}{doom_on_next.png}{NeXTSTEP 开发环境（屏幕左侧）}
+
+MegaDisplay 的分辨率 1120x832 非常高，id Software 不得不为游戏窗口实现 2 倍软件缩放。否则 \doom{} 窗口看起来像一枚小邮票，几乎看不到像素。\\
 \par
 \vspace{18.5pt}
-\cscaledimage{0.92}{doom_on_next2.png}{NeXTSTEP development setup (right part of the screen)}
+\cscaledimage{0.92}{doom_on_next2.png}{NeXTSTEP 开发环境（屏幕右侧）}
 \pagebreak
 
-\section{Compiling Maps}
-Benchmarks for \cw{doombsp} run time for each level in \doom~and \doomii\footnote{Based on \cw{.map} files released by John Romero on 2015-04-22.}.\\
+\section{编译地图}
+\doom~与 \doomii 中每一关的 \cw{doombsp} 运行时间基准\footnote{基于 John Romero 于 2015-04-22 发布的 \cw{.map} 文件。}。\\
 \par
  \begin{minipage}[t]{0.45\textwidth}
  \begin{figure}[H]
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.3} | R{0.7} }
   \specialrule{1pt}{0pt}{0pt}
-  \textbf{Map} & \textbf{\cw{doombsp} runtime (s)} \\
+  \textbf{Map} & \textbf{\cw{doombsp} 运行时间 (s)} \\
   \specialrule{1pt}{0pt}{0pt}
 E1M1 &     8.2 \\ 
 E1M2 &       32.0 \\
@@ -71,7 +71,7 @@ E3M9 &        8.9\\
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.3} | R{0.7} }
   \specialrule{1pt}{0pt}{0pt}
-  \textbf{Map} & \textbf{\cw{doombsp} runtime (s)} \\
+  \textbf{Map} & \textbf{\cw{doombsp} 运行时间 (s)} \\
   \specialrule{1pt}{0pt}{0pt}
 MAP01 &       6.1  \\
 MAP02 &       6.6 \\
@@ -116,15 +116,15 @@ MAP35 &        0.3 \\
 \end{minipage}
 \\
 
-\section{Running The Game}
-Running \doom{} on a NeXTstation TurboColor produced a surprisingly poor framerate.\\
+\section{运行游戏}
+在 NeXTstation TurboColor 上运行 \doom{} 的帧率出奇地差。\\
 \par
  \begin{figure}[H]
 
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.08} | C{0.42} | R{0.25} | R{0.25} }
   \specialrule{1pt}{0pt}{0pt}
-  \textbf{Mode} & \textbf{Resolution} & \textbf{High Details FPS} & \textbf{Low Details FPS} \\
+  \textbf{模式} & \textbf{分辨率} & \textbf{高细节 FPS} & \textbf{低细节 FPS} \\
   \specialrule{1pt}{0pt}{0pt}
 B & 320x200 & 9 & 13 \\  
 A & 320x168&  9 & 14 \\
@@ -137,16 +137,16 @@ A & 320x168&  9 & 14 \\
 3 & 096x048& 21 & 23 \\
    \specialrule{1pt}{0pt}{0pt}
 \end{tabularx}
-\caption{\protect\doom{} framerate on a NeXTstation TurboColor}
+\caption{\protect\doom{} 在 NeXTstation TurboColor 上的帧率}
 \end{figure}
 \par
-It gets even worse when running the game with the 2x zoom used during development. In this mode, the same number of pixels are written to the core's framebuffer but four times more data must transit over the bus.\\
+在开发期间使用的 2 倍缩放模式下，情况更糟。在该模式中，写入核心帧缓冲的像素数相同，但需要通过总线传输的数据量增加了四倍。\\
 \par
  \begin{figure}[H]
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.08} | C{0.42} | R{0.25} | R{0.25} }
   \specialrule{1pt}{0pt}{0pt}
-  \textbf{Mode} & \textbf{Resolution} & \textbf{High Details FPS} & \textbf{Low Details FPS} \\
+  \textbf{模式} & \textbf{分辨率} & \textbf{高细节 FPS} & \textbf{低细节 FPS} \\
   \specialrule{1pt}{0pt}{0pt}
 B & 640x400 & 6 & 8 \\  
 A & 640x336 & 6 & 8 \\
@@ -159,22 +159,22 @@ A & 640x336 & 6 & 8 \\
 3 & 192x096 & 11  & 11 \\
    \specialrule{1pt}{0pt}{0pt}
 \end{tabularx}
-\caption{\protect\doom{} 2x zoom framerate on a NeXTstation TurboColor}
+\caption{\protect\doom{} 在 NeXTstation TurboColor 上的 2 倍缩放帧率}
 \end{figure}
 \par
-Lowering the resolution or the detail level helped a little bit but not as much as with the DOS version. That's because on \NeXTns{}, the video system is implemented differently.\\
+降低分辨率或细节级别略有帮助，但不像 DOS 版本那样明显。因为在 \NeXTns{} 上视频系统的实现方式不同。\\
 \par
- The implementation disregards update signals from \cw{I\_UpdateNoBlit} and defers all work to \cw{I\_FinishUpdate} where the full content of framebuffer \#0 is blitted to the \cw{NSWindow}. There is no dirty box optimization and no direct access to the hardware like on DOS.\\
+实现忽略来自 \cw{I\_UpdateNoBlit} 的更新信号，而把所有工作延后到 \cw{I\_FinishUpdate}，在那里把帧缓冲 \#0 的完整内容 blit 到 \cw{NSWindow}。没有脏矩形优化，也没有像 DOS 那样直接访问硬件。\\
 \par
-\trivia{The "low detail" mode was never properly implemented on NeXTSTEP. The engine writes only half the columns but there is no system to duplicate them like the VGA bank mask did. As a result, only the left portion of the \cw{NSWindow} is updated.}
+\trivia{“低细节”模式在 NeXTSTEP 上从未正确实现。引擎只写一半的列，但没有像 VGA bank mask 那样的复制机制。结果是只更新了 \cw{NSWindow} 的左侧部分。}
 
-\section{Framebuffer Non-distortion}
-The NeXTstation had a "clean" video system where the color space was linear and the pixels were "square" (the framebuffer had the same aspect ratio as the MegaDisplay monitor). As a result \doom{}'s' framebuffer \#0 suffers no distortion when presented by the window system.\\
+\section{帧缓冲无畸变}
+NeXTstation 拥有“干净”的视频系统：色彩空间线性，像素为“正方形”（帧缓冲与 MegaDisplay 监视器具有相同的纵横比）。因此 \doom{} 的帧缓冲 \#0 在窗口系统中显示时没有畸变。\\
 \par
-The 320x200\footnote{320x200 is the dimension of the active area, not including the title bar.} "Interceptor VGA Console" \cw{NSWindow} is not stretched to 320x240 and therefore appears vertically squashed. It is particularly noticeable when the splash screen on NeXTSTEP (Figure \ref{doom_crushed}) is displayed next to the DOS version (Figure \ref{doom_title_4_3}).\\
+320x200\footnote{320x200 是活动区域的尺寸，不含标题栏。} 的 “Interceptor VGA Console” \cw{NSWindow} 不会被拉伸到 320x240，因此看起来纵向被压扁。特别是在 NeXTSTEP 的启动画面（图 \ref{doom_crushed}）与 DOS 版本（图 \ref{doom_title_4_3}）并排显示时尤为明显。\\
 \par
-\cscaledimage{1}{doom_crushed}{\doom{} on NeXTSTEP. Content appears vertically squashed}
+\cscaledimage{1}{doom_crushed}{\doom{} 在 NeXTSTEP 上显示。内容垂直方向被压扁}
 \par
-\trivia{Many ports got the aspect ratio wrong. \doom{} 95 which was to showcase Microsoft's Windows 95 graphics drivers low overhead was among the guilty. In its default setting, the 320x200 hosting window directly maps \doom{}'s core framebuffer. As a result, enemies look shorter, rocket explosions are oval, and everything else is distorted.}
+\trivia{许多移植版搞错了纵横比。\doom{} 95 也是如此，它本用于展示微软 Windows 95 图形驱动的低开销。在默认设置下，320x200 的宿主窗口直接映射 \doom{} 的核心帧缓冲。结果敌人看起来更矮，火箭爆炸呈椭圆，其他一切都变形。}
 \par
-\cscaledimage{1}{doom_title_4_3}{\doom{} in 4:3 aspect ratio as presented on a 1993 PC monitor}
+\cscaledimage{1}{doom_title_4_3}{\doom{} 在 1993 年 PC 显示器上呈现的 4:3 纵横比}
