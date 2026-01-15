@@ -1,25 +1,10 @@
 \vspace{-15pt}
-\section{Network}
-The early 90s predated the wide adoption of the Internet and Wi-Fi. Connecting computers together was difficult and expensive\footnote{Computer-to-computer games existed since the early 1980s. Some, like Battle Chess, were even cross-platform.}. Even if you had the means, bandwidth and latency were abysmal. Most of the time, playing with friends meant getting all your computers into the same room (a LAN party). Playing from the comfort of your room was extremely uncommon. Amusingly, an unconnected computer is now deemed useless. Communication with other machines is something natural and the bare minimum for a machine to be useful.\\
+\section{网络}
+90 年代初期互联网与 Wi-Fi 尚未普及。把电脑连在一起既困难又昂贵\footnote{计算机对计算机的游戏自 80 年代初就已存在，一些如《Battle Chess》甚至实现了跨平台。}。即便条件允许，带宽和延迟也糟糕透顶。大多数时候，和朋友一起玩意味着把所有电脑搬到同一间房里（局域网聚会）。在自己房间里舒舒服服地玩联机极其罕见。讽刺的是，如今没有联网的电脑反而被视为无用之物。与其他机器通信已被视作理所当然，是一台机器“有用”的最低要求。\\
 \par
- But back in the early 90s, to pack your 50lb machine (including the CRT) on your bike, make it to a friend's place alive, plug in the cables, start \doom{} and finally see your character move on the other computer's screen was an indescribable feeling. To witness machines actually communicating felt unreal and almost magical.\\
-\par 
-To achieve the impossible, players had three technologies available: Null-Modem cable, modems, and LAN via network cards.
-
-
-
-
-
-
-
-
-
-\subsection{Null-Modem Cable}
-The cheapest way and what most people used was the \$20 cable known as a "Null-Modem" which was directly plugged in each PC's COM port. The cable offered no modulation at all (hence the name). For obvious reasons, only two players could participate.\\
-\par 
-\cscaledimage{0.5}{nullmodemcable.png}{Null-Modem cable}
+但在 90 年代初，把 50 磅重的机器（连同 CRT 显示器）装上自行车，活着骑到朋友家，接好线缆，启动 \doom{}，终于在另一台电脑屏幕上看到自己的角色动起来，那种感觉难以言表。亲眼看到机器真正互相通信，几乎像魔法一般。\\
 \par
- A two player game may sound lame by today's standards but back then it was so new and cool that it felt like the most amazing thing in the world.
+为了实现这看似不可能的事，玩家有三种技术可选：零调制解调器（Null-Modem）线缆、电话调制解调器，以及基于网卡的局域网（LAN）。
 
 
 
@@ -27,8 +12,22 @@ The cheapest way and what most people used was the \$20 cable known as a "Null-M
 
 
 
-\subsection{BNC 10Base2 LAN (Local Area Network)}
-To play with more than one opponent was substantially more difficult. Besides the relatively easy financial burden of buying the equipment, you had to overcome the much more difficult task of convincing a parent to let four teenagers come to their house where they would scream all night. The famous saying, "fool me once, shame on you; fool me twice, shame on me" is rumored to have originated from betrayed mothers and fathers who had been \textit{doomed} all night.\\
+
+\subsection{零调制解调器线缆（Null-Modem Cable）}
+最便宜、也最常用的方法，是一根约 20 美元的“零调制解调器”线缆，直接插在每台 PC 的 COM 口上。线缆并不进行调制（因此得名）。显而易见，这只能让两位玩家参与。\\
+\par
+\cscaledimage{0.5}{nullmodemcable.png}{零调制解调器线缆}
+\par
+两人对战按今天的标准可能很寒酸，但在当时新鲜又酷，简直像是世界上最棒的事情。
+
+
+
+
+
+
+
+\subsection{BNC 10Base2 局域网（Local Area Network）}
+想要对战超过一位对手难度陡增。除了购买设备的相对轻松的经济负担外，你还要说服家长让四个青少年来家里通宵尖叫。著名的格言“骗我一次是你的错，骗我两次是我的错”据说源自那些被 \textit{doom} 通宵折磨的家长们。\\
 \par
 
 
@@ -38,27 +37,27 @@ To play with more than one opponent was substantially more difficult. Besides th
 \scaledimage{.25}{BNC_T-piece.png}
 \end{wrapfigure}
 
-Leaving creative ways to ask for forgiveness aside, on the technical side a player had to plug in a 10Base2 network card via the ISA bus. \\
-\par The card had a BNC connector upon which was to be plugged a T-shaped connector known as a T-piece. Each PC node was connected to up to two other nodes via 10Base2 coaxial cables. There was no central point in this type of networking; all machines involved in the network formed a chain. At both ends of the chain a signal terminator had to be connected to prevent an RF signal from being reflected back from each end, causing interference, or power loss.
+抛开“如何求原谅”的创意方式不谈，从技术角度看，玩家需要通过 ISA 总线插入一块 10Base2 网卡。\\
+\par 该卡带有 BNC 接头，需要插上一个称为 T 形接头（T-piece）的连接器。每台 PC 通过 10Base2 同轴电缆与最多两个其他节点相连。这种网络没有中心节点；所有机器组成一条链。链条两端必须连接信号终端器，以防射频信号从末端反射回来造成干扰或功率损失。
 
 
 \begin{wrapfigure}[8]{r}{0.4\textwidth}
 \centering
 \scaledimage{.4}{BNC_connector_50_ohm_male}
 \end{wrapfigure}
-The coaxial cables were bulky and so were the connectors. Connecting an end to a T-piece connector was fully achieved with a cool quarter turn of the coupling nut.\\
+同轴电缆很粗，连接器也不小。将电缆端接到 T 形接头上时，只需优雅地旋转四分之一圈的耦合螺母即可完成连接。\\
 \par
- % Once physically connected, there was no configuration required (IPX is a network-level protocol like Ethernet). The network card MAC addresses were enough to run the IPX protocol that most games used.\\
+% 一旦物理连接完成，无需配置（IPX 是类似以太网的网络层协议）。网卡 MAC 地址即可运行大多数游戏使用的 IPX 协议。\\
  
-Once physically connected, games relied on the Internetwork Packet Exchange (IPX) which is a network level protocol like IP. There was no need to configure the host or the network since, contrary to IP, the IPX protocol was able to use the Ethernet MAC address as the machine's IPX address.\\
+一旦物理连接完成，游戏依赖于 IPX（Internetwork Packet Exchange）协议，这是一种类似 IP 的网络层协议。无需配置主机或网络，因为与 IP 不同，IPX 能够使用以太网 MAC 地址作为机器的 IPX 地址。\\
  \par
-\drawing{10base5bncConnector}{10Base2 BNC based network.}
+\drawing{10base5bncConnector}{基于 10Base2 BNC 的网络。}
 \par
-Figure \ref{10base5bncConnector} shows the four elements of a 1994 LAN. \circled{1} the T-piece connector connecting two \circled{2} coaxial cables, forming a link. Each end of the chain must be closed with two load terminators \circled{3}. The network card connects to both the PC via its ISA bus extension slots \circled{4} and the LAN T-base slots.\\
+图 \ref{10base5bncConnector} 展示了 1994 年局域网的四个要素：\circled{1} T 形接头连接两根 \circled{2} 同轴电缆形成链路。链条两端必须连接两只负载终端器 \circled{3}。网卡通过 ISA 插槽 \circled{4} 与 PC 相连，并连接到 LAN 的 T 形端口。\\
 \par
-\trivia{Adding a new machine on the network meant either unplugging one of the T-piece connectors or unplugging a chain terminator. In both cases, the central bus was broken and all other machines lost connectivity. Everybody remembers the one friend who was always late to the LAN, forcing everybody to disconnect so he/she could join. The bandwidth was shared meaning the theoretical 10Mb/s was often closer to 5Mb/s. This does not account for friends who wanted to exchange a 30MiB song in \cw{.wav} format (there was no MP3 at the time).}\\
+\trivia{向网络中添加一台新机器意味着要么拔下一个 T 形接头，要么拔下链路终端器。无论哪种方式，主干都被断开，所有其他机器都会失去连接。大家都记得那个总是迟到、导致所有人都得断线让他/她加入的朋友。带宽是共享的，理论 10Mb/s 往往接近 5Mb/s。还不包括那些想交换 30MiB \cw{.wav} 音乐（当时没有 MP3）的朋友。}\\
 \par
-\trivia{Really fancy people could use a 10baseT network which required a "hub" central device resulting in a star-shaped network.}
+\trivia{真正有钱的人会用 10baseT 网络，需要一个“集线器”作为中心设备，从而形成星型网络。}
 
 
 
@@ -67,42 +66,41 @@ Figure \ref{10base5bncConnector} shows the four elements of a 1994 LAN. \circled
 
 
 
-
-\subsection{Modem}
-The most fortunate players were able to afford the luxury of networking from home. That was very expensive since they not only had to pay for a modem but they also had to pay for every single minute spent online. Before broadband, modems used phone landlines to connect to the Internet provider. This meant nobody could use the telephone while the connection was active. Anybody picking up the phone in the house created enough disturbance to kill the connection.\\
+\subsection{电话调制解调器（Modem）}
+最幸运的玩家能够负担在家联网的奢侈体验。这非常昂贵，因为不仅要买调制解调器，还得为在线的每一分钟付费。宽带之前，调制解调器通过电话线连接互联网服务提供商。这意味着连接期间没人能打电话，家里任何人拿起电话都会造成足够的干扰以终止连接。\\
 \par
-Internet was unattractive since gaming and accessing Bulletin Board Systems was done by calling phone numbers directly. Finding a cool BBS or a gaming partner phone number was an adventure of its own. If one really wanted to read the few HTML pages available, AOL (America OnLine) offered a package of five hours for \$9.95 with each extra hour billed \$3.50 per unit. A user averaging 2h/day was billed $9.95 + 55 * 3.5 = \$202 $ for a month\footnote{Adjusted to inflation: \$352 in 2018.} not to forget a one-time fee of \$399\footnote{Adjusted to inflation: \$696 in 2018.} for a 9600 baud model .\\
+当时的互联网并不吸引人，因为游戏和访问 BBS 都是通过直接拨打电话号码完成的。寻找一个酷的 BBS 或游戏伙伴的号码本身就是一场冒险。如果真想看看为数不多的 HTML 页面，AOL（America OnLine）提供的套餐是 9.95 美元包含 5 小时，额外每小时 3.50 美元。若用户平均每天 2 小时，一个月费用为 $9.95 + 55 * 3.5 = \$202$\footnote{按通胀调整：2018 年约为 \$352。}，别忘了还要支付一次性 399 美元\footnote{按通胀调整：2018 年约为 \$696。}的 9600 波特率调制解调器费用。\\
 \par
-\cscaledimage{0.9}{robotic28-8.png}{US Robotics 28.8k baud modem. The top of the line in 1994.}
+\cscaledimage{0.9}{robotic28-8.png}{US Robotics 28.8k 波特率调制解调器。1994 年的顶级机型。}
 
- While establishing the initial handshake, the modem speaker was kept open. An attuned ear could easily recognize the different phases of V.X bis transaction, speed negotiation, echo canceller disabling, and modulation mode selection, together making the unforgettable melody of a deathmatch in the making.\\
+在建立初始握手时，调制解调器会打开扬声器。耳朵灵的人可以轻松辨别 V.X bis 交易的不同阶段：速率协商、回声抵消器关闭、调制模式选择等，这些共同构成了“死亡竞技即将开始”的难忘旋律。\\
  \par 
-\cfullimage{spectrogram2.png}{18 second spectrogram of a V.34 handshake\protect\footnotemark }
+\cfullimage{spectrogram2.png}{18 秒的 V.34 握手频谱图\protect\footnotemark }
 \par
-  \footnotetext{Source: "The sound of the dialup, pictured" by Oona R\"{a}is\"{a}nen.}
+  \footnotetext{来源：Oona R"{a}is"{a}nen 的文章《The sound of the dialup, pictured》。}
  
  \begin{figure}[H]
 \centering  
 \begin{tabularx}{\textwidth}{ R{0.1} L{1.9} }
   \toprule
-  \textbf{Stage} &  \textbf{Description} \\
+  \textbf{阶段} &  \textbf{描述} \\
   \toprule 
    
-   1 & Modem goes off hook.\\
-   2 & Telephone exchange sends a dial tone.\\
-   3 & DTMF: Model dials 1-(570)-234-0003 a \doom{} player in Pennsylvania, USA.\\
-   4 & Answering modem initiates a V.8 bis transaction.\\
-   5 & Answering modem asks caller for a list of its capabilities.\\
-   6 & Caller responds to V8 bis initiation, agrees to list its capabilities and request to escape from telephony into information transfer mode.\\
-   7 & FSK Data @ 300 bps: I'm capable of full V.8. I can transmit ACK. My country is US and I was made by Net2phone Inc.\\
-   8 & FSK Data @ 300 bps: Why don't we use V8 then.\\
-   9 & Ok, mode acknowledged. Terminating V.8 bis transaction.\\
+   1 & 调制解调器摘机。\\
+   2 & 电话交换机发出拨号音。\\
+   3 & DTMF：调制解调器拨打 1-(570)-234-0003（美国宾夕法尼亚的一位 \doom{} 玩家）。\\
+   4 & 应答端调制解调器启动 V.8 bis 交易。\\
+   5 & 应答端请求对方的能力列表。\\
+   6 & 呼叫方响应 V8 bis，确认将提供能力列表并请求从电话语音切换到信息传输模式。\\
+   7 & FSK 数据 @ 300 bps：我支持完整 V.8。我能发送 ACK。我所在国家是美国，我由 Net2phone Inc 制造。\\
+   8 & FSK 数据 @ 300 bps：那我们就用 V8 吧。\\
+   9 & 好，模式确认。终止 V.8 bis 交易。\\
    \toprule 
-   A & Answering modem disables echo suppressors and cancellers in PSTN.\\
-   B & FSK Data @ 300 bps: Repeated 6x Here are my modulation modes: V.34, V.32, v.23 duplex ...\\
-   C & FSK Data @ 300 bps: Repeated 3x: I can do any of those. \\
-   D & Both modems send a wide-spectrum probing signal in both directions to do measurements on the line.\\
-   E & Both modems go to scrambled data \\
+   A & 应答端关闭 PSTN 的回声抑制与回声消除器。\\
+   B & FSK 数据 @ 300 bps：重复 6 次：以下是我的调制模式：V.34、V.32、v.23 duplex ...\\
+   C & FSK 数据 @ 300 bps：重复 3 次：这些我都支持。\\
+   D & 双方调制解调器互相发送宽频探测信号以测量线路。\\
+   E & 双方切换到扰码数据模式。\\
    \toprule
 \end{tabularx}
 \caption{}
@@ -112,13 +110,13 @@ Internet was unattractive since gaming and accessing Bulletin Board Systems was 
 
 
 
-Throughout the '90s, bandwidth steadily improved. Upon \doom{}'s release most modems were capable of 14.4 Kbit/s. Those who downloaded the shareware version in December 1993 had to wait 25 minutes to retrieve the 2,166,955 bytes of the ZIP archive.
+90 年代期间带宽稳步提升。\doom{} 发布时多数调制解调器只有 14.4 Kbit/s。那些在 1993 年 12 月下载共享版的人，要等待 25 分钟才能取回 2,166,955 字节的 ZIP 压缩包。
 
  \begin{figure}[H]
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.2} L{0.3} L{0.5}}
   \toprule
-  \textbf{Year} & \textbf{Version} & \textbf{Bandwidth} \\
+  \textbf{年份} & \textbf{版本} & \textbf{带宽} \\
   \toprule 
    
     1990 & V.32 & 9.6 kbit/s \\
@@ -130,13 +128,13 @@ Throughout the '90s, bandwidth steadily improved. Upon \doom{}'s release most mo
    
    \toprule
 \end{tabularx}
-\caption{Modem speeds through the 90s.\protect\footnotemark}
+\caption{90 年代调制解调器速率。\protect\footnotemark}
 \end{figure}
-\footnotetext{Bit rate increased at the expense of latency. A 9600 baud modem played \doom{} better than the default configurations on 56kbit modems. Quake needed more bandwidth than \doom{}'s controller replication, so it became a different tradeoff.}
+\footnotetext{比特率提升以牺牲延迟为代价。9600 波特调制解调器玩 \doom{} 的体验甚至好过 56k 调制解调器的默认配置。Quake 需要比 \doom{} 的控制器复制更多带宽，因此成为另一种权衡。}
 
 \vspace{-10pt}
 \par
-On top of the V.XX hardware communication layer, modems were driven using Hayes commands\footnote{A nice abstraction layer, but \doom{} still has a long file with initialization parameters for 49 modems.}. Notice how the command \cw{ATDT} translated to DTMF in the previous spectrogram.\\% in figure \ref{spectrogram2.png} on page \pageref{spectrogram2.png}.\\
+在 V.XX 硬件通信层之上，调制解调器使用 Hayes 命令驱动\footnote{这是一个不错的抽象层，但 \doom{} 仍包含一份为 49 种调制解调器准备的初始化参数长文件。}。注意命令 \cw{ATDT} 在前面的频谱图中对应了 DTMF。\\% in figure \ref{spectrogram2.png} on page \pageref{spectrogram2.png}.\\
 
 \par
 {
@@ -146,29 +144,29 @@ On top of the V.XX hardware communication layer, modems were driven using Hayes 
 \centering  
 \begin{tabularx}{\textwidth}{ L{0.2} L{0.15} L{0.65}}
   \toprule
-  \textbf{Modem A} & \textbf{Modem B} & \textbf{Comments} \\
+  \textbf{调制解调器 A} & \textbf{调制解调器 B} & \textbf{备注} \\
   \toprule 
    
-    ATDT15551234 &	&	Modem A issues a dial command: AT-Get the modem's ATtention; D-Dial; T-Touch-Tone; 15551234-Call this number\\
+    ATDT15551234 &\t&\t调制解调器 A 发出拨号命令：AT-引起调制解调器注意（ATtention）；D-拨号（Dial）；T-双音拨号（Touch-Tone）；15551234-拨打这个号码\\
     \toprule 
-    RING  & 	& Modem A begins dialing. Modem B's phone-line rings, and the modem reports the fact.\\
+    RING  & \t& 调制解调器 A 开始拨号。调制解调器 B 的电话线响铃，并报告来电。\\
       \toprule 
-    & ATA	& Modem B issues answer command.\\
+    & ATA\t& 调制解调器 B 发出应答命令。\\
     \toprule 
-    CONNECT	& CONNECT	& The modems connect, and both modems report "connect"..\\
-    abcdef	& abcdef	& When the modems are connected, any characters typed at either side will appear on the other side.\\
+    CONNECT\t& CONNECT\t& 调制解调器建立连接，双方报告“connect”。\\
+    abcdef\t& abcdef\t& 连接建立后，任一方输入的字符都会出现在另一方。\\
     \toprule 
-    & +++	& Modem B issues the modem escape command.\\
+    & +++\t& 调制解调器 B 发出转义命令。\\
     \toprule 
-     OK &	& The modem acknowledges it.\\
+     OK &\t& 调制解调器确认。\\
     \toprule 
-    & ATH	& Modem B issues a hang up command.\\
+    & ATH\t& 调制解调器 B 发出挂断命令。\\
     \toprule 
-    NO CARRIER &	OK	& Both modems report that the connection has ended. Modem B responds "OK" as the expected result of the command; modem A says NO CARRIER to report that the remote side interrupted the connection.\\
+    NO CARRIER &\tOK\t& 双方报告连接结束。调制解调器 B 以“OK”确认命令正常执行；调制解调器 A 以“NO CARRIER”报告远端中断连接。\\
    \toprule
 \end{tabularx}
-\caption{AT layer dialog between caller and callee.}
+\caption{呼叫方与被叫方的 AT 层对话。}
 \end{figure}
 }
 
-\trivia{The fragility of these connections led to humorous ways to end a message. People would finish forum posts with "Hey! Wait! Don't pick up the ph\{\#`\$\{\%\&`+'\%NO CARRIER".}
+\trivia{连接的脆弱性催生了幽默的结尾方式。人们常在论坛帖子末尾写上“嘿！等等！别拿起电话 ph\{\#`\$\{\%\&`+'\%NO CARRIER”。}
