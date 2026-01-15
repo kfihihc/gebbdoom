@@ -1,0 +1,40 @@
+name: Build Chinese PDF
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-zh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22.x"
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            inkscape \
+            texlive \
+            texlive-font-utils \
+            texlive-fonts-recommended \
+            texlive-latex-extra \
+            texlive-xetex \
+            texlive-lang-chinese
+
+      - name: Build Chinese PDF
+        run: ./make.sh zh
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gebbdoom-zh-pdf
+          path: out/*_zh.pdf
